@@ -3,7 +3,7 @@
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
-//function MyQuad(scene) {
+//function MyRectangle(scene) {
 //	CGFobject.call(this,scene);
 //
 //	this.minS = 0;
@@ -14,7 +14,7 @@
 //	this.initBuffers();
 //};
 
-function MyQuad(scene, minS, maxS, minT, maxT) {
+function MyRectangle(scene, minS, maxS, minT, maxT) {
 	CGFobject.call(this,scene);
 
 	minS = typeof minS !== 'undefined' ? minS : 0;
@@ -30,10 +30,10 @@ function MyQuad(scene, minS, maxS, minT, maxT) {
 	this.initBuffers();
 };
 
-MyQuad.prototype = Object.create(CGFobject.prototype);
-MyQuad.prototype.constructor=MyQuad;
+MyRectangle.prototype = Object.create(CGFobject.prototype);
+MyRectangle.prototype.constructor=MyRectangle;
 
-MyQuad.prototype.initBuffers = function () {
+MyRectangle.prototype.initBuffers = function () {
 	this.vertices = [
             -0.5, -0.5, 0,
             0.5, -0.5, 0,
