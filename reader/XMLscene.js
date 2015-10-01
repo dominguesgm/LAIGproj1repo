@@ -53,6 +53,8 @@ XMLscene.prototype.onGraphLoaded = function ()
 	/*this.lights[0].setVisible(true);
     this.lights[0].enable();*/
 
+    this.setIllumination();
+
     this.createLights();
 
 	//shading    = Gouraud
@@ -179,6 +181,15 @@ XMLscene.prototype.display = function () {
 
     this.shader.unbind();
 };
+
+
+XMLscene.prototype.setIllumination = function(){
+	this.setGlobalAmbientLight(this.graph.illumination['ambient'][0], this.graph.illumination['ambient'][1], this.graph.illumination['ambient'][2], this.graph.illumination['ambient'][3]);
+
+	//TODO complete with doubleside and background
+
+	this.gl.clearColor(this.graph.illumination['background'][0], this.graph.illumination['background'][1], this.graph.illumination['background'][2], this.graph.illumination['background'][3]);
+}
 
 XMLscene.prototype.createLights = function(){
 	var numberOfLights = this.graph.lights.length;
