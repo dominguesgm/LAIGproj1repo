@@ -4,11 +4,14 @@
  */
  function MyCylinder(attributes) {
  	CGFobject.call(this,scene);
-	
-	this.slices=slices;
-	this.stacks=stacks;
 
-	this.angle=2*Math.PI/slices;
+	this.height = attributes[0];
+	this.bottomRadius = attributes[1];
+	this.topRadius = attributes[2];
+	this.stacks=attributes[3];
+	this.slices=attributes[4];
+
+	this.angle=2*Math.PI/this.slices;
 
  	this.initBuffers();
  };
