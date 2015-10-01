@@ -1,7 +1,7 @@
 
 function MySceneGraph(filename, scene){
 	this.loadedOk = null;
-
+	this.nElements = 0;
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
 	scene.graph=this;
@@ -672,7 +672,7 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 			if(this.leaves[leaf.id]==null){
 				warningMessages.push(["Warning", "One or more errors on <LEAVES>/<LEAVE> element with id=" + leaf.id + ". Ignored."]);
 				delete this.leaves[leaf.id];
-			}
+			}else this.nodes[node.id][idSeq] = this.nElements++;
 		}
 
 	}
@@ -748,8 +748,11 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 				warningMessages.push(["Warning", "Two or more <NODES>/<NODE> or <LEAVES>/<LEAVE> elements with id=" + node.id + " found."]);
 			else this.nodes[node.id]=this.readNode(node);
 
-			if(this.nodes[node.id]==null)
+			if(this.nodes[node.id]==null){
 				warningMessages.push(["Warning", "Error on <NODES>/<NODE> element with id=" + node.id + " - no <DESCENDANTS> found. Ignored."]);
+				delete this.nodes[node.id];
+			}
+			else this.nodes[node.id][idSeq] = this.nElements++;
 		}
 
 	}
