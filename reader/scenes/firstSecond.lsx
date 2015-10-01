@@ -1,0 +1,107 @@
+<SCENE>
+	<INITIALS>
+	    <frustum near="1.0" far="2.0"/>                    	  <!-- frustum planes-->
+	    <translate x="0.0" y="0.0" z="10.0" />                <!-- initial translate -->
+	    <rotation axis="x" angle="5" />                	  <!-- initial rotation 3 -->
+	    <rotation axis="y" angle="45" />                	  <!-- initial rotation 2 -->
+	    <rotation axis="z" angle="45" />                	  <!-- initial rotation 1 -->
+	    <scale sx="1.0" sy="1.0" sz="1.0" />                  <!-- initial scaling -->
+	    <reference length="1" />                      		  <!-- axis length; "0" means no axis-->
+	</INITIALS>
+
+	<ILLUMINATION>
+	    <ambient r="0.5" g="0.5" b="0.5" a="0.5" />            <!-- global ambient -->
+	    <doubleside value="0" />                          <!-- double or single side illum. -->
+	    <background r="0.5" g="0" b="0" a="0" />         <!-- background color -->
+	</ILLUMINATION>
+
+	<LIGHTS>
+	    <LIGHT id="light01">                                    <!-- light identifier -->
+	        <enable value="1" />                         <!-- enable/disable -->
+	        <position x="0.5" y="0.5" z="0.5" w="0.5" />       <!-- light position -->
+	        <ambient r="0.5" g="0.5" b="0.5" a="0.5" />        <!-- ambient component -->
+	        <diffuse r="0.5" g="0.5" b="0.5" a="0.5" />        <!-- diffuse component -->
+	        <specular r="0.5" g="0.5" b="0.5" a="0.5" />       <!-- specular component -->
+	    </LIGHT>
+
+	    <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
+	    
+	</LIGHTS>
+
+	<TEXTURES>
+	    <TEXTURE id="teste">
+        	<file path="textures/text.jpg" />                             <!-- path to file -->
+	        <amplif_factor s="1" t="3" />                <!-- x/s, y/t -->
+	    </TEXTURE>
+
+	   <TEXTURE id="teste">
+        	<file path="textures/teste.jpg" />                             <!-- path to file -->
+	        <amplif_factor s="2" t="3" />                <!-- x/s, y/t -->
+	    </TEXTURE>
+
+	   <TEXTURE id="teste2">
+        	<file path="textures/text.jpg" />                             <!-- path to file -->
+	        <amplif_factor s="4" t="3" />                <!-- x/s, y/t -->
+	    </TEXTURE>
+    	<!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
+    
+	</TEXTURES>
+
+
+	<MATERIALS>
+
+	    <MATERIAL id="materiak">                                  
+        	<shininess value="90" />
+	        <specular r="0.1" g=".5" b=".5" a=".5" />        <!-- specular reflection -->
+	        <diffuse r=".1" g=".3" b=".2" a=".3" />         <!-- diffuse reflection -->
+	        <ambient r=".1" g=".3" b=".3" a=".3" />         <!-- ambient reflection -->
+	        <emission r="1.0" g=".1" b=".3" a=".3" />        <!-- emission component -->
+	     </MATERIAL>
+
+	    <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material requires a distinct "id" -->
+
+	</MATERIALS>
+
+<LEAVES>
+    <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
+    <LEAF id="1" type="rectangle" args="0 1 2 0" />      <!-- 2D coordinates for left-top and right-bottom vertices. -->
+    <LEAF id="2" type="cylinder" args="2 1 2 1 1" />    <!-- height, bottom radius, top radius, sections along height, parts per section -->
+    <LEAF id="3" type="sphere" args="2 1 1" />            <!-- radius, parts along radius, parts per section -->
+    <LEAF id="4" type="triangle" args="0 0 0 0 10 1 1 0 0" />   <!-- coordinates of each vertex -->
+</LEAVES>
+
+<NODES>
+
+    <ROOT id="nodeTeste" />     <!-- identifier of root node of the scene graph; this node     -->
+                         <!--   must be defined in one of the following NODE declarations -->
+
+    <NODE id="nodeTeste">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <!-- next two lines are mandatory -->
+        <MATERIAL id="materiak" />      <!-- declared material superimposes the material received from parent node -->
+                                  <!-- id="null" maintains material from parent node        -->
+        <TEXTURE id="teste" />       <!-- declared texture superimposes the texture received from parent node -->
+                                  <!-- id="null" maintains texture from parent node       -->
+                                  <!-- id="clear" clears texture declaration received from parent node      -->
+
+        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
+        <TRANSLATION x="1" y="3" z="6" />
+        <ROTATION ais="x" angle="90" />
+        <SCALE sx="1" sy="3" sz="9" />
+
+	<TESTE>
+	</TESTE>
+
+        <!-- declaring descendents, ate least one node or one leaf must be present -->
+        <DESCENDANTS>
+            <DESCENDANT id="ss" />       <!-- "ss" is the identifier of a node or of leaf; -->
+                                          <!-- may be repeatad as necessary. It can refer an -->
+                                          <!-- identifier of another node, later defined in the lsx file. -->
+	    <DESCENDANT id="ssiuos" />
+	    <DESCENDANT id="ssaiushd" />
+        </DESCENDANTS>
+
+    </NODE>
+
+</NODES>
+</SCENE>
