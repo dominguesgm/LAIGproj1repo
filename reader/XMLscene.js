@@ -50,8 +50,10 @@ XMLscene.prototype.setDefaultAppearance = function () {
 XMLscene.prototype.onGraphLoaded = function () 
 {
 	//this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
-	this.lights[0].setVisible(true);
-    this.lights[0].enable();
+	/*this.lights[0].setVisible(true);
+    this.lights[0].enable();*/
+
+    this.createLights();
 
 	//shading    = Gouraud
 	//polygon mode = fill
@@ -178,3 +180,24 @@ XMLscene.prototype.display = function () {
     this.shader.unbind();
 };
 
+XMLscene.prototype.createLights = function(){
+	var numberOfLights = this.graph.lights.length;
+
+	for(var i = 0; i < numberOfLights; i++){
+		this.lights[i].id = this.graph.lights[i]['id'];
+
+		if(this.graph.lights[i]['enable'] == true)
+			this.lights[i].enable();
+		else
+			this.lights[i].disable();
+
+		this.lights[i].setPosition(this.graph.lights[i]['position'][0], this.graph.lights[i]['position'][1], this.graph.lights[i]['position'][2], this.graph.lights[i]['position'][3]);
+
+		this.lights[i].setAmbient(this.graph.lights[i]['ambient'][0], this.graph.lights[i]['ambient'][1], this.graph.lights[i]['ambient'][2], this.graph.lights[i]['ambient'][3]);
+
+		this.lights[i].setDiffuse(this.graph.lights[i]['diffuse'][0], this.graph.lights[i]['diffuse'][1], this.graph.lights[i]['diffuse'][2], this.graph.lights[i]['diffuse'][3]);
+
+		this.lights[i].setSpecular(this.graph.lights[i]['specular'][0], this.graph.lights[i]['specular'][1], this.graph.lights[i]['specular'][2], this.graph.lights[i]['specular'][3]);
+
+	}
+}

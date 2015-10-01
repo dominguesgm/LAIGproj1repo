@@ -410,7 +410,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 
  MySceneGraph.prototype.parseSingleLight= function(element){
  	var light = [];
- 	var finalLight = [];
  	var warningMessages = [];
 
  	var id = this.reader.getString(element, 'id', false);
@@ -418,6 +417,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  		warningMessages.push('Warning', 'Issue parsing light: no id.');
  		return warningMessages;
  	}
+ 	light['id'] = id;
  	var attributes = element.children;
 
  	//enable
@@ -482,9 +482,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  			return warningMessages;
  	}
 
- 	console.log(light['ambient']);
- 	finalLight[id] = light;
- 	this.lights.push(finalLight);
+ 	this.lights.push(light);
  	return null;
 
  };
