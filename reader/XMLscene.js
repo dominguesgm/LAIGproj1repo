@@ -23,6 +23,14 @@ XMLscene.prototype.init = function (application) {
 	this.axis=new CGFaxis(this);
 };
 
+XMLscene.prototype.initGeometry = function (application) {
+	
+	for(id in this.graph.leaves)
+		if(this.graph.leaves[id]['type']=='rectangle'){
+			this.rectangle = new MyRectangle(this, this.graph.leaves[id]['args']);
+			break;
+		}	
+};
 XMLscene.prototype.initLights = function () {
 
     this.shader.bind();
@@ -47,13 +55,12 @@ XMLscene.prototype.setDefaultAppearance = function () {
 
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
-XMLscene.prototype.onGraphLoaded = function () 
-{
+XMLscene.prototype.onGraphLoaded = function () {
 	//this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
 	/*this.lights[0].setVisible(true);
     this.lights[0].enable();*/
 
-    this.setIllumination();
+	this.setIllumination();
 
     this.createLights();
 
@@ -66,6 +73,10 @@ XMLscene.prototype.onGraphLoaded = function ()
   	this.setInitials();
     this.loadTextures();
     this.loadMaterials();
+    this.initGeometry();
+
+
+    console.log("STARTING Drawing NOW");
 };
 
 XMLscene.prototype.setInitials = function () {
@@ -114,7 +125,7 @@ XMLscene.prototype.loadMaterials = function () {
 	this.materials = [];
 
 	// default material
-	this.materials['default'] = new  new CGFappearance(this);
+	this.materials['default'] = new  CGFappearance(this);
 	this.materials['default'].setAmbient(.5,.5,.5,.5);
 	this.materials['default'].setDiffuse(.5,.5,.5,.5);
 	this.materials['default'].setSpecular(.5,.5,.5,.5);
@@ -179,49 +190,54 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
-
-		//this.processGraph();
+		this.processGraph();
 	}	
 
     this.shader.unbind();
 };
 
-// TODO testing
+// TODO major changes required
 /*
  * Processes node elementId and its descendants, calculating each one's matrix and checking for errors.
  */
-MySceneGraph.prototype.processGraph = function() {
+XMLscene.prototype.processGraph = function() {
   
  	this.materialsUsed = ['default'];
  	this.texturesUsed = ['clear'];
 
-	this.loadIdentity();
+	//this.loadIdentity();
 	// temp 
 	this.graph.initials['matrix']=[1,0,0,0
 									,0,1,0,0,
 									0,0,1,0
 									,0,0,0,1];
+
 	this.multMatrix(this.graph.initials['matrix']);
 
- 	this.processGraph(this.graph.root);
+	console.log("CURRRENT ROOT" + this.graph.root);
+	console.log("CURRRENT ROOT descendants" + this.graph.nodes[this.graph.root]['descendants'].length);
+
+ 	this.processElement(this.graph.root);
  };
 
-MySceneGraph.prototype.drawElement = function(elementId) {
+// TODO major changes required
+XMLscene.prototype.drawElement = function(elementId) {
 	console.log("draw element " + elementId);
-	//this.leaves[elementId];
+
 	var material = this.materialsUsed.pop();
 	var texture = this.texturesUsed.pop();
 
 	this.materials[material].apply();
-	this.texture[texture].apply();
-	// change 
+	this.textures[texture].apply();
+	// change according to elementId
 	this.rectangle.display();
 	
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
 };
 
-MySceneGraph.prototype.processGraph = function(elementId) {
+// TODO major changes required
+XMLscene.prototype.processElement = function(elementId) {
 
 	var element = null;
 
@@ -234,10 +250,9 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 	else if(this.graph.leaves[elementId] != null){
 		//debug
 		console.log("FINISHED LEAF "+ elementId);
-		this.drawElement();
+		this.drawElement(elementId);
 		return null;
-	}
-	else return null;
+	}else return null;
 
 	// check if the element's material is valid
 	if(! (this.materials[element['material']] == null || element['material']!="null")){
@@ -260,7 +275,7 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 	// check descendants
 	var n;
 	for(n=0; n< element['descendants'].length; n++)
-		this.processGraph( element['descendants'][n]);
+		this.processElement(element['descendants'][n]);
 
 	//debug
 	console.log("FINISHED PROCESSING NODE "+ elementId);
@@ -271,13 +286,13 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 };
 
 
-XMLscene.prototype.setIllumination = function(){
+XMLscene.prototype.setIllumination = function () {
 	this.setGlobalAmbientLight(this.graph.illumination['ambient'][0], this.graph.illumination['ambient'][1], this.graph.illumination['ambient'][2], this.graph.illumination['ambient'][3]);
 
-	//TODO complete with doubleside and background
+	//TODO complete with doubleside
 
 	this.gl.clearColor(this.graph.illumination['background'][0], this.graph.illumination['background'][1], this.graph.illumination['background'][2], this.graph.illumination['background'][3]);
-}
+};
 
 XMLscene.prototype.createLights = function(){
 	var numberOfLights = this.graph.lights.length;

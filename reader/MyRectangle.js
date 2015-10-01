@@ -14,7 +14,7 @@
 //	this.initBuffers();
 //};
 
-function MyRectangle(coordinates) {
+function MyRectangle(scene, coordinates) {
 	CGFobject.call(this,scene);
 
 	this.minX = coordinates[0];
@@ -43,12 +43,12 @@ MyRectangle.prototype.initBuffers = function () {
             this.minX, this.minY, 0,
             this.maxX, this.minY, 0,
             this.minX, this.maxY, 0,
-            this.minX, this.maxY, 0
+            this.maxX, this.maxY, 0
 			];
 
 	this.indices = [
-            0, 1, 2, 
-			3, 2, 1
+           0, 1, 2, 
+		   3, 2, 1
         ];
 		
 	this.normals = [
