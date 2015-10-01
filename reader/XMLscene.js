@@ -136,7 +136,7 @@ XMLscene.prototype.loadMaterials = function () {
 										this.graph.materials[id]['emission'][2],
 										this.graph.materials[id]['emission'][3]);
 
-		this.materials[id].setShininess(this.graph.materials[id]['shininess']);
+		this.materials[id].setShininess(this.graph.materials[id]['shininess']);		
 
 		// debug
 		console.log("material read id=" + id);
@@ -172,14 +172,94 @@ XMLscene.prototype.display = function () {
 	{
 		this.lights[0].update();
 
-
-
-
-
-
-	};	
+		//this.processGraph();
+	}	
 
     this.shader.unbind();
+};
+
+// TODO testing
+/*
+ * Processes node elementId and its descendants, calculating each one's matrix and checking for errors.
+ */
+MySceneGraph.prototype.processGraph = function() {
+  
+ 	this.materialsUsed = ['default'];
+ 	this.texturesUsed = ['clear'];
+
+	this.loadIdentity();
+	// temp 
+	this.graph.initials['matrix']=[1,0,0,0
+									,0,1,0,0,
+									0,0,1,0
+									,0,0,0,1];
+	this.multMatrix(this.graph.initials['matrix']);
+
+ 	this.processGraph(this.graph.root);
+ };
+
+MySceneGraph.prototype.drawElement = function(elementId) {
+	console.log("draw element " + elementId);
+	//this.leaves[elementId];
+	var material = this.materialsUsed.pop();
+	var texture = this.texturesUsed.pop();
+
+	this.materials[material].apply();
+	this.texture[texture].apply();
+	// change 
+	this.rectangle.display();
+	
+	this.materialsUsed.push(material);
+	this.texturesUsed.push(texture);
+};
+
+MySceneGraph.prototype.processGraph = function(elementId) {
+
+	var element = null;
+
+	// debug
+	console.log("STARTING "+ elementId);
+	
+	// find node or leaf
+	if(this.graph.nodes[elementId] != null)
+		element = this.graph.nodes[elementId];
+	else if(this.graph.leaves[elementId] != null){
+		//debug
+		console.log("FINISHED LEAF "+ elementId);
+		this.drawElement();
+		return null;
+	}
+	else return null;
+
+	// check if the element's material is valid
+	if(! (this.materials[element['material']] == null || element['material']!="null")){
+		var material = this.materialsUsed.pop();
+		this.materialsUsed.push(material);
+		this.materialsUsed.push(material);
+	}else this.materialsUsed.push(element['material']);
+
+	// check if the element's texture is valid
+	if(! (this.textures[element['texture']] == null || element['texture']!="null")){
+		var texture = this.texturesUsed.pop();
+		this.texturesUsed.push(texture);
+		this.texturesUsed.push(texture);
+	}else this.texturesUsed.push(element['texture']);
+
+	this.pushMatrix();
+
+    this.multMatrix(element['matrix']);
+
+	// check descendants
+	var n;
+	for(n=0; n< element['descendants'].length; n++)
+		this.processGraph( element['descendants'][n]);
+
+	//debug
+	console.log("FINISHED PROCESSING NODE "+ elementId);
+
+	this.popMatrix();
+	this.materialsUsed.pop();
+	this.texturesUsed.pop();
 };
 
 
@@ -209,6 +289,5 @@ XMLscene.prototype.createLights = function(){
 		this.lights[i].setDiffuse(this.graph.lights[i]['diffuse'][0], this.graph.lights[i]['diffuse'][1], this.graph.lights[i]['diffuse'][2], this.graph.lights[i]['diffuse'][3]);
 
 		this.lights[i].setSpecular(this.graph.lights[i]['specular'][0], this.graph.lights[i]['specular'][1], this.graph.lights[i]['specular'][2], this.graph.lights[i]['specular'][3]);
-
 	}
-}
+};
