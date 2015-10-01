@@ -14,13 +14,18 @@
 //	this.initBuffers();
 //};
 
-function MyRectangle(scene, minS, maxS, minT, maxT) {
+function MyRectangle(coordinates) {
 	CGFobject.call(this,scene);
 
-	minS = typeof minS !== 'undefined' ? minS : 0;
-	minT = typeof minT !== 'undefined' ? minT : 0;
-	maxS = typeof maxS !== 'undefined' ? maxS : 1;
-	maxT = typeof maxT !== 'undefined' ? maxT : 1;
+	this.minX = coordinates[0];
+	this.maxY = coordinates[1];
+	this.maxX = coordinates[2];
+	this.minY = coordinates[3];
+
+	minS = 0;
+	minT = 0;
+	maxS = 1;
+	maxT = 1;
 
 	this.minS = minS;
 	this.minT = minT;
@@ -35,10 +40,10 @@ MyRectangle.prototype.constructor=MyRectangle;
 
 MyRectangle.prototype.initBuffers = function () {
 	this.vertices = [
-            -0.5, -0.5, 0,
-            0.5, -0.5, 0,
-            -0.5, 0.5, 0,
-            0.5, 0.5, 0
+            this.minX, this.minY, 0,
+            this.maxX, this.minY, 0,
+            this.minX, this.maxY, 0,
+            this.minX, this.maxY, 0
 			];
 
 	this.indices = [
