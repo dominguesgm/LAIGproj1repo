@@ -672,7 +672,7 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 			if(this.leaves[leaf.id]==null){
 				warningMessages.push(["Warning", "One or more errors on <LEAVES>/<LEAVE> element with id=" + leaf.id + ". Ignored."]);
 				delete this.leaves[leaf.id];
-			}else this.nodes[node.id][idSeq] = this.nElements++;
+			}else this.leaves[leaf.id]['idSeq'] = this.nElements++;
 		}
 
 	}
@@ -752,7 +752,7 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 				warningMessages.push(["Warning", "Error on <NODES>/<NODE> element with id=" + node.id + " - no <DESCENDANTS> found. Ignored."]);
 				delete this.nodes[node.id];
 			}
-			else this.nodes[node.id][idSeq] = this.nElements++;
+			else this.nodes[node.id]['idSeq'] = this.nElements++;
 		}
 
 	}
