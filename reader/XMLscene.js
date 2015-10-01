@@ -113,6 +113,14 @@ XMLscene.prototype.loadMaterials = function () {
 
 	this.materials = [];
 
+	// default material
+	this.materials['default'] = new  new CGFappearance(this);
+	this.materials['default'].setAmbient(.5,.5,.5,.5);
+	this.materials['default'].setDiffuse(.5,.5,.5,.5);
+	this.materials['default'].setSpecular(.5,.5,.5,.5);
+	this.materials['default'].setEmission(.5,.5,.5,.5);
+	this.materials['default'].setShininess(.5);
+
 	for(id in this.graph.materials){
 		this.materials[id] = new CGFappearance(this);
 
