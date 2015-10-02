@@ -24,6 +24,9 @@
  	this.vertices = [];
  	var z = 0;
 
+ 	var radInterval = (this.topRadius - this.bottomRadius) / this.stacks;
+ 	var currentRad = this.bottomRadius;
+
  	this.texCoords = [];
 
  	this.texelXInterval = 1/(this.slices);
@@ -36,10 +39,10 @@
  	    this.texelX = 0;
  	    for (var i = 0; i <= this.slices; i++) {
  	    	if(i < this.slices){
-				this.vertices.push(Math.cos(tempAngle), Math.sin(tempAngle), z);
+				this.vertices.push(Math.cos(tempAngle)*currentRad, Math.sin(tempAngle)*currentRad, z);
 				this.texCoords.push(this.texelX, this.texelY);
  	    	} else{
- 	    		this.vertices.push(1, 0, z);
+ 	    		this.vertices.push(currentRad, 0, z);
 				this.texCoords.push(1, this.texelY);
  	    	}
 
@@ -47,6 +50,7 @@
  	        tempAngle += this.angle;
  	    };
  	    this.texelY -= this.texelYInterval;
+ 	    currentRad += radInterval;
  	    n++;
  	};
 
