@@ -94,24 +94,37 @@ XMLscene.prototype.onGraphLoaded = function () {
     console.log("STARTING Drawing NOW");
 };
 
-XMLscene.prototype.setInitials = function () {
-	// TODO correct upon new lib release
-	//this.axis=new CGFaxis(this, this.graph.initials.referenceLength);
+ function degToRad(degrees) {
+        return degrees * Math.PI / 180;
+}
 
-	//CGFcamera( fov, near, far, position, target );
-	//this.camera = new CGFcamera(0.4, this.graph.initials.frustumNear, this.graph.initials.frustumFar, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+XMLscene.prototype.setInitials = function () {
 	this.camera.far = this.graph.initials.frustumFar;
 	this.camera.near = this.graph.initials.frustumNear;
-	// translate
-//	this.camera.translate(vec3.fromValues(this.graph.initials.translation[0], this.graph.initials.translation[1], this.graph.initials.translation[2]));
 
-	// rotate x,y,z
-	//TOOD improve
-//	var toRadians = Math.PI / 180.0;
-//	this.camera.rotate(vec3.fromValues(1, 0, 0), this.graph.initials.rotations[0][1]*toRadians);
-//	this.camera.rotate(vec3.fromValues(0, 1, 0), this.graph.initials.rotations[1][1]*toRadians);
-//	this.camera.rotate(vec3.fromValues(0, 0, 1), this.graph.initials.rotations[2][1]*toRadians);
-// scale ???	
+	// create matrix
+	this.matrix = mat4.create();
+		
+	// set to identity
+    mat4.identity(this.matrix);
+    console.log("ATENTION__________________ " + this.matrix);
+			
+	// add  translation
+    mat4.translate(this.matrix, this.matrix, this.graph.initials['translation']);
+	console.log("ATENTION__________________ " + this.matrix);
+
+	// add rotations
+	mat4.rotate(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][0][1]), [1, 0, 0]);	
+	mat4.rotate(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][1][1]), [0, 1, 0]);	
+	mat4.rotate(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][2][1]), [0, 0, 1]);	
+    console.log("ATENTION__________________ " + this.matrix);
+
+    // add scale
+	mat4.scale(this.matrix, this.matrix, this.graph.initials['scale']);
+	console.log("ATENTION__________________ " + this.matrix);
+
+	// debug final matrix
+	console.log("ATENTION__________________ " + this.matrix);
 };
 
 XMLscene.prototype.loadTextures = function () {
@@ -120,13 +133,7 @@ XMLscene.prototype.loadTextures = function () {
 
 	for(id in this.graph.textures){
 		this.textures[id] = new CGFappearance(this);
-		/*
-		this.textures[id].setAmbient(.86,0.81,.79,1);
-		this.windowTexture.setDiffuse(.76,0.71,.59,1);
-		this.windowTexture.setSpecular(.76,0.71,0.59,1);
-		this.windowTexture.setShininess(60);	
-		this.windowTexture.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");*/
-		
+		//this.windowTexture.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");
 		this.textures[id].loadTexture(this.graph.textures[id]['file']);
 
 		// TODO deal with ampli_factors s,t
@@ -188,6 +195,7 @@ XMLscene.prototype.display = function () {
 	// Initialize Model-View matrix as identity (no transformation
 	this.updateProjectionMatrix();
     this.loadIdentity();
+    this.multMatrix(this.matrix);
 
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
@@ -220,15 +228,6 @@ XMLscene.prototype.processGraph = function() {
  	this.materialsUsed = ['default'];
  	this.texturesUsed = ['clear'];
 
-	//this.loadIdentity();
-	// temp 
-	this.graph.initials['matrix']=[1,0,0,0
-									,0,1,0,0,
-									0,0,1,0
-									,0,0,0,1];
-
-	this.multMatrix(this.graph.initials['matrix']);
-
 	console.log("CURRRENT ROOT" + this.graph.root);
 	//console.log("CURRRENT ROOT descendants" + this.graph.nodes[this.graph.root]['descendants'].length);
 
@@ -243,10 +242,31 @@ XMLscene.prototype.drawElement = function(elementId) {
 	var texture = this.texturesUsed.pop();
 
 	this.materials[material].apply();
+	
+	//if(texture == 'clear')
+	//;
+	//else
 	this.textures[texture].apply();
+
 	// change according to elementId
+<<<<<<< HEAD
 	this.leaves[elementId].display();
 	
+=======
+	if(elementId == 1){
+		this.rectangle.display();
+		console.log("Drawing rectangle");
+	}
+	if(elementId == 2){
+		this.cylinder.display();
+		console.log("Drawing cylinder");
+	}
+	if(elementId == 3){
+		this.sphere.display();
+		console.log("Drawing sphere");
+	}
+
+>>>>>>> e5964e85170084fb9b86ea77c99ad00af4cc3555
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
 };
@@ -284,7 +304,6 @@ XMLscene.prototype.processElement = function(elementId) {
 	}else this.texturesUsed.push(element['texture']);
 
 	this.pushMatrix();
-
     this.multMatrix(element['matrix']);
 
 	// check descendants
@@ -303,9 +322,6 @@ XMLscene.prototype.processElement = function(elementId) {
 
 XMLscene.prototype.setIllumination = function () {
 	this.setGlobalAmbientLight(this.graph.illumination['ambient'][0], this.graph.illumination['ambient'][1], this.graph.illumination['ambient'][2], this.graph.illumination['ambient'][3]);
-
-	//TODO complete with doubleside
-
 	this.gl.clearColor(this.graph.illumination['background'][0], this.graph.illumination['background'][1], this.graph.illumination['background'][2], this.graph.illumination['background'][3]);
 };
 
