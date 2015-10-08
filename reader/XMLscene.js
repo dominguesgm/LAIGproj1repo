@@ -24,15 +24,17 @@ XMLscene.prototype.init = function (application) {
 };
 
 XMLscene.prototype.initGeometry = function (application) {
-	
+	this.leaves = [];
 	for(id in this.graph.leaves){
 		console.log("Leaf number" + id);
 		if(this.graph.leaves[id]['type']=='rectangle')
-			this.rectangle = new MyRectangle(this, this.graph.leaves[id]['args']);
+			this.leaves[id] = new MyRectangle(this, this.graph.leaves[id]['args']);
 		if(this.graph.leaves[id]['type']=='cylinder')
-			this.cylinder = new MyCylinder(this, this.graph.leaves[id]['args']);
+			this.leaves[id] = new MyCylinder(this, this.graph.leaves[id]['args']);
 		if(this.graph.leaves[id]['type']=='sphere')
-			this.sphere = new MySphere(this, this.graph.leaves[id]['args']);
+			this.leaves[id] = new MySphere(this, this.graph.leaves[id]['args']);
+		if(this.graph.leaves[id]['type']=='triangle')
+			this.leaves[id] = new MyTriangle(this, this.graph.leaves[id]['args']);
 	}
 };
 XMLscene.prototype.initLights = function () {
@@ -243,18 +245,8 @@ XMLscene.prototype.drawElement = function(elementId) {
 	this.materials[material].apply();
 	this.textures[texture].apply();
 	// change according to elementId
-	if(elementId == 1){
-		this.rectangle.display();
-		console.log("Drawing rectangle");
-	}
-	if(elementId == 2){
-		this.cylinder.display();
-		console.log("Drawing cylinder");
-	}
-	if(elementId == 3){
-		this.sphere.display();
-		console.log("Drawing sphere");
-	}
+	this.leaves[elementId].display();
+	
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
 };
