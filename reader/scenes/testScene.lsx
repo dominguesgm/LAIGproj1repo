@@ -1,0 +1,119 @@
+<SCENE>
+	<INITIALS>
+	    <frustum near="1.0" far="2.0"/>                    	  <!-- frustum planes-->
+	    <translate x="0.0" y="0.0" z="10.0" />                <!-- initial translate -->
+	    <rotation axis="x" angle="5" />                	  <!-- initial rotation 3 -->
+	    <rotation axis="y" angle="45" />                	  <!-- initial rotation 2 -->
+	    <rotation axis="z" angle="45" />                	  <!-- initial rotation 1 -->
+	    <scale sx="1.0" sy="1.0" sz="1.0" />                  <!-- initial scaling -->
+	    <reference length="1" />                      		  <!-- axis length; "0" means no axis-->
+	</INITIALS>
+
+	<ILLUMINATION>
+	    <ambient r="0.5" g="0.5" b="0.5" a="0.5" />            <!-- global ambient -->
+	    <doubleside value="0" />                          <!-- double or single side illum. -->
+	    <background r="0.5" g="0" b="0" a="0" />         <!-- background color -->
+	</ILLUMINATION>
+
+	<LIGHTS>
+	    <LIGHT id="light01">                                    <!-- light identifier -->
+	        <enable value="1" />                         <!-- enable/disable -->
+	        <position x="0.5" y="0.5" z="0.5" w="0.5" />       <!-- light position -->
+	        <ambient r="0.5" g="0.5" b="0.5" a="0.5" />        <!-- ambient component -->
+	        <diffuse r="0.5" g="0.5" b="0.5" a="0.5" />        <!-- diffuse component -->
+	        <specular r="0.5" g="0.5" b="0.5" a="0.5" />       <!-- specular component -->
+	    </LIGHT>	    
+	</LIGHTS>
+
+	<TEXTURES>
+	    <TEXTURE id="leafText">
+        	<file path="textures/text.jpg" />                             <!-- path to file -->
+	        <amplif_factor s="1" t="3" />                <!-- x/s, y/t -->
+	    </TEXTURE>
+
+	   <TEXTURE id="woodText">
+        	<file path="textures/text.jpg" />                             <!-- path to file -->
+	        <amplif_factor s="4" t="3" />                <!-- x/s, y/t -->
+	    </TEXTURE>    
+	</TEXTURES>
+
+
+	<MATERIALS>
+	    <MATERIAL id="material1">                                  
+        	<shininess value="10" />
+	        <specular r=".5" g=".5" b=".4" a=".3" />        <!-- specular reflection -->
+	        <diffuse r=".3" g=".3" b=".2" a=".3" />         <!-- diffuse reflection -->
+	        <ambient r=".3" g=".3" b=".3" a=".3" />         <!-- ambient reflection -->
+	        <emission r=".3" g=".3" b=".3" a=".3" />        <!-- emission component -->
+	     </MATERIAL>
+	</MATERIALS>
+
+	<LEAVES>
+	    <LEAF id="1" type="rectangle" args="0 1 2 0" />      <!-- 2D coordinates for left-top and right-bottom vertices. -->
+	    <LEAF id="2" type="cylinder" args="2 1 2 1 1" />    <!-- height, bottom radius, top radius, sections along height, parts per section -->
+	    <LEAF id="3" type="sphere" args="1 1 1" />            <!-- radius, parts along radius, parts per section -->
+	    <LEAF id="4" type="triangle" args="0 0 0 0 10 1 1 0 0" />   <!-- coordinates of each vertex -->
+	</LEAVES>
+
+	<NODES>
+	    <ROOT id="testScene" />     <!-- identifier of root node of the scene graph; this node     -->
+		                         <!--   must be defined in one of the following NODE declarations -->
+
+	    <NODE id="testScene">       <!--   defines one intermediate node; may be repeated as necessary -->
+	    	<MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        
+        	<DESCENDANTS>
+	            <DESCENDANT id="tree" />       <!-- "ss" is the identifier of a node or of leaf; -->
+		    <DESCENDANT id="bench" />			
+	        </DESCENDANTS>
+	    </NODE>
+	
+	    <NODE id="tree">       <!--   defines one intermediate node; may be repeated as necessary -->
+	    	<MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        	<DESCENDANTS>
+		    <DESCENDANT id="body" />			
+		    <DESCENDANT id="leaves" />
+	        </DESCENDANTS>
+ 	    </NODE>
+
+	    <NODE id="leaves">       <!--   defines one intermediate node; may be repeated as necessary -->
+	    	<MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                <TEXTURE id="leafText" />       <!-- declared texture superimposes the texture received from parent node -->
+	        <SCALE sx="3" sy="3" sz="4" />
+	        <TRANSLATION x="0" y="5" z="0" />
+        	<DESCENDANTS>
+		    <DESCENDANT id="3" />
+	        </DESCENDANTS>
+ 	    </NODE>
+
+	    <NODE id="body">       <!--   defines one intermediate node; may be repeated as necessary -->
+	    	<MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                <TEXTURE id="woodText" />       <!-- declared texture superimposes the texture received from parent node -->
+	        <ROTATION axis="x" angle="-90" />
+	        <SCALE sx="0.8" sy="4" sz="0.8" />
+        	<DESCENDANTS>
+		    <DESCENDANT id="2" />
+	        </DESCENDANTS>
+ 	    </NODE>
+
+	    <NODE id="bench">       <!--   defines one intermediate node; may be repeated as necessary -->
+	    	<MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                <TEXTURE id="woodText" />       <!-- declared texture superimposes the texture received from parent node -->
+	        <SCALE sx="4" sy="2" sz="2" />
+		<TRANSLATION x="1" y="1" z="1" />
+        	<DESCENDANTS>
+		    <DESCENDANT id="cube" />
+	        </DESCENDANTS>
+ 	    </NODE>
+
+	    <NODE id="cube">       <!--   defines one intermediate node; may be repeated as necessary -->
+	    	<MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
+                <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
+        	<DESCENDANTS>
+		    <DESCENDANT id="1" />
+	        </DESCENDANTS>
+ 	    </NODE>
+	</NODES>
+</SCENE>

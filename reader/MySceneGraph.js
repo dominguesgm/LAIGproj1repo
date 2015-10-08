@@ -832,8 +832,10 @@ MySceneGraph.prototype.readNode= function(element) {
 	for(n=0; n<descendants.length; n++){
 
 		var descendantsTemp = descendants[n].getElementsByTagName('DESCENDANT');
-		for(m=0; m<descendantsTemp.length; m++)
+		for(m=0; m<descendantsTemp.length; m++){
 			node['descendants'].push(descendantsTemp[m].id);
+			console.log(element.id +" -> DESCENDANT FOUND " + descendantsTemp[m].id);
+		}
 	}
 
 	return node;
@@ -858,7 +860,10 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 		console.log("FINISHED LEAF "+ elementId);
 		return true;
 	}
-	else return false;
+	else{
+		console.log("UNKNOWN ERROR");
+		return false;	
+	} 
 
 	// check if the element's material is valid
 	if(this.materials[element['material']] == null && element['material']!="null"){
@@ -904,6 +909,7 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 
 	// return false if no descendants are found
 	if(element['descendants'].length==0){
+		console.log(elementId + " has no descendants");
 		delete this.nodes[elementId];
 		return false;
 	}else return true;
