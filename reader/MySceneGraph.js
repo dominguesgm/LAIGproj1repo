@@ -324,7 +324,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 
 	var illumnodes=illuminationXML[0].children.length;
 	if(illumnodes != 2){
-		warnings.push(["Error", "The 'Illumination' element must have 3 attributes in the following order: 'ambient' and 'background'."]);
+		warnings.push(["Error", "The 'Illumination' element must have 2 attributes in the following order: 'ambient' and 'background'."]);
 		return warnings;
 	}
 

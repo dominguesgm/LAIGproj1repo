@@ -11,7 +11,6 @@
 
 	<ILLUMINATION>
 	    <ambient r="0.5" g="0.5" b="0.5" a="0.5" />            <!-- global ambient -->
-	    <doubleside value="0" />                          <!-- double or single side illum. -->
 	    <background r="0.5" g="0.5" b="0.5" a="1" />         <!-- background color -->
 	</ILLUMINATION>
 
@@ -85,9 +84,6 @@
         <ROTATION axis="y" angle="-90" />
         <SCALE sx="1" sy="3" sz="9" />
 
-	<TESTE>
-	</TESTE>
-
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="nodeTesteCilindro" />       <!-- "ss" is the identifier of a node or of leaf; -->
@@ -108,9 +104,6 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-
-	<TESTE>
-	</TESTE>
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
