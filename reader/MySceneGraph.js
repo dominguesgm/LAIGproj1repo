@@ -866,17 +866,21 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 
 	// TODO
 	// check order of matrixes product
-	var resultingTranformation =  [1.0, 0.0, 0.0, 0.0,
+	var resultingTransformation =  [1.0, 0.0, 0.0, 0.0,
                   				   0.0, 1.0, 0.0, 0.0,
                   				   0.0, 0.0, 1.0, 0.0,
                   				   0.0, 0.0, 0.0, 1.0];
 	var n;
-	for(n = element['transformations'].length -1; n > 0; n--){
+	for(n = element['transformations'].length -1; n >= 0; n--){
 		var transformation = this.tranformationToMatrix(element['transformations'][n]);
-		resultingTranformation = this.multiplyTansformationMatrixes(resultingTranformation, transformation);
+		console.log(transformation)
+		resultingTransformation = this.multiplyTansformationMatrixes(resultingTransformation, transformation);
+		console.log(resultingTransformation);
 	}
 
-	element['matrix'] = resultingTranformation;
+	console.log("next");
+
+	element['matrix'] = resultingTransformation;
 
 	// check descendants
 	var n;

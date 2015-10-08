@@ -2,13 +2,14 @@
  * MySphere
  * @constructor
  */
- function MySphere(scene, slices, stacks) {
+ function MySphere(scene, arguments) {
  	CGFobject.call(this,scene);
 	
-	this.slices=slices;
-	this.stacks=stacks;
+	this.slices=arguments[2];
+	this.stacks=arguments[1];
+	this.radius=arguments[0];
 
-	this.angle=2*Math.PI/slices;
+	this.angle=2*Math.PI/this.slices;
 
  	this.initBuffers();
  };
@@ -27,11 +28,11 @@
 
  	this.vertices = [];
  	var alpha = 0;
- 	for (var n = 0; n <= this.stacks;n++, alpha+=(Math.PI/(this.stacks*2))) {
+ 	for (var n = 0; n <= this.stacks;n++, alpha+=(Math.PI/(this.stacks))) {
  	    var tempAngle = 0;
  	    this.texelX = 0;
   	 	for (var i = 0; i <= this.slices; i++) {
-  			this.vertices.push(Math.sin(alpha)*Math.cos(tempAngle), Math.sin(alpha)*Math.sin(tempAngle), Math.abs(Math.cos(alpha)));
+  			this.vertices.push(Math.sin(alpha)*Math.cos(tempAngle), Math.sin(alpha)*Math.sin(tempAngle), Math.cos(alpha));
  	       	this.texCoords.push(this.texelX, this.texelY);
   	 		this.texelX += this.texelXInterval;
   	 		tempAngle += this.angle;

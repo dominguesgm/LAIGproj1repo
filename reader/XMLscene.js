@@ -31,6 +31,8 @@ XMLscene.prototype.initGeometry = function (application) {
 			this.rectangle = new MyRectangle(this, this.graph.leaves[id]['args']);
 		if(this.graph.leaves[id]['type']=='cylinder')
 			this.cylinder = new MyCylinder(this, this.graph.leaves[id]['args']);
+		if(this.graph.leaves[id]['type']=='sphere')
+			this.sphere = new MySphere(this, this.graph.leaves[id]['args']);
 	}
 };
 XMLscene.prototype.initLights = function () {
@@ -253,6 +255,10 @@ XMLscene.prototype.drawElement = function(elementId) {
 		this.cylinder.display();
 		console.log("Drawing cylinder");
 	}
+	if(elementId == 3){
+		this.sphere.display();
+		console.log("Drawing sphere");
+	}
 
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
@@ -277,14 +283,14 @@ XMLscene.prototype.processElement = function(elementId) {
 	}else return null;
 
 	// check if the element's material is valid
-	if(! (this.materials[element['material']] == null || element['material']!="null")){
+	if(this.materials[element['material']] == null || element['material']=="null"){
 		var material = this.materialsUsed.pop();
 		this.materialsUsed.push(material);
 		this.materialsUsed.push(material);
 	}else this.materialsUsed.push(element['material']);
 
 	// check if the element's texture is valid
-	if(! (this.textures[element['texture']] == null || element['texture']!="null")){
+	if(this.textures[element['texture']] == null || element['texture']=="null"){
 		var texture = this.texturesUsed.pop();
 		this.texturesUsed.push(texture);
 		this.texturesUsed.push(texture);
