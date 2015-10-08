@@ -11,7 +11,6 @@
 
 	<ILLUMINATION>
 	    <ambient r="0.5" g="0.5" b="0.5" a="0.5" />            <!-- global ambient -->
-	    <doubleside value="0" />                          <!-- double or single side illum. -->
 	    <background r="0.5" g="0.5" b="0.5" a="1" />         <!-- background color -->
 	</ILLUMINATION>
 
@@ -61,7 +60,7 @@
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
     <LEAF id="1" type="rectangle" args="0 1 2 0" />      <!-- 2D coordinates for left-top and right-bottom vertices. -->
     <LEAF id="2" type="cylinder" args="2 1 2 10 10" />    <!-- height, bottom radius, top radius, sections along height, parts per section -->
-    <LEAF id="3" type="sphere" args="2 1 1" />            <!-- radius, parts along radius, parts per section -->
+    <LEAF id="3" type="sphere" args="2 10 10" />            <!-- radius, parts along radius, parts per section -->
     <LEAF id="4" type="triangle" args="0 0 0 0 10 1 1 0 0" />   <!-- coordinates of each vertex -->
 </LEAVES>
 
@@ -90,7 +89,7 @@
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-            <DESCENDANT id="nodeTesteCilindro" />       <!-- "ss" is the identifier of a node or of leaf; -->
+            <DESCENDANT id="nodeTesteSphere" />       <!-- "ss" is the identifier of a node or of leaf; -->
                                           <!-- may be repeatad as necessary. It can refer an -->
                                           <!-- identifier of another node, later defined in the lsx file. -->
             <DESCENDANT id="1" />
@@ -98,7 +97,7 @@
 
     </NODE>
 
-    <NODE id="nodeTesteCilindro">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="nodeTesteSphere">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
         <MATERIAL id="materiak" />      <!-- declared material superimposes the material received from parent node -->
@@ -114,7 +113,7 @@
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-            <DESCENDANT id="2" />       <!-- "ss" is the identifier of a node or of leaf; -->
+            <DESCENDANT id="3" />       <!-- "ss" is the identifier of a node or of leaf; -->
                                           <!-- may be repeatad as necessary. It can refer an -->
                                           <!-- identifier of another node, later defined in the lsx file. -->
         </DESCENDANTS>

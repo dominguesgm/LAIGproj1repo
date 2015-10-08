@@ -14,7 +14,7 @@
 //	this.initBuffers();
 //};
 
-function MyTriangle(coordinates) {
+function MyTriangle(scene, coordinates) {
 	CGFobject.call(this,scene);
 
 	this.x1 = coordinates[0];

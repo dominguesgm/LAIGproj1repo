@@ -31,6 +31,8 @@ XMLscene.prototype.initGeometry = function (application) {
 			this.rectangle = new MyRectangle(this, this.graph.leaves[id]['args']);
 		if(this.graph.leaves[id]['type']=='cylinder')
 			this.cylinder = new MyCylinder(this, this.graph.leaves[id]['args']);
+		if(this.graph.leaves[id]['type']=='sphere')
+			this.sphere = new MySphere(this, this.graph.leaves[id]['args']);
 	}
 };
 XMLscene.prototype.initLights = function () {
@@ -239,6 +241,10 @@ XMLscene.prototype.drawElement = function(elementId) {
 	if(elementId == 2){
 		this.cylinder.display();
 		console.log("Drawing cylinder");
+	}
+	if(elementId == 3){
+		this.sphere.display();
+		console.log("Drawing sphere");
 	}
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
