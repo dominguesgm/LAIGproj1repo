@@ -25,7 +25,7 @@
 	    </LIGHT>
 
 	    <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
-	    
+
 	</LIGHTS>
 
 	<TEXTURES>
@@ -39,13 +39,13 @@
 	        <amplif_factor s="4" t="3" />                <!-- x/s, y/t -->
 	    </TEXTURE>
     	<!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
-    
+
 	</TEXTURES>
 
 
 	<MATERIALS>
 
-	    <MATERIAL id="materiak">                                  
+	    <MATERIAL id="materiak">
         	<shininess value="90" />
 	        <specular r="0.1" g=".5" b=".5" a=".5" />        <!-- specular reflection -->
 	        <diffuse r=".1" g=".3" b=".2" a=".3" />         <!-- diffuse reflection -->
@@ -59,7 +59,7 @@
 
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
-    <LEAF id="1" type="rectangle" args="0 1 2 0" />      <!-- 2D coordinates for left-top and right-bottom vertices. -->
+    <LEAF id="1" type="rectangle" args="0 1 1 0" />      <!-- 2D coordinates for left-top and right-bottom vertices. -->
     <LEAF id="2" type="cylinder" args="2 1 2 10 10" />    <!-- height, bottom radius, top radius, sections along height, parts per section -->
     <LEAF id="3" type="sphere" args="2 1 1" />            <!-- radius, parts along radius, parts per section -->
     <LEAF id="4" type="triangle" args="0 0 0 0 10 1 1 0 0" />   <!-- coordinates of each vertex -->
@@ -78,48 +78,113 @@
         <TEXTURE id="teste" />       <!-- declared texture superimposes the texture received from parent node -->
                                   <!-- id="null" maintains texture from parent node       -->
                                   <!-- id="clear" clears texture declaration received from parent node      -->
-
-        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="1" y="3" z="6" />
-        <ROTATION axis="z" angle="-90" />
-        <ROTATION axis="y" angle="-90" />
-        <SCALE sx="1" sy="3" sz="9" />
-
 	<TESTE>
 	</TESTE>
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-            <DESCENDANT id="nodeTesteCilindro" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!-- may be repeatad as necessary. It can refer an -->
-                                          <!-- identifier of another node, later defined in the lsx file. -->
-            <DESCENDANT id="1" />
-        </DESCENDANTS>
-
-    </NODE>
-
-    <NODE id="nodeTesteCilindro">       <!--   defines one intermediate node; may be repeated as necessary -->
-
-        <!-- next two lines are mandatory -->
-        <MATERIAL id="materiak" />      <!-- declared material superimposes the material received from parent node -->
-                                  <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="teste" />       <!-- declared texture superimposes the texture received from parent node -->
-                                  <!-- id="null" maintains texture from parent node       -->
-                                  <!-- id="clear" clears texture declaration received from parent node      -->
-
-        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-
-	<TESTE>
-	</TESTE>
-
-        <!-- declaring descendents, ate least one node or one leaf must be present -->
-        <DESCENDANTS>
-            <DESCENDANT id="2" />       <!-- "ss" is the identifier of a node or of leaf; -->
+            <DESCENDANT id="car" />       <!-- "ss" is the identifier of a node or of leaf; -->
                                           <!-- may be repeatad as necessary. It can refer an -->
                                           <!-- identifier of another node, later defined in the lsx file. -->
         </DESCENDANTS>
 
     </NODE>
+
+
+        <NODE id="car">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+            <MATERIAL id="materiak" />
+            <TEXTURE id="teste" />
+    	           <TESTE>
+    	            </TESTE>
+            <DESCENDANTS>
+                <DESCENDANT id="structure" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="structure">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+            <MATERIAL id="materiak" />
+            <TEXTURE id="teste" />
+    	           <TESTE>
+    	            </TESTE>
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="cube">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+            <MATERIAL id="materiak" />
+            <TEXTURE id="teste" />
+    	           <TESTE>
+    	            </TESTE>
+            <DESCENDANTS>
+                <DESCENDANT id="top" />
+                <DESCENDANT id="bottom" />
+                <DESCENDANT id="left" />
+                <DESCENDANT id="right" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="top">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+            <MATERIAL id="materiak" />
+            <TEXTURE id="teste" />
+            <TRANSLATION x="0" y="1" z="0" />
+            <ROTATION axis="z" angle="-90" />
+            <ROTATION axis="y" angle="-90" />
+            <ROTATION axis
+    	           <TESTE>
+    	            </TESTE>
+            <DESCENDANTS>
+                <DESCENDANT id="1" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="bottom">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+            <MATERIAL id="materiak" />
+            <TEXTURE id="teste" />
+            <TRANSLATION x="1" y="0" z="0" />
+            <ROTATION axis="z" angle="90" />
+            <ROTATION axis="y" angle="-90" />
+            <ROTATION axis
+    	           <TESTE>
+    	            </TESTE>
+            <DESCENDANTS>
+                <DESCENDANT id="1" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="left">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+            <MATERIAL id="materiak" />
+            <TEXTURE id="teste" />
+            <ROTATION axis="y" angle="-90" />
+            <ROTATION axis
+    	           <TESTE>
+    	            </TESTE>
+            <DESCENDANTS>
+                <DESCENDANT id="1" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="right">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+            <MATERIAL id="materiak" />
+            <TEXTURE id="teste" />
+            <TRANSLATION x="1" y="1" z="0" />
+            <ROTATION axis="z" angle="180" />
+            <ROTATION axis="y" angle="-90" />
+            <ROTATION axis
+    	           <TESTE>
+    	            </TESTE>
+            <DESCENDANTS>
+                <DESCENDANT id="1" />
+            </DESCENDANTS>
+        </NODE>
+
 
 </NODES>
 </SCENE>

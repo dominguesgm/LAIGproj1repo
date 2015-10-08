@@ -2,7 +2,7 @@
  * MyCylinder
  * @constructor
  */
- function MyCylinder(attributes) {
+ function MyCylinder(scene, attributes) {
  	CGFobject.call(this,scene);
 
 	this.height = attributes[0];

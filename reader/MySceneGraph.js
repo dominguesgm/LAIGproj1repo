@@ -323,13 +323,12 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 	}
 
 	var illumnodes=illuminationXML[0].children.length;
-	if(illumnodes != 3){
-		warnings.push(["Error", "The 'Illumination' element must have 3 attributes in the following order: 'ambient', 'doubleside' and 'background'."]);
+	if(illumnodes != 2){
+		warnings.push(["Error", "The 'Illumination' element must have 3 attributes in the following order: 'ambient' and 'background'."]);
 		return warnings;
 	}
 
 	this.illumination = [['ambient', []],
-							['doubleside', null],
 							['background', []]];
 
 	var e=illuminationXML[0].children[0];
@@ -343,20 +342,8 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 		warnings.push(["Error", "No 'ambient' attribute found, or found in the wrong order."]);
 		return warnings;
 	}
-		
-	var e=illuminationXML[0].children[1];
-	if(e.nodeName == "doubleside"){
-		this.illumination['doubleside'] = this.reader.getBoolean(e, 'value', false);
-		if(this.illumination['doubleside'] == null){
-			warnings.push(["Error", "'Doubleside' is composed of value='boolean'."]);
-			return warnings;
-		}
-	} else{
-		warnings.push(["Error", "No 'doubleside' attribute found, or found in the wrong order."]);
-		return warnings;
-	}
 
-	var e=illuminationXML[0].children[2];
+	var e=illuminationXML[0].children[1];
 	if(e.nodeName == "background"){
 	 	this.illumination['background'] = this.getRGBA(e, false);
 		if(this.illumination['background'][0] == null || this.illumination['background'][1] == null || this.illumination['background'][2] == null || this.illumination['background'][3] == null){

@@ -25,11 +25,13 @@ XMLscene.prototype.init = function (application) {
 
 XMLscene.prototype.initGeometry = function (application) {
 	
-	for(id in this.graph.leaves)
-		if(this.graph.leaves[id]['type']=='rectangle'){
+	for(id in this.graph.leaves){
+		console.log("Leaf number" + id);
+		if(this.graph.leaves[id]['type']=='rectangle')
 			this.rectangle = new MyRectangle(this, this.graph.leaves[id]['args']);
-			break;
-		}	
+		if(this.graph.leaves[id]['type']=='cylinder')
+			this.cylinder = new MyCylinder(this, this.graph.leaves[id]['args']);
+	}
 };
 XMLscene.prototype.initLights = function () {
 
@@ -239,8 +241,14 @@ XMLscene.prototype.drawElement = function(elementId) {
 	this.materials[material].apply();
 	this.textures[texture].apply();
 	// change according to elementId
-	this.rectangle.display();
-	
+	if(elementId == 1){
+		this.rectangle.display();
+		console.log("Drawing rectangle");
+	}
+	if(elementId == 2){
+		this.cylinder.display();
+		console.log("Drawing cylinder");
+	}
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
 };
