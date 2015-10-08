@@ -249,24 +249,8 @@ XMLscene.prototype.drawElement = function(elementId) {
 	this.textures[texture].apply();
 
 	// change according to elementId
-<<<<<<< HEAD
 	this.leaves[elementId].display();
 	
-=======
-	if(elementId == 1){
-		this.rectangle.display();
-		console.log("Drawing rectangle");
-	}
-	if(elementId == 2){
-		this.cylinder.display();
-		console.log("Drawing cylinder");
-	}
-	if(elementId == 3){
-		this.sphere.display();
-		console.log("Drawing sphere");
-	}
-
->>>>>>> e5964e85170084fb9b86ea77c99ad00af4cc3555
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
 };
