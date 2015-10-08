@@ -82,11 +82,8 @@
 	    <!-- <TRANSLATION x="1" y="3" z="6" /> -->
         <ROTATION axis="z" angle="-90" />
         <ROTATION axis="y" angle="-90" />
-<<<<<<< HEAD
         <SCALE sx="1" sy="3" sz="9" />
-=======
         <!-- <SCALE sx="1" sy="3" sz="9" /> -->
->>>>>>> d32b23e49a160dcfe1c2e4e5eacfa1a88fde6884
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
@@ -107,10 +104,6 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-<<<<<<< HEAD
-
-=======
->>>>>>> d32b23e49a160dcfe1c2e4e5eacfa1a88fde6884
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
             <DESCENDANT id="child1" />
