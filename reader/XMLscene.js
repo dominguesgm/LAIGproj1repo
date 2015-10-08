@@ -79,6 +79,15 @@ XMLscene.prototype.onGraphLoaded = function () {
     this.loadMaterials();
     this.initGeometry();
 
+   	// display nodes read:
+   	console.log("LOAD REVIEW=======================================");
+  	console.log("CURRRENT ROOT" + this.graph.root);
+
+  	for(id in this.graph.nodes)
+  		console.log(id+ " descendants" + this.graph.nodes[id]['descendants'].length);
+	
+	for(id in this.graph.nodes)
+  		console.log(id+ " descendants" + this.graph.nodes[id]['descendants'].length);
 
     console.log("STARTING Drawing NOW");
 };
@@ -194,7 +203,7 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
-		this.processGraph();
+		//this.processGraph();
 	}	
 
     this.shader.unbind();
@@ -219,7 +228,7 @@ XMLscene.prototype.processGraph = function() {
 	this.multMatrix(this.graph.initials['matrix']);
 
 	console.log("CURRRENT ROOT" + this.graph.root);
-	console.log("CURRRENT ROOT descendants" + this.graph.nodes[this.graph.root]['descendants'].length);
+	//console.log("CURRRENT ROOT descendants" + this.graph.nodes[this.graph.root]['descendants'].length);
 
  	this.processElement(this.graph.root);
  };
