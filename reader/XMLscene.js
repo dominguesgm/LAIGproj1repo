@@ -203,7 +203,7 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
-		//this.processGraph();
+		this.processGraph();
 	}	
 
     this.shader.unbind();
@@ -278,14 +278,14 @@ XMLscene.prototype.processElement = function(elementId) {
 	}else return null;
 
 	// check if the element's material is valid
-	if(! (this.materials[element['material']] == null || element['material']!="null")){
+	if(this.materials[element['material']] == null || element['material']=="null"){
 		var material = this.materialsUsed.pop();
 		this.materialsUsed.push(material);
 		this.materialsUsed.push(material);
 	}else this.materialsUsed.push(element['material']);
 
 	// check if the element's texture is valid
-	if(! (this.textures[element['texture']] == null || element['texture']!="null")){
+	if(this.textures[element['texture']] == null || element['texture']=="null"){
 		var texture = this.texturesUsed.pop();
 		this.texturesUsed.push(texture);
 		this.texturesUsed.push(texture);

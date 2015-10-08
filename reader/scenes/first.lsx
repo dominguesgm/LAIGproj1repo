@@ -79,25 +79,21 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="1" y="3" z="6" />
+	    <!-- <TRANSLATION x="1" y="3" z="6" /> -->
         <ROTATION axis="z" angle="-90" />
         <ROTATION axis="y" angle="-90" />
-        <SCALE sx="1" sy="3" sz="9" />
-
-	<TESTE>
-	</TESTE>
+        <!-- <SCALE sx="1" sy="3" sz="9" /> -->
 
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-            <DESCENDANT id="nodeTesteSphere" />       <!-- "ss" is the identifier of a node or of leaf; -->
+            <DESCENDANT id="nodeTesteMultiparents" />       <!-- "ss" is the identifier of a node or of leaf; -->
                                           <!-- may be repeatad as necessary. It can refer an -->
                                           <!-- identifier of another node, later defined in the lsx file. -->
-            <DESCENDANT id="1" />
         </DESCENDANTS>
 
     </NODE>
 
-    <NODE id="nodeTesteSphere">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="nodeTesteMultiparents">       <!--   defines one intermediate node; may be repeated as necessary -->
 
         <!-- next two lines are mandatory -->
         <MATERIAL id="materiak" />      <!-- declared material superimposes the material received from parent node -->
@@ -107,17 +103,46 @@
                                   <!-- id="clear" clears texture declaration received from parent node      -->
 
         <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-
-	<TESTE>
-	</TESTE>
-
         <!-- declaring descendents, ate least one node or one leaf must be present -->
         <DESCENDANTS>
-            <DESCENDANT id="3" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!-- may be repeatad as necessary. It can refer an -->
-                                          <!-- identifier of another node, later defined in the lsx file. -->
+            <DESCENDANT id="child1" />
+            <DESCENDANT id="child2" />
+            <DESCENDANT id="child3" />
+            <DESCENDANT id="child4" />
         </DESCENDANTS>
+    </NODE>
 
+
+    <NODE id="child1">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="teste" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+    <NODE id="child2">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="teste" />
+        <TRANSLATION x="0" y="1" z="0" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+    <NODE id="child3">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="teste" />
+        <TRANSLATION x="2" y="0" z="0" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+    <NODE id="child4">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="teste" />
+        <TRANSLATION x="2" y="1" z="0" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
     </NODE>
 
 </NODES>
