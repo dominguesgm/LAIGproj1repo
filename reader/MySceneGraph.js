@@ -230,6 +230,7 @@ MySceneGraph.prototype.onXMLError=function (message){
  * Returns a list of errors and warnings.
  */
 MySceneGraph.prototype.parseInitials= function(rootElement) {
+	var warningMessages = [];
 	this.initials = [];
 
 	var defaultSettings = { frustumNear: 0, frustumFar: 0, translation: [0,0,0], rotations: [['x',0], ['y',0], ['z',0]], scale: [1,1,1], referenceLength: 1};

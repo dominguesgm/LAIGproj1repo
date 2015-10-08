@@ -19,6 +19,12 @@ XMLscene.prototype.init = function (application) {
     this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
+    this.enableTextures(true);
+
+    // create matrix
+	this.matrix = mat4.create();
+	// set to identity
+    mat4.identity(this.matrix);
 
 	this.axis=new CGFaxis(this);
 };
@@ -37,14 +43,14 @@ XMLscene.prototype.initGeometry = function (application) {
 			this.leaves[id] = new MyTriangle(this, this.graph.leaves[id]['args']);
 	}
 };
+
 XMLscene.prototype.initLights = function () {
 
     this.shader.bind();
-
 	this.lights[0].setPosition(2, 3, 3, 1);
     this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
     this.lights[0].update();
- 
+    this[this.lights[0].id]=true;
     this.shader.unbind();
 };
 
@@ -62,16 +68,10 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () {
-	//this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
-	/*this.lights[0].setVisible(true);
-    this.lights[0].enable();*/
 
 	this.setIllumination();
 
     this.createLights();
-
-	//shading    = Gouraud
-	//polygon mode = fill
 
 	console.log('XMLscene');
 
@@ -99,15 +99,8 @@ XMLscene.prototype.onGraphLoaded = function () {
 }
 
 XMLscene.prototype.setInitials = function () {
-	this.camera.far = this.graph.initials.frustumFar;
-	this.camera.near = this.graph.initials.frustumNear;
 
-	// create matrix
-	this.matrix = mat4.create();
-		
-	// set to identity
-    mat4.identity(this.matrix);
-    console.log("ATENTION__________________ " + this.matrix);
+	console.log("ATENTION__________________ " + this.matrix);
 			
 	// add  translation
     mat4.translate(this.matrix, this.matrix, this.graph.initials['translation']);
@@ -125,6 +118,10 @@ XMLscene.prototype.setInitials = function () {
 
 	// debug final matrix
 	console.log("ATENTION__________________ " + this.matrix);
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	var perspective = mat4.create();
+	mat4.perspective(45, 800* 600 , this.graph.initials.frustumNear, this.graph.initials.frustumFar, perspective);
 };
 
 XMLscene.prototype.loadTextures = function () {
@@ -133,7 +130,7 @@ XMLscene.prototype.loadTextures = function () {
 
 	for(id in this.graph.textures){
 		this.textures[id] = new CGFappearance(this);
-		//this.windowTexture.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");
+		this.textures[id].setTextureWrap("REPEAT"," REPEAT");
 		this.textures[id].loadTexture(this.graph.textures[id]['file']);
 
 		// TODO deal with ampli_factors s,t
@@ -152,7 +149,7 @@ XMLscene.prototype.loadMaterials = function () {
 	this.materials['default'].setDiffuse(.5,.5,.5,.5);
 	this.materials['default'].setSpecular(.5,.5,.5,.5);
 	this.materials['default'].setEmission(.5,.5,.5,.5);
-	this.materials['default'].setShininess(.5);
+	this.materials['default'].setShininess(1);
 
 	for(id in this.graph.materials){
 		this.materials[id] = new CGFappearance(this);
@@ -196,7 +193,6 @@ XMLscene.prototype.display = function () {
 	this.updateProjectionMatrix();
     this.loadIdentity();
     this.multMatrix(this.matrix);
-
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
 
@@ -207,19 +203,15 @@ XMLscene.prototype.display = function () {
 	
 	// ---- END Background, camera and axis setup
 
-	// it is important that things depending on the proper loading of the graph
-	// only get executed after the graph has loaded correctly.
-	// This is one possible way to do it
-	if (this.graph.loadedOk)
-	{
-		this.lights[0].update();
+	if (this.graph.loadedOk){
+		this.updateLights();
 		this.processGraph();
 	}	
 
     this.shader.unbind();
 };
 
-// TODO major changes required
+
 /*
  * Processes node elementId and its descendants, calculating each one's matrix and checking for errors.
  */
@@ -229,7 +221,6 @@ XMLscene.prototype.processGraph = function() {
  	this.texturesUsed = ['clear'];
 
 	console.log("CURRRENT ROOT" + this.graph.root);
-	//console.log("CURRRENT ROOT descendants" + this.graph.nodes[this.graph.root]['descendants'].length);
 
  	this.processElement(this.graph.root);
  };
@@ -240,17 +231,22 @@ XMLscene.prototype.drawElement = function(elementId) {
 
 	var material = this.materialsUsed.pop();
 	var texture = this.texturesUsed.pop();
-
+	var previousTexture;
 	this.materials[material].apply();
 	
-	//if(texture == 'clear')
-	//;
-	//else
-	this.textures[texture].apply();
+	if(texture == 'clear'){
+	/*	previousTexture = this.texturesUsed.pop();
+		console.log(previousTexture);
+		if(previousTexture!=undefined){
+			this.textures[previousTexture].unbind();
+			this.texturesUsed.push(previousTexture);
+		}*/
+	}else this.textures[texture].apply();
 
 	// change according to elementId
 	this.leaves[elementId].display();
-	
+
+
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
 };
@@ -305,8 +301,14 @@ XMLscene.prototype.processElement = function(elementId) {
 
 
 XMLscene.prototype.setIllumination = function () {
-	this.setGlobalAmbientLight(this.graph.illumination['ambient'][0], this.graph.illumination['ambient'][1], this.graph.illumination['ambient'][2], this.graph.illumination['ambient'][3]);
-	this.gl.clearColor(this.graph.illumination['background'][0], this.graph.illumination['background'][1], this.graph.illumination['background'][2], this.graph.illumination['background'][3]);
+	this.setGlobalAmbientLight( this.graph.illumination['ambient'][0], 
+								this.graph.illumination['ambient'][1], 
+								this.graph.illumination['ambient'][2], 
+								this.graph.illumination['ambient'][3]);
+	this.gl.clearColor( this.graph.illumination['background'][0], 
+						this.graph.illumination['background'][1], 
+						this.graph.illumination['background'][2], 
+						this.graph.illumination['background'][3]);
 };
 
 XMLscene.prototype.createLights = function(){
@@ -314,18 +316,47 @@ XMLscene.prototype.createLights = function(){
 
 	for(var i = 0; i < numberOfLights; i++){
 		this.lights[i].id = this.graph.lights[i]['id'];
-
-		if(this.graph.lights[i]['enable'] == true)
+		
+		this[this.lights[i].id] = this.graph.lights[i]['enable'];
+		
+		if(this.graph.lights[i]['enable'])
 			this.lights[i].enable();
-		else
-			this.lights[i].disable();
+		else this.lights[i].disable();	
+ 
+		this.lights[i].setPosition( this.graph.lights[i]['position'][0], 
+									this.graph.lights[i]['position'][1], 
+									this.graph.lights[i]['position'][2], 
+									this.graph.lights[i]['position'][3]);
 
-		this.lights[i].setPosition(this.graph.lights[i]['position'][0], this.graph.lights[i]['position'][1], this.graph.lights[i]['position'][2], this.graph.lights[i]['position'][3]);
+		this.lights[i].setAmbient(  this.graph.lights[i]['ambient'][0], 
+									this.graph.lights[i]['ambient'][1], 
+									this.graph.lights[i]['ambient'][2], 
+									this.graph.lights[i]['ambient'][3]);
 
-		this.lights[i].setAmbient(this.graph.lights[i]['ambient'][0], this.graph.lights[i]['ambient'][1], this.graph.lights[i]['ambient'][2], this.graph.lights[i]['ambient'][3]);
+		this.lights[i].setDiffuse(  this.graph.lights[i]['diffuse'][0], 
+									this.graph.lights[i]['diffuse'][1], 
+									this.graph.lights[i]['diffuse'][2], 
+									this.graph.lights[i]['diffuse'][3]);
 
-		this.lights[i].setDiffuse(this.graph.lights[i]['diffuse'][0], this.graph.lights[i]['diffuse'][1], this.graph.lights[i]['diffuse'][2], this.graph.lights[i]['diffuse'][3]);
-
-		this.lights[i].setSpecular(this.graph.lights[i]['specular'][0], this.graph.lights[i]['specular'][1], this.graph.lights[i]['specular'][2], this.graph.lights[i]['specular'][3]);
+		this.lights[i].setSpecular( this.graph.lights[i]['specular'][0],
+									this.graph.lights[i]['specular'][1], 
+									this.graph.lights[i]['specular'][2], 
+									this.graph.lights[i]['specular'][3]);
 	}
+
+	this.myInterface.listLights();
 };
+
+XMLscene.prototype.setMyInterface = function(newInterface) {
+	this.myInterface = newInterface;
+}
+
+XMLscene.prototype.updateLights = function() {
+	var i;
+	for (i = 0; i < this.lights.length; i++){
+		if(this[this.lights[i].id])
+				this.lights[i].enable();
+		else this.lights[i].disable();
+		this.lights[i].update();
+	}
+}
