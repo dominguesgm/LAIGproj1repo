@@ -107,9 +107,9 @@ XMLscene.prototype.setInitials = function () {
 	console.log("ATENTION__________________ " + this.matrix);
 
 	// add rotations
-	mat4.rotate(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][0][1]), [1, 0, 0]);	
-	mat4.rotate(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][1][1]), [0, 1, 0]);	
-	mat4.rotate(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][2][1]), [0, 0, 1]);	
+	mat4.rotateX(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][0][1]));	
+	mat4.rotateY(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][1][1]));	
+	mat4.rotateZ(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][2][1]));	
     console.log("ATENTION__________________ " + this.matrix);
 
     // add scale

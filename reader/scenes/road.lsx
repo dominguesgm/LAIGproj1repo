@@ -1,0 +1,208 @@
+<SCENE>
+
+<INITIALS>
+    <frustum near="0.1" far="500"/>                 
+    <translation x="-1" y="1" z="0" />               
+    <rotation axis="x" angle="0" />                
+    <rotation axis="y" angle="0" />                
+    <rotation axis="z" angle="0" />                
+    <scale sx=".5" sy=".5" sz=".5" />         
+    <reference length="2" />                        
+</INITIALS>
+
+<ILLUMINATION>
+    <ambient r="0.2" g="0.2" b="0.2" a="1" />       
+    <background r="0" g="0" b="0" a="1" />          
+</ILLUMINATION>
+
+<LIGHTS>    
+    <LIGHT id="dayLight">                                    
+            <enable value ="1" />                              
+            <position  x="0" y="10" z="0" w="1" />             
+            <ambient r="0" g="0" b="0" a="1.0" />            
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />      
+    </LIGHT>
+    
+    <LIGHT id="billboardLigth">                                    
+            <enable value ="0" />                             
+            <position x="30" y="10" z="0" w="1" />             
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />       
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
+        </LIGHT>
+    
+    <LIGHT id="headLight">                                   
+            <enable value ="0" />                              
+            <position x="0" y="10" z="20" w="1" />                 
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />      
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
+    </LIGHT>
+
+    <LIGHT id="tailLight">                                   
+            <enable value ="0" />                              
+            <position x="0" y="10" z="20" w="1" />                 
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />      
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />        
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />       
+    </LIGHT>
+
+    <LIGHT id="streetLamp">                                   
+            <enable value ="0" />                              
+            <position x="30" y="10" z="20" w="1" />                 
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />             
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />       
+            <specular r="0.3" g="0.3" b="0.3" a="1.0" />      
+    </LIGHT>
+</LIGHTS>
+
+<TEXTURES>
+    <TEXTURE id="billboard">
+            <file path="scenes/images/trunk.jpg" />               
+            <amplif_factor s="1" t="1" />                           
+    </TEXTURE>
+
+    <TEXTURE id="rock">
+            <file path="scenes/images/rock.jpg" />                
+            <amplif_factor s="1" t="1" />                           
+    </TEXTURE>
+
+    <TEXTURE id="road">
+            <file path="scenes/images/road.jpg" />                
+            <amplif_factor s="1" t="1" />                           
+    </TEXTURE>
+
+    <TEXTURE id="grass">
+            <file path="scenes/images/grass.jpg" />                
+            <amplif_factor s="1" t="1" />                           
+    </TEXTURE>
+
+    <TEXTURE id="trunk">
+            <file path="scenes/images/trunk-image.jpg" />               
+            <amplif_factor s="2" t="2" />                           
+    </TEXTURE>
+</TEXTURES>
+
+<MATERIALS>
+    <MATERIAL id="leavesMaterial">                                  
+            <shininess value="1" />
+            <specular r="0.2" g="0.2" b="0.2" a="1" />        
+            <diffuse r="0.0" g="0.21" b="0.0" a="1" />       
+            <ambient r="0.1" g="0.1" b="0.1" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+    
+    <MATERIAL id="trunkMaterial">                                  
+            <shininess value="1" />
+            <specular r="0.0" g="0.0" b="0.0" a="1" />        
+            <diffuse r="0.6" g="0.3" b="0.0" a="1" />      
+            <ambient r="0.1" g="0.1" b="0.1" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />       
+    </MATERIAL>
+
+    <MATERIAL id="metalMaterial">                                  
+            <shininess value="100" />
+            <specular r="0.0" g="0.0" b="0.0" a="1" />        
+            <diffuse r="0.447" g="0.416" b="0.416" a="1" />       
+            <ambient r="0.0" g="0.0" b="0.0" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+
+    <MATERIAL id="lampMaterial">                                  
+            <shininess value="100" />
+            <specular r="0.5" g="0.5" b="0.5" a="1" />       
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
+            <ambient r="0.0" g="0.0" b="0.0" a="1" />        
+            <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+
+    <MATERIAL id="carMaterial">                                  
+            <shininess value="1" />
+            <specular r="0.0" g="0.0" b="0.0" a="1" />        
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
+            <ambient r="0.0" g="0.0" b="0.0" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+
+    <MATERIAL id="whiteMaterial">                                  
+            <shininess value="1" />
+            <specular r="0.0" g="0.0" b="0.0" a="1" />        
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
+            <ambient r="0.0" g="0.0" b="0.0" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+
+    <MATERIAL id="blackMaterial">                                  
+            <shininess value="1" />
+            <specular r="0.0" g="0.0" b="0.0" a="1" />        
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
+            <ambient r="0.0" g="0.0" b="0.0" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+
+    <MATERIAL id="defaultMaterial">                                  
+            <shininess value="1" />
+            <specular r="0.0" g="0.0" b="0.0" a="1" />        
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
+            <ambient r="0.0" g="0.0" b="0.0" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />        
+    </MATERIAL>
+</MATERIALS>
+
+<LEAVES>
+    <LEAF id="square" type="rectangle" args="1 1 0 0" />
+    <LEAF id="rectangle1" type="rectangle" args="0 4 5 0" />
+    <LEAF id="cylinder1" type="cylinder" args="4 1 1 20 20" /> 
+    <LEAF id="sphere1" type="sphere" args="2 20 20" />
+    <LEAF id="triangle1" type="triangle" args="2 0 12 12 0 2 0 0 0" />
+</LEAVES>
+
+<NODES>
+    <ROOT id="root" />     
+
+    <!-- The root node -->
+    <NODE id="root">       
+        <MATERIAL id="defaultMaterial" />         
+        <TEXTURE id="null" />  
+
+        <DESCENDANTS>
+            <DESCENDANT id="lamp" />    
+            <DESCENDANT id="car" /> 
+            <DESCENDANT id="tree" />   
+            <DESCENDANT id="grass" />
+            <DESCENDANT id="road" />
+            <DESCENDANT id="billboard" />
+            <DESCENDANT id="milestone" />
+        </DESCENDANTS>
+    </NODE>
+
+    <!-- The floor -->
+    <NODE id="grass">      
+        <MATERIAL id="leavesMaterial" />    
+        <TEXTURE id="grass" />                  
+
+        <SCALE sx="12" sy="1" sz="12" />
+        <ROTATION axis="x" angle="90" />
+
+        <DESCENDANTS>
+            <DESCENDANT id="square" />              
+        </DESCENDANTS>
+    </NODE>
+
+     <!-- The road -->
+    <NODE id="road">      
+        <MATERIAL id="defaultMaterial" />    
+        <TEXTURE id="road" />                   
+
+        <SCALE sx="12" sy="1" sz="6" />
+        <!--<TRANSLATION x="0" y=".1" z="0" />
+        //<ROTATION axis="x" angle="90" />-->
+
+        <DESCENDANTS>
+            <DESCENDANT id="square" />              
+        </DESCENDANTS>
+    </NODE>
+</NODES>
+
+</SCENE>
