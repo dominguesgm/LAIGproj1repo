@@ -866,7 +866,7 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 	}
 
 	// TODO
-	// check order of matrixes product
+	/*// check order of matrixes product
 	var resultingTransformation =  [1.0, 0.0, 0.0, 0.0,
                   				   0.0, 1.0, 0.0, 0.0,
                   				   0.0, 0.0, 1.0, 0.0,
@@ -877,9 +877,46 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 		console.log(transformation)
 		resultingTransformation = this.multiplyTansformationMatrixes(resultingTransformation, transformation);
 		console.log(resultingTransformation);
+	}*/
+
+ 	// create matrix
+	var resultingTransformation = mat4.create();
+	// set to identity
+    mat4.identity(resultingTransformation);
+
+	var n;
+	//for(n = element['transformations'].length -1; n >= 0; n--){
+	for(n = 0; n< element['transformations'].length; n++){
+		var transformation = element['transformations'][n];
+    	
+    	switch(transformation['type']) {
+    	case "rotation":
+    		var angle = transformation['args'][1] * Math.PI / 180.0;
+
+        	switch(transformation['args'][0]){
+				case 'x': 
+					mat4.rotateX(resultingTransformation, resultingTransformation, angle);	
+					break;
+				case 'y': 
+					mat4.rotateY(resultingTransformation, resultingTransformation, angle);
+					break;
+				case 'z': 
+					mat4.rotateZ(resultingTransformation, resultingTransformation, angle);	
+					break;
+				default: break;
+			}
+			break;
+		case "translation":
+			 mat4.translate(resultingTransformation, resultingTransformation, transformation['args']);
+			break;
+		case "scale":
+			 mat4.scale(resultingTransformation, resultingTransformation, transformation['args']);
+			break;
+		default: break;
+		}
 	}
 
-	console.log("next");
+	console.log("ATENTTIONNNNNNNNNNNNNNNNNNNNN");
 
 	element['matrix'] = resultingTransformation;
 
