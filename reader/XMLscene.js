@@ -317,6 +317,9 @@ XMLscene.prototype.createLights = function(){
 	for(var i = 0; i < numberOfLights; i++){
 		this.lights[i].id = this.graph.lights[i]['id'];
 		
+		// debug		
+		this.lights[i].setVisible(true);
+
 		this[this.lights[i].id] = this.graph.lights[i]['enable'];
 		
 		if(this.graph.lights[i]['enable'])
