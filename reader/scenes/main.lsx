@@ -1,13 +1,13 @@
 <SCENE>
 	<INITIALS>
-	    <frustum near=".1" far="500"/>                    	  <!-- frustum planes-->
-	    <translate x="0.0" y="0.0" z="1.0" />                <!-- initial translate -->
-	    <rotation axis="x" angle="5" />                	  <!-- initial rotation 3 -->
-	    <rotation axis="y" angle="5" />                	  <!-- initial rotation 2 -->
-	    <rotation axis="z" angle="5" />                	  <!-- initial rotation 1 -->
-	    <scale sx="2.0" sy="5.0" sz="1.0" />                  <!-- initial scaling -->
-	    <reference length="1" />                      		  <!-- axis length; "0" means no axis-->
-	</INITIALS>
+        <frustum near=".1" far="500"/>                        <!-- frustum planes-->
+        <translate x="0.0" y="0.0" z="0.0" />                <!-- initial translate -->
+        <rotation axis="x" angle="5" />                   <!-- initial rotation 3 -->
+        <rotation axis="y" angle="5" />                   <!-- initial rotation 2 -->
+        <rotation axis="z" angle="5" />                   <!-- initial rotation 1 -->
+        <scale sx="1.0" sy="1.0" sz="1.0" />                  <!-- initial scaling -->
+        <reference length="1" />                              <!-- axis length; "0" means no axis-->
+    </INITIALS>
 
 	<ILLUMINATION>
 	    <ambient r="0.5" g="0.5" b="0.5" a="0.5" />            <!-- global ambient -->
@@ -17,10 +17,10 @@
 	<LIGHTS>
 	    <LIGHT id="light01">                                    <!-- light identifier -->
 	        <enable value="1" />                         <!-- enable/disable -->
-	        <position x="0.5" y="0.5" z="0.5" w="0.5" />       <!-- light position -->
-	        <ambient r="0.5" g="0.5" b="0.5" a="0.5" />        <!-- ambient component -->
-	        <diffuse r="0.5" g="0.5" b="0.5" a="0.5" />        <!-- diffuse component -->
-	        <specular r="0.5" g="0.5" b="0.5" a="0.5" />       <!-- specular component -->
+	        <position x="5" y="5" z="5" w="1" />       <!-- light position -->
+	        <ambient r="0.7" g="0.7" b="0.7" a="0.5" />        <!-- ambient component -->
+	        <diffuse r="0.7" g="0.7" b="0.7" a="0.5" />        <!-- diffuse component -->
+	        <specular r="0.7" g="0.7" b="0.7" a="0.5" />       <!-- specular component -->
 	    </LIGHT>
 
 	    <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
@@ -28,15 +28,20 @@
 	</LIGHTS>
 
 	<TEXTURES>
-	    <TEXTURE id="teste">
+	    <TEXTURE id="test">
         	<file path="textures/text.jpg" />                             <!-- path to file -->
 	        <amplif_factor s="1" t="3" />                <!-- x/s, y/t -->
 	    </TEXTURE>
 
-	   <TEXTURE id="teste2">
-        	<file path="textures/text.jpg" />                             <!-- path to file -->
-	        <amplif_factor s="4" t="3" />                <!-- x/s, y/t -->
+	   <TEXTURE id="road">
+        	<file path="textures/road.png" />                             <!-- path to file -->
+	        <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
 	    </TEXTURE>
+
+        <TEXTURE id="feup">
+            <file path="textures/FEUP_logo.png" />                             <!-- path to file -->
+            <amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+        </TEXTURE>
     	<!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
 
 	</TEXTURES>
@@ -59,130 +64,517 @@
 <LEAVES>
     <!-- next lines define nodes of type leaf; they may be repeated, in any order, as necessary -->
     <LEAF id="1" type="rectangle" args="0 1 1 0" />      <!-- 2D coordinates for left-top and right-bottom vertices. -->
-    <LEAF id="2" type="cylinder" args="2 1 2 10 10" />    <!-- height, bottom radius, top radius, sections along height, parts per section -->
-    <LEAF id="3" type="sphere" args="2 1 1" />            <!-- radius, parts along radius, parts per section -->
-    <LEAF id="4" type="triangle" args="0 0 0 0 10 1 1 0 0" />   <!-- coordinates of each vertex -->
+    <LEAF id="2" type="cylinder" args="1 1 1 10 10" />    <!-- height, bottom radius, top radius, sections along height, parts per section -->
+    <LEAF id="3" type="sphere" args="1 10 10" />            <!-- radius, parts along radius, parts per section -->
+    <LEAF id="4" type="triangle" args="0 0 0 1 0 0 0 1 0" />   <!-- coordinates of each vertex -->
 </LEAVES>
 
 <NODES>
 
-    <ROOT id="nodeTeste" />     <!-- identifier of root node of the scene graph; this node     -->
-                         <!--   must be defined in one of the following NODE declarations -->
+    <ROOT id="rootNode" />
 
-    <NODE id="nodeTeste">       <!--   defines one intermediate node; may be repeated as necessary -->
-
-        <!-- next two lines are mandatory -->
-        <MATERIAL id="materiak" />      <!-- declared material superimposes the material received from parent node -->
-                                  <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="teste" />       <!-- declared texture superimposes the texture received from parent node -->
-                                  <!-- id="null" maintains texture from parent node       -->
-                                  <!-- id="clear" clears texture declaration received from parent node      -->
-	<TESTE>
-	</TESTE>
-
-        <!-- declaring descendents, ate least one node or one leaf must be present -->
+    <NODE id="rootNode">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
         <DESCENDANTS>
-            <DESCENDANT id="car" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!-- may be repeatad as necessary. It can refer an -->
-                                          <!-- identifier of another node, later defined in the lsx file. -->
+            <DESCENDANT id="car1" />
+            <DESCENDANT id="car2" />
+            <DESCENDANT id="road" />
+            <DESCENDANT id="billboard" />
+            <DESCENDANT id="roadrails" />
+            <DESCENDANT id="lightpost1" />
+            <DESCENDANT id="lightpost2" />
         </DESCENDANTS>
 
     </NODE>
 
+    <NODE id="lightpost1">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="15" y="0" z="1" />
+        <DESCENDANTS>
+            <DESCENDANT id="lightpost" />
+        </DESCENDANTS>
+    </NODE>
 
-        <NODE id="car">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="lightpost2">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="25" y="0" z="14" />
+        <ROTATION axis="y" angle="180" />
+        <DESCENDANTS>
+            <DESCENDANT id="lightpost" />
+        </DESCENDANTS>
+    </NODE>
 
-            <MATERIAL id="materiak" />
-            <TEXTURE id="teste" />
-    	           <TESTE>
-    	            </TESTE>
-            <DESCENDANTS>
-                <DESCENDANT id="structure" />
-            </DESCENDANTS>
-        </NODE>
+    <NODE id="lightpost">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <DESCENDANTS>
+            <DESCENDANT id="lightpostPillar" />
+            <DESCENDANT id="lightpostArm" />
+            <DESCENDANT id="lightpostLamp" />
+        </DESCENDANTS>
+    </NODE>
 
-        <NODE id="structure">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="lightpostPillar">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <SCALE sx="0.25" sy="10" sz="0.25" />
+        <ROTATION axis="x" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="2"/>
+        </DESCENDANTS>
+    </NODE>
 
-            <MATERIAL id="materiak" />
-            <TEXTURE id="teste" />
-    	           <TESTE>
-    	            </TESTE>
-            <DESCENDANTS>
-                <DESCENDANT id="cube" />
-            </DESCENDANTS>
-        </NODE>
+    <NODE id="lightpostArm">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0" y="9.75" z="-0.15" />
+        <ROTATION axis="x" angle="-25" />
+        <SCALE sx="0.25" sy="0.25" sz="5" />
+        <DESCENDANTS>
+            <DESCENDANT id="2"/>
+        </DESCENDANTS>
+    </NODE>
 
-        <NODE id="cube">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="lightpostLamp">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="-0.5" y="11.6" z="4.25" />
+        <SCALE sx="1" sy="0.5" sz="1.25" />
+        <DESCENDANTS>
+            <DESCENDANT id="cube"/>
+        </DESCENDANTS>
+    </NODE>
 
-            <MATERIAL id="materiak" />
-            <TEXTURE id="teste" />
-    	           <TESTE>
-    	            </TESTE>
-            <DESCENDANTS>
-                <DESCENDANT id="top" />
-                <DESCENDANT id="bottom" />
-                <DESCENDANT id="left" />
-                <DESCENDANT id="right" />
-            </DESCENDANTS>
-        </NODE>
+    <NODE id="road">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="road" />
+        <SCALE sx="30.0" sy="1.0" sz="15.0" />
+        <TRANSLATION x="0" y="0" z="1" />
+        <ROTATION axis="x" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
 
-        <NODE id="top">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="billboard">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <DESCENDANTS>
+            <DESCENDANT id="pillar1" />
+            <DESCENDANT id="pillar2" />
+            <DESCENDANT id="board" />
+        </DESCENDANTS>
+    </NODE>
 
-            <MATERIAL id="materiak" />
-            <TEXTURE id="teste" />
-            <TRANSLATION x="0" y="1" z="0" />
-            <ROTATION axis="z" angle="-90" />
-            <ROTATION axis="y" angle="-90" />
-            <ROTATION axis
-    	           <TESTE>
-    	            </TESTE>
-            <DESCENDANTS>
-                <DESCENDANT id="1" />
-            </DESCENDANTS>
-        </NODE>
+    <NODE id="board">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="feup" />
+        <TRANSLATION x="0" y="5" z="0" />
+        <SCALE sx="10.0" sy="6.0" sz="0.25" />
+        <DESCENDANTS>
+            <DESCENDANT id="oneSideTcube" />
+        </DESCENDANTS>
+    </NODE>
 
-        <NODE id="bottom">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="pillar1">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="8" y="0" z="0.1" />
+        <DESCENDANTS>
+            <DESCENDANT id="pillar" />
+        </DESCENDANTS>
+    </NODE>
 
-            <MATERIAL id="materiak" />
-            <TEXTURE id="teste" />
-            <TRANSLATION x="1" y="0" z="0" />
-            <ROTATION axis="z" angle="90" />
-            <ROTATION axis="y" angle="-90" />
-            <ROTATION axis
-    	           <TESTE>
-    	            </TESTE>
-            <DESCENDANTS>
-                <DESCENDANT id="1" />
-            </DESCENDANTS>
-        </NODE>
+    <NODE id="pillar2">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="2" y="0" z="0.1" />
+        <DESCENDANTS>
+            <DESCENDANT id="pillar" />
+        </DESCENDANTS>
+    </NODE>
 
-        <NODE id="left">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="pillar">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <SCALE sx="0.1" sy="5.0" sz="0.1" />
+        <ROTATION axis="x" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="2" />
+        </DESCENDANTS>
+    </NODE>
 
-            <MATERIAL id="materiak" />
-            <TEXTURE id="teste" />
-            <ROTATION axis="y" angle="-90" />
-            <ROTATION axis
-    	           <TESTE>
-    	            </TESTE>
-            <DESCENDANTS>
-                <DESCENDANT id="1" />
-            </DESCENDANTS>
-        </NODE>
 
-        <NODE id="right">       <!--   defines one intermediate node; may be repeated as necessary -->
+    <NODE id="car1">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="7" y="0" z="4" />
+        <DESCENDANTS>
+            <DESCENDANT id="car" />
+        </DESCENDANTS>
+    </NODE>
 
-            <MATERIAL id="materiak" />
-            <TEXTURE id="teste" />
-            <TRANSLATION x="1" y="1" z="0" />
-            <ROTATION axis="z" angle="180" />
-            <ROTATION axis="y" angle="-90" />
-            <ROTATION axis
-    	           <TESTE>
-    	            </TESTE>
-            <DESCENDANTS>
-                <DESCENDANT id="1" />
-            </DESCENDANTS>
-        </NODE>
+    <NODE id="car2">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="7" y="0" z="11" />
+        <DESCENDANTS>
+            <DESCENDANT id="car" />
+        </DESCENDANTS>
+    </NODE>
+
+
+    <NODE id="car">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <ROTATION axis="y" angle="90" />
+        <TRANSLATION x="-1.5" y="0.5" z="-2.5" />
+        <DESCENDANTS>
+            <DESCENDANT id="structure" />
+            <DESCENDANT id="wheels" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="structure">  
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSFORMATION x="0" y="0.5" z="0" />
+        <DESCENDANTS>
+            <DESCENDANT id="chassisTop" />
+            <DESCENDANT id="chassisCore" />
+            <DESCENDANT id="carGlassFront" />
+            <DESCENDANT id="carGlassRear" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="chassisTop">  
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0" y="1" z="1" />
+        <SCALE sx="3.0" sy="1.0" sz="2.0" />
+        <DESCENDANTS>
+            <DESCENDANT id="cube" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="chassisCore">  
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <SCALE sx="3.0" sy="1.0" sz="5.0" />
+        <DESCENDANTS>
+            <DESCENDANT id="cube" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="carGlassFront">  
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1.5" y="1.5" z="3.4" />
+        <DESCENDANTS>
+            <DESCENDANT id="carGlass" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="carGlassRear"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1.5" y="1.5" z="0.6" />
+        <ROTATION axis="y" angle="180" />
+        <DESCENDANTS>
+            <DESCENDANT id="carGlass" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="carGlass"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <DESCENDANTS>
+            <DESCENDANT id="glassFace" />
+            <DESCENDANT id="glassLeft" />
+            <DESCENDANT id="glassRight" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="glassFace">  
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <SCALE sx="3.0" sy="1.1" sz="2.0" />
+        <ROTATION axis="x" angle="-30" />
+        <TRANSLATION x="-0.5" y="-0.5" z="0" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="glassLeft">  
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="-1.5" y="-0.5" z="-0.5" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="4" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="glassRight">  
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1.5" y="-0.5" z="-0.5" />
+        <ROTATION axis="y" angle="90" />
+        <ROTATION axis="z" angle="90" />
+        <DESCENDANTS>
+            <DESCENDANT id="4" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="cube">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <DESCENDANTS>
+            <DESCENDANT id="top" />
+            <DESCENDANT id="bottom" />
+            <DESCENDANT id="left" />
+            <DESCENDANT id="right" />
+            <DESCENDANT id="front" />
+            <DESCENDANT id="back" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="top">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0" y="1" z="0" />
+        <ROTATION axis="z" angle="-90" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="bottom">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1" y="0" z="0" />
+        <ROTATION axis="z" angle="90" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="left">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="right"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1" y="1" z="0" />
+        <ROTATION axis="z" angle="180" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="back"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1" y="0" z="0" />
+        <ROTATION axis="y" angle="180" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="front"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0" y="0" z="1" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+    <NODE id="oneSideTcube">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <DESCENDANTS>
+            <DESCENDANT id="top" />
+            <DESCENDANT id="bottom" />
+            <DESCENDANT id="left" />
+            <DESCENDANT id="right" />
+            <DESCENDANT id="front" />
+            <DESCENDANT id="back" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="topOST">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0" y="1" z="0" />
+        <ROTATION axis="z" angle="-90" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="bottomOST">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1" y="0" z="0" />
+        <ROTATION axis="z" angle="90" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="leftOST">       <!--   defines one intermediate node; may be repeated as necessary -->
+
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="rightOST"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1" y="1" z="0" />
+        <ROTATION axis="z" angle="180" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="backOST"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="1" y="0" z="0" />
+        <ROTATION axis="y" angle="180" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="frontOST"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="null" />
+        <TRANSLATION x="0" y="0" z="1" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
+        </DESCENDANTS>
+    </NODE>
+
+
+
+
+    <NODE id="wheels"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0.25" y="0" z="1" />
+        <DESCENDANTS>
+            <DESCENDANT id="topRightWheel" />
+            <DESCENDANT id="topLeftWheel" />
+            <DESCENDANT id="bottomRightWheel" />
+            <DESCENDANT id="bottomLeftWheel" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="topRightWheel"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0" y="0" z="3" />
+        <DESCENDANTS>
+            <DESCENDANT id="wheel" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="topLeftWheel"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="2.5" y="0" z="3" />
+        <ROTATION axis="y" angle="180" />
+        <DESCENDANTS>
+            <DESCENDANT id="wheel" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="bottomRightWheel"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <DESCENDANTS>
+            <DESCENDANT id="wheel" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="bottomLeftWheel"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="2.5" y="0" z="0" />
+        <ROTATION axis="y" angle="180" /> 
+        <DESCENDANTS>
+            <DESCENDANT id="wheel" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="wheel"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <SCALE sx="0.5" sy="0.5" sz="0.5" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="2" />
+            <DESCENDANT id="wheelTops" />
+            <DESCENDANT id="wheelBack" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="wheelTops"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0" y="0" z="1" />
+        <SCALE sx="1" sy="1" sz="0" />
+        <DESCENDANTS>
+            <DESCENDANT id="3" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="wheelBack"> 
+        <MATERIAL id="materiak" />
+        <TEXTURE id="clear" />
+        <TRANSLATION x="0" y="0" z="0" />
+        <SCALE sx="1" sy="1" sz="0" />
+        <DESCENDANTS>
+            <DESCENDANT id="3" />
+        </DESCENDANTS>
+    </NODE>
+
 
 
 </NODES>
