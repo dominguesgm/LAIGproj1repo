@@ -50,6 +50,21 @@
             <file path="textures/FEUP_logo.png" />
             <amplif_factor s="1" t="1" />
         </TEXTURE>
+
+        <TEXTURE id="cone">
+            <file path="textures/trafficCone.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <TEXTURE id="wheelPlates">
+            <file path="textures/wheelPlates.png" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <TEXTURE id="tire">
+            <file path="textures/tire.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
 	</TEXTURES>
 
 
@@ -57,9 +72,9 @@
 
         <MATERIAL id="steelMaterial">
             <shininess value="1" />
-            <specular r="0.0" g="0.0" b="0.0" a="1" />        
+            <specular r="0.1" g="0.1" b="0.1" a="1" />        
             <diffuse r="0.447" g="0.416" b="0.416" a="1" />       
-            <ambient r="0.0" g="0.0" b="0.0" a="1" />         
+            <ambient r="0.447" g="0.416" b="0.416" a="1" />         
             <emission r="0.0" g="0.0" b="0.0" a="1" />   
         </MATERIAL>    
 
@@ -112,6 +127,17 @@
             <DESCENDANT id="roadrails" />
             <DESCENDANT id="lightpost1" />
             <DESCENDANT id="lightpost2" />
+            <DESCENDANT id="cone" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="cone">
+        <MATERIAL id="materiak" />
+        <TEXTURE id="cone" />
+        <TRANSLATION x="-2" y="2" z="1" />
+        <SCALE sx="2" sy="2" sz="1" />
+        <DESCENDANTS>
+            <DESCENDANT id="1" />
         </DESCENDANTS>
     </NODE>
 
@@ -246,7 +272,7 @@
     </NODE>
 
     <NODE id="car2">
-        <MATERIAL id="defaultMaterial" />
+        <MATERIAL id="steelMaterial" />
         <TEXTURE id="clear" />
         <TRANSLATION x="7" y="0" z="11" />
         <DESCENDANTS>
@@ -333,7 +359,7 @@
         <MATERIAL id="materiak" />
         <TEXTURE id="clear" />
         <SCALE sx="3.0" sy="1.1" sz="2.0" />
-        <ROTATION axis="x" angle="-30" />
+        <ROTATION axis="x" angle="-28.82" />
         <TRANSLATION x="-0.5" y="-0.5" z="0" />
         <DESCENDANTS>
             <DESCENDANT id="1" />
@@ -343,8 +369,9 @@
     <NODE id="glassLeft">  
         <MATERIAL id="materiak" />
         <TEXTURE id="clear" />
-        <TRANSLATION x="-1.5" y="-0.5" z="-0.5" />
+        <TRANSLATION x="-1.5" y="-0.5" z="-0.4" />
         <ROTATION axis="y" angle="-90" />
+        <SCALE sx="0.9" sy="0.9" sz="1" />
         <DESCENDANTS>
             <DESCENDANT id="4" />
         </DESCENDANTS>
@@ -353,9 +380,10 @@
     <NODE id="glassRight">  
         <MATERIAL id="materiak" />
         <TEXTURE id="clear" />
-        <TRANSLATION x="1.5" y="-0.5" z="-0.5" />
+        <TRANSLATION x="1.5" y="-0.5" z="-0.4" />
         <ROTATION axis="y" angle="90" />
         <ROTATION axis="z" angle="90" />
+        <SCALE sx="0.9" sy="0.9" sz="1" />
         <DESCENDANTS>
             <DESCENDANT id="4" />
         </DESCENDANTS>
@@ -560,7 +588,7 @@
 
     <NODE id="wheel"> 
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="tire" />
         <SCALE sx="0.5" sy="0.5" sz="0.5" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
@@ -571,8 +599,8 @@
     </NODE>
 
     <NODE id="wheelTops"> 
-        <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <MATERIAL id="steelMaterial" />
+        <TEXTURE id="wheelPlates" />
         <TRANSLATION x="0" y="0" z="1" />
         <SCALE sx="1" sy="1" sz="0" />
         <DESCENDANTS>
@@ -581,7 +609,7 @@
     </NODE>
 
     <NODE id="wheelBack"> 
-        <MATERIAL id="null" />
+        <MATERIAL id="steelMaterial" />
         <TEXTURE id="clear" />
         <TRANSLATION x="0" y="0" z="0" />
         <SCALE sx="1" sy="1" sz="0" />
