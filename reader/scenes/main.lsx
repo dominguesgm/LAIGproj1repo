@@ -65,21 +65,53 @@
             <file path="textures/tire.jpg" />
             <amplif_factor s="1" t="1" />
         </TEXTURE>
+
+        <TEXTURE id="carBottom">
+            <file path="textures/carBottom.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <TEXTURE id="blackPaint">
+            <file path="textures/blackbox.jpeg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <TEXTURE id="orangePaint">
+            <file path="textures/orangePaint.png" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
 	</TEXTURES>
 
 
 	<MATERIALS>
 
         <MATERIAL id="steelMaterial">
-            <shininess value="1" />
+            <shininess value="30" />
+            <specular r="0.1" g="0.1" b="0.1" a="1" />        
+            <diffuse r="0.3" g="0.3" b="0.3" a="1" />       
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />   
+        </MATERIAL>    
+
+        <MATERIAL id="plasticMaterial">
+            <shininess value="5" />
+            <specular r="0" g="0" b="0" a="" />        
+            <diffuse r="0.3" g="0.3" b="0.3" a="1" />       
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />   
+        </MATERIAL> 
+
+        <MATERIAL id="metalicMaterial">
+            <shininess value="20" />
             <specular r="0.1" g="0.1" b="0.1" a="1" />        
             <diffuse r="0.447" g="0.416" b="0.416" a="1" />       
             <ambient r="0.447" g="0.416" b="0.416" a="1" />         
             <emission r="0.0" g="0.0" b="0.0" a="1" />   
-        </MATERIAL>    
+        </MATERIAL>  
 
         <MATERIAL id="blackMaterial">
-            <shininess value="30" />
+            <shininess value="1" />
             <specular r="0" g="0" b="0" a="1" />
             <diffuse r="0" g="0" b="0" a="1" />
             <ambient r="0" g="0" b="0" a="1" />
@@ -106,10 +138,12 @@
 	</MATERIALS>
 
 <LEAVES>
-    <LEAF id="1" type="rectangle" args="0 1 1 0" />      
-    <LEAF id="2" type="cylinder" args="1 1 1 10 10" />    
-    <LEAF id="3" type="sphere" args="1 10 10" />            
-    <LEAF id="4" type="triangle" args="0 0 0 1 0 0 0 1 0" />
+    <LEAF id="leafRectangle" type="rectangle" args="0 1 1 0" />      
+    <LEAF id="leafCylinder" type="cylinder" args="1 1 1 10 10" />    
+    <LEAF id="leafSphere" type="sphere" args="1 10 10" />            
+    <LEAF id="leafTriangle" type="triangle" args="0 0 0 1 0 0 0 1 0" />
+    <LEAF id="leafCone" type="cylinder" args="1 1 0 10 10" />  
+    <LEAF id="leafTriangleEquilateral" type="triangle" args="0 1 0 -0.866 -0.5 0 0.866 -0.5 0" />
 </LEAVES>
 
 <NODES>
@@ -127,17 +161,27 @@
             <DESCENDANT id="roadrails" />
             <DESCENDANT id="lightpost1" />
             <DESCENDANT id="lightpost2" />
-            <DESCENDANT id="cone" />
+            <DESCENDANT id="trafficCone" />
         </DESCENDANTS>
     </NODE>
 
-    <NODE id="cone">
-        <MATERIAL id="materiak" />
-        <TEXTURE id="cone" />
-        <TRANSLATION x="-2" y="2" z="1" />
-        <SCALE sx="2" sy="2" sz="1" />
+    <NODE id="trafficCone">
+        <MATERIAL id="plasticMaterial" />
+        <TEXTURE id="orangePaint" />
+        <TRANSLATION x="25" y="0.01" z="1" />
+        <ROTATION axis="x" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="topCone" />
+            <DESCENDANT id="leafTriangleEquilateral" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="topCone">
+        <MATERIAL id="null" />
+        <TEXTURE id="cone" />
+        <SCALE sx="0.5" sy="0.5" sz="2" />
+        <DESCENDANTS>
+            <DESCENDANT id="leafCone" />
         </DESCENDANTS>
     </NODE>
 
@@ -176,7 +220,7 @@
         <SCALE sx="0.25" sy="10" sz="0.25" />
         <ROTATION axis="x" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="2"/>
+            <DESCENDANT id="leafCylinder"/>
         </DESCENDANTS>
     </NODE>
 
@@ -187,13 +231,13 @@
         <ROTATION axis="x" angle="-25" />
         <SCALE sx="0.25" sy="0.25" sz="5" />
         <DESCENDANTS>
-            <DESCENDANT id="2"/>
+            <DESCENDANT id="leafCylinder"/>
         </DESCENDANTS>
     </NODE>
 
     <NODE id="lightpostLamp">
-        <MATERIAL id="blackMaterial" />
-        <TEXTURE id="clear" />
+        <MATERIAL id="steelMaterial" />
+        <TEXTURE id="blackPaint" />
         <TRANSLATION x="-0.5" y="11.6" z="4.25" />
         <SCALE sx="1" sy="0.5" sz="1.25" />
         <DESCENDANTS>
@@ -208,7 +252,7 @@
         <TRANSLATION x="0" y="0" z="1" />
         <ROTATION axis="x" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -256,13 +300,13 @@
         <SCALE sx="0.1" sy="5.0" sz="0.1" />
         <ROTATION axis="x" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="2" />
+            <DESCENDANT id="leafCylinder" />
         </DESCENDANTS>
     </NODE>
 
 
     <NODE id="car1">
-        <MATERIAL id="blackMaterial" />
+        <MATERIAL id="metalicMaterial" />
         <TEXTURE id="clear" />
         <TRANSLATION x="15" y="0" z="4" />
         <ROTATION axis="y" angle="180" />
@@ -272,8 +316,8 @@
     </NODE>
 
     <NODE id="car2">
-        <MATERIAL id="steelMaterial" />
-        <TEXTURE id="clear" />
+        <MATERIAL id="metalicMaterial" />
+        <TEXTURE id="blackPaint" />
         <TRANSLATION x="7" y="0" z="11" />
         <DESCENDANTS>
             <DESCENDANT id="car" />
@@ -283,7 +327,7 @@
 
     <NODE id="car">
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <ROTATION axis="y" angle="90" />
         <TRANSLATION x="-1.5" y="0.5" z="-2.5" />
         <DESCENDANTS>
@@ -295,7 +339,7 @@
     <NODE id="structure">  
 
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <TRANSFORMATION x="0" y="0.5" z="0" />
         <DESCENDANTS>
             <DESCENDANT id="chassisTop" />
@@ -308,7 +352,7 @@
     <NODE id="chassisTop">  
 
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <TRANSLATION x="0" y="1" z="1" />
         <SCALE sx="3.0" sy="1.0" sz="2.0" />
         <DESCENDANTS>
@@ -319,12 +363,82 @@
     <NODE id="chassisCore">  
 
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <SCALE sx="3.0" sy="1.0" sz="5.0" />
         <DESCENDANTS>
-            <DESCENDANT id="cube" />
+            <DESCENDANT id="frontChassisCore" />
+            <DESCENDANT id="bottomChassisCore" />
+            <DESCENDANT id="backChassisCore" />
+            <DESCENDANT id="topChassisCore" />
+            <DESCENDANT id="leftChassisCore" />
+            <DESCENDANT id="rightChassisCore" />
         </DESCENDANTS>
     </NODE>
+
+    <NODE id="topChassisCore">
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
+        <TRANSLATION x="0" y="1" z="0" />
+        <ROTATION axis="z" angle="-90" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="leafRectangle" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="bottomChassisCore">
+        <MATERIAL id="null" />
+        <TEXTURE id="carBottom" />
+        <TRANSLATION x="1" y="0" z="0" />
+        <ROTATION axis="z" angle="90" />
+        <ROTATION axis="y" angle="-90" />
+        <TRANSLATION x="0.5" y="0.5" z="0.5" />
+        <ROTATION axis="z" angle="90" />
+        <TRANSLATION x="-0.5" y="-0.5" z="-0.5" />
+        <DESCENDANTS>
+            <DESCENDANT id="leafRectangle" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="leftChassisCore">
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="leafRectangle" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="rightChassisCore"> 
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
+        <TRANSLATION x="1" y="1" z="0" />
+        <ROTATION axis="z" angle="180" />
+        <ROTATION axis="y" angle="-90" />
+        <DESCENDANTS>
+            <DESCENDANT id="leafRectangle" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="backChassisCore"> 
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
+        <TRANSLATION x="1" y="0" z="0" />
+        <ROTATION axis="y" angle="180" />
+        <DESCENDANTS>
+            <DESCENDANT id="leafRectangle" />
+        </DESCENDANTS>
+    </NODE>
+
+    <NODE id="frontChassisCore"> 
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
+        <TRANSLATION x="0" y="0" z="1" />
+        <DESCENDANTS>
+            <DESCENDANT id="leafRectangle" />
+        </DESCENDANTS>
+    </NODE>
+
 
     <NODE id="carGlassFront">  
         <MATERIAL id="materiak" />
@@ -362,7 +476,7 @@
         <ROTATION axis="x" angle="-28.82" />
         <TRANSLATION x="-0.5" y="-0.5" z="0" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -373,7 +487,7 @@
         <ROTATION axis="y" angle="-90" />
         <SCALE sx="0.9" sy="0.9" sz="1" />
         <DESCENDANTS>
-            <DESCENDANT id="4" />
+            <DESCENDANT id="leafTriangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -385,13 +499,13 @@
         <ROTATION axis="z" angle="90" />
         <SCALE sx="0.9" sy="0.9" sz="1" />
         <DESCENDANTS>
-            <DESCENDANT id="4" />
+            <DESCENDANT id="leafTriangle" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="cube">
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <DESCENDANTS>
             <DESCENDANT id="top" />
             <DESCENDANT id="bottom" />
@@ -404,62 +518,62 @@
 
     <NODE id="top">
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <TRANSLATION x="0" y="1" z="0" />
         <ROTATION axis="z" angle="-90" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="bottom">  
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <TRANSLATION x="1" y="0" z="0" />
         <ROTATION axis="z" angle="90" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="left">
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="right"> 
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <TRANSLATION x="1" y="1" z="0" />
         <ROTATION axis="z" angle="180" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="back"> 
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <TRANSLATION x="1" y="0" z="0" />
         <ROTATION axis="y" angle="180" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="front"> 
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <TRANSLATION x="0" y="0" z="1" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -483,7 +597,7 @@
         <ROTATION axis="z" angle="-90" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -494,7 +608,7 @@
         <ROTATION axis="z" angle="90" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -503,7 +617,7 @@
         <TEXTURE id="clear" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -514,7 +628,7 @@
         <ROTATION axis="z" angle="180" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -524,7 +638,7 @@
         <TRANSLATION x="1" y="0" z="0" />
         <ROTATION axis="y" angle="180" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
@@ -533,12 +647,12 @@
         <TEXTURE id="null" />
         <TRANSLATION x="0" y="0" z="1" />
         <DESCENDANTS>
-            <DESCENDANT id="1" />
+            <DESCENDANT id="leafRectangle" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="wheels"> 
-        <MATERIAL id="blackMaterial" />
+        <MATERIAL id="default" />
         <TEXTURE id="clear" />
         <TRANSLATION x="0.25" y="0" z="1" />
         <DESCENDANTS>
@@ -592,29 +706,29 @@
         <SCALE sx="0.5" sy="0.5" sz="0.5" />
         <ROTATION axis="y" angle="-90" />
         <DESCENDANTS>
-            <DESCENDANT id="2" />
+            <DESCENDANT id="leafCylinder" />
             <DESCENDANT id="wheelTops" />
             <DESCENDANT id="wheelBack" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="wheelTops"> 
-        <MATERIAL id="steelMaterial" />
+        <MATERIAL id="metalicMaterial" />
         <TEXTURE id="wheelPlates" />
         <TRANSLATION x="0" y="0" z="1" />
         <SCALE sx="1" sy="1" sz="0" />
         <DESCENDANTS>
-            <DESCENDANT id="3" />
+            <DESCENDANT id="leafSphere" />
         </DESCENDANTS>
     </NODE>
 
     <NODE id="wheelBack"> 
-        <MATERIAL id="steelMaterial" />
+        <MATERIAL id="metalicMaterial" />
         <TEXTURE id="clear" />
         <TRANSLATION x="0" y="0" z="0" />
         <SCALE sx="1" sy="1" sz="0" />
         <DESCENDANTS>
-            <DESCENDANT id="3" />
+            <DESCENDANT id="leafSphere" />
         </DESCENDANTS>
     </NODE>
 </NODES>
