@@ -129,9 +129,10 @@ XMLscene.prototype.loadTextures = function () {
 	this.textures = [];
 
 	for(id in this.graph.textures){
-		this.textures[id] = new CGFappearance(this);
-		this.textures[id].setTextureWrap("REPEAT"," REPEAT");
-		this.textures[id].loadTexture(this.graph.textures[id]['file']);
+		this.textures[id] = new CGFtexture(this, this.graph.textures[id]['file']);
+		//this.textures[id] =  new  CGFappearance(this);
+		//this.textures[id].setTextureWrap("REPEAT"," REPEAT");
+		//this.textures[id].loadTexture(this.graph.textures[id]['file']);
 
 		// TODO deal with ampli_factors s,t
 		// debug
@@ -150,6 +151,7 @@ XMLscene.prototype.loadMaterials = function () {
 	this.materials['default'].setSpecular(.5,.5,.5,.5);
 	this.materials['default'].setEmission(.5,.5,.5,.5);
 	this.materials['default'].setShininess(1);
+	this.materials['default'].setTextureWrap("REPEAT"," REPEAT");
 
 	for(id in this.graph.materials){
 		this.materials[id] = new CGFappearance(this);
@@ -175,6 +177,7 @@ XMLscene.prototype.loadMaterials = function () {
 										this.graph.materials[id]['emission'][3]);
 
 		this.materials[id].setShininess(this.graph.materials[id]['shininess']);		
+		this.materials[id].setTextureWrap("REPEAT"," REPEAT");
 
 		// debug
 		console.log("material read id=" + id);
@@ -232,20 +235,36 @@ XMLscene.prototype.drawElement = function(elementId) {
 	var material = this.materialsUsed.pop();
 	var texture = this.texturesUsed.pop();
 	var previousTexture;
-	this.materials[material].apply();
 	
+	
+	/*
 	if(texture == 'clear'){
-	/*	previousTexture = this.texturesUsed.pop();
+		var n;
+		for(n=this.texturesUsed.length-1; n>=0; n--)
+			if(this.texturesUsed[n]!='clear'){
+				previousTexture = this.texturesUsed[n];
+				break;
+			}
 		console.log(previousTexture);
-		if(previousTexture!=undefined){
+		if(previousTexture!=undefined)
 			this.textures[previousTexture].unbind();
-			this.texturesUsed.push(previousTexture);
-		}*/
-	}else this.textures[texture].apply();
+	}else{*/
+
+		console.log("APPLYING TEXTURE - " + texture);
+	if(texture!='clear'){
+		//this.textures[texture].bind();
+	//	this.textures[texture].apply();
+		this.materials[material].setTexture(this.textures[texture]);
+	}else this.materials[material].setTexture(null);
+
+	this.materials[material].apply();
 
 	// change according to elementId
 	this.leaves[elementId].display();
 
+	//if(texture!=undefined)
+	/*if(texture!='clear')
+		this.textures[texture].unbind();*/
 
 	this.materialsUsed.push(material);
 	this.texturesUsed.push(texture);
@@ -277,7 +296,9 @@ XMLscene.prototype.processElement = function(elementId) {
 	}else this.materialsUsed.push(element['material']);
 
 	// check if the element's texture is valid
-	if(this.textures[element['texture']] == null || element['texture']=="null"){
+	if(this.textures[element['texture']] == null && element['texture']!="null")
+		this.texturesUsed.push('clear');
+	else if(element['texture']=="null"){
 		var texture = this.texturesUsed.pop();
 		this.texturesUsed.push(texture);
 		this.texturesUsed.push(texture);

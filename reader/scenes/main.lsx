@@ -10,7 +10,7 @@
     </INITIALS>
 
 	<ILLUMINATION>
-	    <ambient r="0" g="0" b="0" a="1" />
+	    <ambient r="0.79" g="0.89" b="1" a="1" />
 	    <background r="0.1" g="0.1" b="0.1" a="1" />
 	</ILLUMINATION>
 
@@ -113,7 +113,6 @@
             <DESCENDANT id="lightpost1" />
             <DESCENDANT id="lightpost2" />
         </DESCENDANTS>
-
     </NODE>
 
     <NODE id="lightpost1">
@@ -177,7 +176,7 @@
     </NODE>
 
     <NODE id="road">
-        <MATERIAL id="materiak" />
+        <MATERIAL id="defaultMaterial" />
         <TEXTURE id="road" />
         <SCALE sx="30.0" sy="1.0" sz="15.0" />
         <TRANSLATION x="0" y="0" z="1" />
@@ -189,7 +188,7 @@
 
     <NODE id="billboard">
         <MATERIAL id="steelMaterial" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="feup" />
         <DESCENDANTS>
             <DESCENDANT id="pillar1" />
             <DESCENDANT id="pillar2" />
@@ -198,8 +197,8 @@
     </NODE>
 
     <NODE id="board">
-        <MATERIAL id="null" />
-        <TEXTURE id="feup" />
+        <MATERIAL id="defaultMaterial" />
+        <TEXTURE id="null" />
         <TRANSLATION x="0" y="5" z="0" />
         <SCALE sx="10.0" sy="6.0" sz="0.25" />
         <DESCENDANTS>
@@ -227,7 +226,7 @@
 
     <NODE id="pillar">
         <MATERIAL id="null" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="null" />
         <SCALE sx="0.1" sy="5.0" sz="0.1" />
         <ROTATION axis="x" angle="-90" />
         <DESCENDANTS>
@@ -437,15 +436,15 @@
     </NODE>
 
     <NODE id="oneSideTcube">
-        <MATERIAL id="materiak" />
-        <TEXTURE id="clear" />
+        <MATERIAL id="null" />
+        <TEXTURE id="null" />
         <DESCENDANTS>
-            <DESCENDANT id="top" />
-            <DESCENDANT id="bottom" />
-            <DESCENDANT id="left" />
-            <DESCENDANT id="right" />
-            <DESCENDANT id="front" />
-            <DESCENDANT id="back" />
+            <DESCENDANT id="topOST" />
+            <DESCENDANT id="bottomOST" />
+            <DESCENDANT id="leftOST" />
+            <DESCENDANT id="rightOST" />
+            <DESCENDANT id="frontOST" />
+            <DESCENDANT id="backOST" />
         </DESCENDANTS>
     </NODE>
 
