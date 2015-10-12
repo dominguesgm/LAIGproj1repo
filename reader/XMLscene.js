@@ -153,7 +153,7 @@ XMLscene.prototype.loadMaterials = function () {
 	this.materials['default'].setSpecular(.5,.5,.5,.5);
 	this.materials['default'].setEmission(.5,.5,.5,.5);
 	this.materials['default'].setShininess(1);
-	this.materials['default'].setTextureWrap("REPEAT"," REPEAT");
+	this.materials['default'].setTextureWrap("REPEAT","REPEAT");
 
 	for(id in this.graph.materials){
 		this.materials[id] = new CGFappearance(this);
@@ -179,7 +179,7 @@ XMLscene.prototype.loadMaterials = function () {
 										this.graph.materials[id]['emission'][3]);
 
 		this.materials[id].setShininess(this.graph.materials[id]['shininess']);		
-		this.materials[id].setTextureWrap("REPEAT"," REPEAT");
+		this.materials[id].setTextureWrap("REPEAT","REPEAT");
 
 		// debug
 		console.log("material read id=" + id);
