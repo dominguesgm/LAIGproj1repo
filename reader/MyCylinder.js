@@ -82,3 +82,6 @@
  	this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();
  };
+
+MyCylinder.prototype.updateTexelCoordinates = function (amplifS, amplifT) {
+};

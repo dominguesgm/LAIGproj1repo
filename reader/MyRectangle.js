@@ -22,15 +22,9 @@ function MyRectangle(scene, coordinates) {
 	this.maxX = coordinates[2];
 	this.minY = coordinates[3];
 
-	minS = 0;
-	minT = 0;
-	maxS = 1;
-	maxT = 1;
+	this.amplifS = 1;
+	this.amplifT = 1;
 
-	this.minS = minS;
-	this.minT = minT;
-	this.maxS = maxS;
-	this.maxT = maxT;
 
 	this.initBuffers();
 };
@@ -57,15 +51,31 @@ MyRectangle.prototype.initBuffers = function () {
     0,0,1,
     0,0,1
     ];
+
+    this.width = this.maxX - this.minX;
+    this.height= this.maxY - this.minY;
 	
 	
 	this.texCoords = [
-	this.minS,this.maxT,
-	this.maxS,this.maxT,
-	this.minS,this.minT,
-	this.maxS,this.minT
+	0.0, 1.0 * this.height / this.amplifT,
+	 	1.0 * this.width / this.amplifS, 1.0 * this.height / this.amplifT,
+      	0.0, 0.0,
+      	1.0 * this.width / this.amplifS, 0.0
 	];
 
 	this.primitiveType=this.scene.gl.TRIANGLES;	
 	this.initGLBuffers();
+};
+
+MyRectangle.prototype.updateTexelCoordinates = function (amplifS, amplifT) {
+
+	this.texCoords = [
+	0.0, 1.0 * this.height / amplifT,
+	 	1.0 * this.width / amplifS, 1.0 * this.height / amplifT,
+      	0.0, 0.0,
+      	1.0 * this.width / amplifS, 0.0
+	];
+
+	console.log(amplifS + "   " + amplifT);
+	this.updateTexCoordsGLBuffers();
 };

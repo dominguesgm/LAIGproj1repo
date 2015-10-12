@@ -27,6 +27,9 @@ function MyTriangle(scene, coordinates) {
 	this.y3 = coordinates[7];
 	this.z3 = coordinates[8];
 
+	this.amplifS = 1;
+	this.amplifT = 1;
+
 	this.a = Math.sqrt((this.x1 - this.x3) * (this.x1 - this.x3) + 
 			 		   (this.y1 - this.y3) * (this.y1 - this.y3) +
 			 		   (this.z1 - this.z3) * (this.z1 - this.z3));
@@ -74,11 +77,23 @@ MyTriangle.prototype.initBuffers = function () {
 	
 	
 	this.texCoords = [
-		0.0, 1,
-		this.c, 1.0,
-	  (this.c - this.a * Math.cos(this.beta)), 0.0
+		(this.c - this.a * Math.cos(this.beta)) / this.amplifS, 0.0,
+	  0.0, 1 / this.amplifT,
+	  this.c / this.amplifS, 1.0 / this.amplifT
     ];
 
 	this.primitiveType=this.scene.gl.TRIANGLES;	
 	this.initGLBuffers();
+};
+
+
+MyTriangle.prototype.updateTexelCoordinates = function (amplifS, amplifT) {
+
+	this.texCoords = [
+		(this.c - this.a * Math.cos(this.beta)) / amplifS, 0.0,
+	  0.0, 1 / amplifT,
+	  this.c / amplifS, 1.0 / amplifT
+    ];
+
+	this.updateTexCoordsGLBuffers();
 };

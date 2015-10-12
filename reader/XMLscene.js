@@ -127,9 +127,11 @@ XMLscene.prototype.setInitials = function () {
 XMLscene.prototype.loadTextures = function () {
 
 	this.textures = [];
+	this.amplificationFactor = [];
 
 	for(id in this.graph.textures){
 		this.textures[id] = new CGFtexture(this, this.graph.textures[id]['file']);
+		this.amplificationFactor[id] = this.graph.textures[id]['amplif_factor'];
 		//this.textures[id] =  new  CGFappearance(this);
 		//this.textures[id].setTextureWrap("REPEAT"," REPEAT");
 		//this.textures[id].loadTexture(this.graph.textures[id]['file']);
@@ -254,6 +256,10 @@ XMLscene.prototype.drawElement = function(elementId) {
 	if(texture!='clear'){
 		//this.textures[texture].bind();
 	//	this.textures[texture].apply();
+		if(this.graph.leaves[elementId]['type']=='rectangle' || this.graph.leaves[elementId]['type']=='triangle'){
+			this.leaves[elementId].updateTexelCoordinates(this.amplificationFactor[texture][0], this.amplificationFactor[texture][1]);
+			console.log("<!--------------------->");
+		}
 		this.materials[material].setTexture(this.textures[texture]);
 	}else this.materials[material].setTexture(null);
 
