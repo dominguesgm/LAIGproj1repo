@@ -42,6 +42,7 @@ MySceneGraph.prototype.criticalErrors=function(errors){
 
 /*
  * Callback to be executed after successful reading.
+ * Performs parsing of the information read.
  */
 MySceneGraph.prototype.onXMLReady=function(){
 	console.log("XML Loading finished.");
@@ -183,23 +184,6 @@ MySceneGraph.prototype.validElement= function(element) {
 			return false;
 	return true;
 };
-
-/*
- * Returns the matrix resulting of mA.mB.
- */
-MySceneGraph.prototype.multiplyTansformationMatrixes= function(mA, mB) {
-	var result = [];
-	var n, iA=0, iB=0;
-	for(n=0; n<mA.length; n++, iB++){
-		if(n%4 ==0 && n!=0){
-			iA+=4;
-			iB=0;
-		}
-		result[n] = mA[iA]*mB[iB]+mA[iA+1]*mB[iB+4]+mA[iA+2]*mB[iB+8]+mA[iA+3]*mB[iB+12];
-	}
-
-	return result;
-}
 
 /*
  * Sets the parameters in Initials to the specified values.
@@ -365,10 +349,9 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 
 
 /*
- * Methods used for parsing the 'LIGHTS' block information
+ * Method used for parsing the 'LIGHTS' block information
  */
-
- MySceneGraph.prototype.parseLights = function(rootElement) {
+MySceneGraph.prototype.parseLights = function(rootElement) {
  	var warningMessages = [];
 
  	var lightsBlock = rootElement.getElementsByTagName("LIGHTS");
@@ -396,7 +379,10 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  	}
  };
 
- MySceneGraph.prototype.parseSingleLight= function(element){
+/*
+ * Methods used for parsing information about a light
+ */
+MySceneGraph.prototype.parseSingleLight= function(element){
  	var light = [];
  	var warningMessages = [];
 
@@ -417,7 +403,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "enable attribute not found or in wrong order.');
- 			return warningMessages;
+ 		return warningMessages;
  	}
 	
  	//position
@@ -431,7 +417,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "position attribute not found or in wrong order.');
- 			return warningMessages;
+ 		return warningMessages;
  	}
 
  	//ambient
@@ -443,7 +429,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light : "ambient attribute not found or in wrong order.');
- 			return warningMessages;
+ 		return warningMessages;
  	}
 
  	//diffuse
@@ -455,7 +441,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "diffuse attribute not found or in wrong order.');
- 			return warningMessages;
+ 		return warningMessages;
  	}
 
  	//specular
@@ -467,19 +453,18 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "specular attribute not found or in wrong order.');
- 			return warningMessages;
+ 		return warningMessages;
  	}
 
  	this.lights.push(light);
  	return null;
-
  };
 
 /*
  * Method that parses elements of 'TEXTURES' block and stores information in a specific data structure
  */
 MySceneGraph.prototype.parseTextures= function(rootElement) {
-	return this.parseElement('TEXTURE', rootElement);
+	return this.parseAppearanceElement('TEXTURE', rootElement);
 }
 
 /*
@@ -487,14 +472,14 @@ MySceneGraph.prototype.parseTextures= function(rootElement) {
  * Returns a list of errors and warnings.
  */
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
-	return this.parseElement('MATERIAL', rootElement);
+	return this.parseAppearanceElement('MATERIAL', rootElement);
 }
 
 /*
- * Method that parses elements of type elementType and stores information in a specific data structure.
+ * Method that parses elements of type TEXTURE or MATERIAL, as specified by elementType, and stores information in a specific data structure.
  * Returns a list of errors and warnings.
  */
-MySceneGraph.prototype.parseElement= function(elementType, rootElement) {
+MySceneGraph.prototype.parseAppearanceElement= function(elementType, rootElement) {
 
 	var warningMessages = [];
 
@@ -865,20 +850,6 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 		element['texture'] = "null"; // use parent's texture
 	}
 
-	// TODO
-	/*// check order of matrixes product
-	var resultingTransformation =  [1.0, 0.0, 0.0, 0.0,
-                  				   0.0, 1.0, 0.0, 0.0,
-                  				   0.0, 0.0, 1.0, 0.0,
-                  				   0.0, 0.0, 0.0, 1.0];
-	var n;
-	for(n = element['transformations'].length -1; n >= 0; n--){
-		var transformation = this.tranformationToMatrix(element['transformations'][n]);
-		console.log(transformation)
-		resultingTransformation = this.multiplyTansformationMatrixes(resultingTransformation, transformation);
-		console.log(resultingTransformation);
-	}*/
-
  	// create matrix
 	var resultingTransformation = mat4.create();
 	// set to identity
@@ -943,55 +914,4 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 		return false;
 	}else return true;
 
-};
-
-// TODO testing
-/*
- * Receives a structure transformation{ type, args[] } and returns the corresponding matrix.
- */
-MySceneGraph.prototype.tranformationToMatrix= function(transformation) {
-	var matrix = null;
-	// NOTE
-	// OpenGL matrixes are transposed
-	switch(transformation['type']) {
-    	case "rotation":
-    		var angle = transformation['args'][1] * Math.PI / 180.0;
-        	switch(transformation['args'][0]) {
-				case 'x': 
-					matrix = [1.0,0.0,0.0,0.0, 
-	        				  0.0, Math.cos(angle), Math.sin(angle),0.0, 
-	        				  0.0,-Math.sin(angle), Math.cos(angle),0.0, 
-	        				  0.0,0.0,0.0,1.0];
-					break;
-				case 'y':
- 					matrix = [ Math.cos(angle),0.0,-Math.sin(angle),0.0, 
-	        				   0.0,1.0,0.0,0.0, 
-	        				   Math.sin(angle),0.0, Math.cos(angle),0.0, 
-	        				   0.0,0.0,0.0,1.0];
-					break;
-				case 'z':
- 					matrix = [ Math.cos(angle), Math.sin(angle),0.0,0.0, 
-	        				  -Math.sin(angle), Math.cos(angle),0.0,0.0, 
-	        				   0.0,0.0,1.0,0.0,
-	        				   0.0,0.0,0.0,1.0];
-					break;
-				default: return null;
-			}
-        	break;
-    	case "scale":
-	        matrix = [transformation['args'][0],0.0,0.0,0.0, 
-	        		  0.0,transformation['args'][1],0.0,0.0, 
-	        		  0.0,0.0,transformation['args'][2],0.0, 
-	        		  0.0,0.0,0.0,1.0];
-    	    break;
-    	case "translation":
-	        matrix = [1.0,0.0,0.0,0.0, 
-	        		  0.0,1.0,0.0,0.0, 
-	        		  0.0,0.0,1.0,0.0, 
-	        		 transformation['args'][0],transformation['args'][1],transformation['args'][2],1.0];
-    	    break;
-    	default: return null;
-	}
-
-	return matrix;
 };

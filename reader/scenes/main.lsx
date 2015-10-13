@@ -80,7 +80,6 @@
             <file path="textures/orangePaint.png" />
             <amplif_factor s="1" t="1" />
         </TEXTURE>
-
 	</TEXTURES>
 
 
@@ -158,7 +157,6 @@
             <DESCENDANT id="car2" />
             <DESCENDANT id="road" />
             <DESCENDANT id="billboard" />
-            <DESCENDANT id="roadrails" />
             <DESCENDANT id="lightpost1" />
             <DESCENDANT id="lightpost2" />
             <DESCENDANT id="trafficCone" />
@@ -652,7 +650,7 @@
     </NODE>
 
     <NODE id="wheels"> 
-        <MATERIAL id="default" />
+        <MATERIAL id="defaultMaterial" />
         <TEXTURE id="clear" />
         <TRANSLATION x="0.25" y="0" z="1" />
         <DESCENDANTS>
