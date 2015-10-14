@@ -129,9 +129,21 @@ XMLscene.prototype.setInitials = function () {
 	console.log("ATENTION__________________ " + this.matrix);
 
 	// add rotations
-	mat4.rotateX(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][0][1]));	
-	mat4.rotateY(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][1][1]));	
-	mat4.rotateZ(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][2][1]));	
+	var n;
+	for(n=0; n<3; n++)
+		switch(this.graph.initials['rotations'][n]){
+			case 'x':
+				mat4.rotateX(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
+				break;
+			case 'y':
+				mat4.rotateY(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));
+				break;
+			case 'z':
+				mat4.rotateZ(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
+				break;
+			default: break;
+		}
+
     console.log("ATENTION__________________ " + this.matrix);
 
     // add scale
@@ -140,6 +152,8 @@ XMLscene.prototype.setInitials = function () {
 
 	// debug final matrix
 	console.log("ATENTION__________________ " + this.matrix);
+
+	this.camera = new CGFcamera(0.4, this.graph.initials.frustumNear, this.graph.initials.frustumFar, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 
 	// TODO
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
