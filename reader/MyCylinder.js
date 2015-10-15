@@ -34,7 +34,7 @@
 
  	this.texelY = 1;
  	
- 	for (var n = 0; n <= this.stacks; z+=1/this.stacks) {
+ 	for (var n = 0; n <= this.stacks; z+=(1/this.stacks)*this.height) {
  	    var tempAngle = 0;
  	    this.texelX = 0;
  	    for (var i = 0; i <= this.slices; i++) {

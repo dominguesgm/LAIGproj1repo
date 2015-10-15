@@ -153,8 +153,8 @@ XMLscene.prototype.setInitials = function () {
 	// debug final matrix
 	console.log("ATENTION__________________ " + this.matrix);
 
-	this.camera = new CGFcamera(0.4, this.graph.initials.frustumNear, this.graph.initials.frustumFar, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-
+	this.camera.near = this.graph.initials.frustumNear;
+	this.camera.far = this.graph.initials.frustumFar;
 	// TODO
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	var perspective = mat4.create();

@@ -32,7 +32,7 @@
  	    var tempAngle = 0;
  	    this.texelX = 0;
   	 	for (var i = 0; i <= this.slices; i++) {
-  			this.vertices.push(Math.sin(alpha)*Math.cos(tempAngle), Math.sin(alpha)*Math.sin(tempAngle), Math.cos(alpha));
+  			this.vertices.push(this.radius*Math.sin(alpha)*Math.cos(tempAngle), this.radius*Math.sin(alpha)*Math.sin(tempAngle), this.radius*Math.cos(alpha));
  	       	this.texCoords.push(this.texelX, this.texelY);
   	 		this.texelX += this.texelXInterval;
   	 		tempAngle += this.angle;
