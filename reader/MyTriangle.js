@@ -77,9 +77,9 @@ MyTriangle.prototype.initBuffers = function () {
 	
 	
 	this.texCoords = [
-		(this.c - this.a * Math.cos(this.beta)) / this.amplifS, 0.0,
-	  0.0, 1 / this.amplifT,
-	  this.c / this.amplifS, 1.0 / this.amplifT
+		(this.c - this.a * Math.cos(this.beta)) / this.amplifS, (this.a * Math.sin(this.beta)) /this.amplifT,
+	  0.0, 0.0,
+	  this.c / this.amplifS, 0.0
     ];
 
 	this.primitiveType=this.scene.gl.TRIANGLES;	
@@ -89,10 +89,10 @@ MyTriangle.prototype.initBuffers = function () {
 
 MyTriangle.prototype.updateTexelCoordinates = function (amplifS, amplifT) {
 
-	this.texCoords = [
-		(this.c - this.a * Math.cos(this.beta)) / amplifS, 0.0,
-	  0.0, 1 / amplifT,
-	  this.c / amplifS, 1.0 / amplifT
+	this.texCoords = [	
+		(this.c - this.a * Math.cos(this.beta)) / amplifS, (this.a * Math.sin(this.beta)) /amplifT,
+	  0.0, 0.0,
+	  this.c / amplifS, 0.0
     ];
 
 	this.updateTexCoordsGLBuffers();
