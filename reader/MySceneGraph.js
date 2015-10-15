@@ -671,6 +671,7 @@ MySceneGraph.prototype.readLeaf= function(element) {
 	if(args==null)
 		return null;
 	
+	args = args.replace(/  /g, " ");
 	var values = args.split(" ");
 	var n;
 	for(n=0; n<values.length; n++)
