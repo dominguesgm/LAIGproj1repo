@@ -16,6 +16,7 @@ function MySceneGraph(filename, scene){
 	 */
 	
 	this.reader.open('scenes/'+filename, this);
+	this.path='scenes/' + filename.substring(0, filename.lastIndexOf("/")) + '/';
 };
 
 /*
@@ -532,7 +533,11 @@ MySceneGraph.prototype.readTexture= function(element) {
 		return null;
 	}
 
-	texture['file'] = filePath[0].attributes.getNamedItem("path").value;
+	texture['file'] = this.path + filePath[0].attributes.getNamedItem("path").value;
+
+	//debug
+	console.log('TEXTURE PATH    --------------' + texture['file']);
+
 	if(texture['file']==null){
 		this.onXMLWarning("Error on <TEXTURE id=" + element.id +"><file>. Element ignored.");
 		return null;
