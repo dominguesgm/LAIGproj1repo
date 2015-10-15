@@ -155,6 +155,9 @@ XMLscene.prototype.setInitials = function () {
 
 	this.camera.near = this.graph.initials.frustumNear;
 	this.camera.far = this.graph.initials.frustumFar;
+
+	this.axis=new CGFaxis(this, this.graph.initials.referenceLength);
+
 	// TODO
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	var perspective = mat4.create();
@@ -310,10 +313,8 @@ XMLscene.prototype.display = function () {
 
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
-
-	this.axis.display();
 	this.setDefaultAppearance();
-
+	this.axis.display();
 
 	if (this.graph.loadedOk){
 		this.updateLights();

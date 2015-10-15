@@ -1,0 +1,713 @@
+<SCENE>
+
+    <INITIALS>
+        <frustum near="0.1" far="500.0"/>
+        <translation x="0.0" y="0.0" z="0.0"/>
+        <rotation axis="z" angle="0.0"/>
+        <rotation axis="y" angle="0.0"/>
+        <rotation axis="x" angle="0.0"/>
+        <scale sx="1.0" sy="1.0" sz="1.0"/>
+        <reference length="0.0"/>
+    </INITIALS>
+
+
+    <ILLUMINATION>
+        <ambient r="0.1" g="0.1" b="0.1" a="1.0"/>
+        <background r="0.0" g="0.0" b="0.0" a="1.0"/>
+    </ILLUMINATION>
+
+
+    <LIGHTS>
+        <LIGHT id="light0">
+            <enable value="1"/>
+            <position x="30" y="30" z="30" w="1"/>
+            <ambient r="0.9" g="0.9" b="0.9" a="1.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="0.5" g="0.5" b="0.5" a="1.0"/>
+        </LIGHT>
+
+        <LIGHT id="light1">
+            <enable value="0"/>
+            <position x="-3" y="3" z="-3" w="1"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="0.5" g="0.5" b="0.5" a="1.0"/>
+        </LIGHT>
+
+        <LIGHT id="light2">
+            <enable value="0"/>
+            <position x="0" y="-3" z="0" w="1"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="0.5" g="0.5" b="0.5" a="1.0"/>
+        </LIGHT>
+    </LIGHTS>
+
+
+    <TEXTURES>
+        <TEXTURE id="panel">
+            <file path="images/panel.jpg"/>
+            <amplif_factor s="1.0" t="1.0"/>
+        </TEXTURE>
+
+        <TEXTURE id="body">
+            <file path="images/body.jpg"/>
+            <amplif_factor s="1.0" t="1.0"/>
+        </TEXTURE>
+
+        <TEXTURE id="sensor">
+            <file path="images/sensor.jpg"/>
+            <amplif_factor s="1.0" t="1.0"/>
+        </TEXTURE>
+
+        <TEXTURE id="frame">
+            <file path="images/frame.jpg"/>
+            <amplif_factor s="1.0" t="0.1"/>
+        </TEXTURE>
+
+        <TEXTURE id="earth">
+            <file path="images/earth.jpg"/>
+            <amplif_factor s="1.0" t="1.0"/>
+        </TEXTURE>
+    </TEXTURES>
+
+
+    <MATERIALS>
+        <MATERIAL id="default">
+            <shininess value="10.0"/>
+            <specular r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0"/>
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </MATERIAL>
+
+        <MATERIAL id="panel">
+            <shininess value="40.0"/>
+            <specular r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <diffuse r="0.9" g="0.9" b="0.9" a="1.0"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0"/>
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </MATERIAL>
+
+        <MATERIAL id="body">
+            <shininess value="20.0"/>
+            <specular r="0.2" g="0.2" b="0.2" a="1.0"/>
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0"/>
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </MATERIAL>
+
+        <MATERIAL id="frame">
+            <shininess value="30.0"/>
+            <specular r="0.2" g="0.4" b="0.8" a="1.0"/>
+            <diffuse r="0.8" g="0.8" b="0.8" a="1.0"/>
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0"/>
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </MATERIAL>
+
+        <MATERIAL id="earth">
+            <shininess value="10.0"/>
+            <specular r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <diffuse r="0.7" g="0.7" b="0.7" a="1.0"/>
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0"/>
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </MATERIAL>
+    </MATERIALS>
+
+
+    <LEAVES>
+        <LEAF id="rec" type="rectangle" args="-0.5 0.5 0.5 -0.5"/>
+        <LEAF id="cyl" type="cylinder" args="1.0 0.5 0.5 2 12"/>
+        <LEAF id="ball" type="sphere" args="0.5 48 48"/>
+        <LEAF id="tri" type="triangle" args="0.0 0.0 0.0  0.433 0.25 0.0  0.5 0.0 0.0"/>
+        <!--<LEAF id="cone" type="cylinder" args="1.0 0.5 0 60 12"/>-->
+    </LEAVES>
+
+
+    <NODES>
+        <ROOT id="scene"/>
+
+        <NODE id="scene">
+            <MATERIAL id="default"/>
+            <TEXTURE id="null"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="iss"/>
+                <DESCENDANT id="earth"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+
+        <NODE id="iss">
+            <MATERIAL id="default"/>
+            <TEXTURE id="body"/>
+
+            <TRANSLATION x="0.0" y="-5.0" z="0.0"/>
+            <ROTATION axis="x" angle="-90.0"/>
+            <ROTATION axis="z" angle="180.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="iss_body"/>
+                <DESCENDANT id="iss_frame_panels"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="earth">
+            <MATERIAL id="earth"/>
+            <TEXTURE id="earth"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="-120.0"/>
+            <ROTATION axis="x" angle="-90.0"/>
+            <SCALE sx="200.0" sy="200.0" sz="200.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="ball"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="iss_body">
+            <MATERIAL id="body"/>
+            <TEXTURE id="null"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="part1"/>
+                <DESCENDANT id="part2"/>
+                <DESCENDANT id="part3"/>
+                <DESCENDANT id="part4"/>
+                <DESCENDANT id="part5"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="part1">
+            <MATERIAL id="default"/>
+            <TEXTURE id="null"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="-0.5"/>
+            <SCALE sx="1.0" sy="1.0" sz="12.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="body_part"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="part2">
+            <MATERIAL id="default"/>
+            <TEXTURE id="null"/>
+
+            <TRANSLATION x="0.5" y="0.0" z="0.0"/>
+            <ROTATION axis="y" angle="90.0"/>
+            <SCALE sx="1.0" sy="1.0" sz="2.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="body_part"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="part3">
+            <MATERIAL id="default"/>
+            <TEXTURE id="null"/>
+
+            <TRANSLATION x="-0.5" y="0.0" z="0.0"/>
+            <ROTATION axis="y" angle="-90.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="body_part"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="part4">
+            <MATERIAL id="default"/>
+            <TEXTURE id="null"/>
+
+            <TRANSLATION x="2.0" y="0.0" z="0.0"/>
+            <ROTATION axis="x" angle="-90.0"/>
+            <SCALE sx="1.0" sy="1.0" sz="2.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="body_part"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="part5">
+            <MATERIAL id="default"/>
+            <TEXTURE id="sensor"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="12.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="ball"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+
+        <NODE id="body_part">
+            <MATERIAL id="body"/>
+            <TEXTURE id="body"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder_full"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="cylinder_full">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="cyl"/>
+                <DESCENDANT id="cylinder_top"/>
+                <DESCENDANT id="cylinder_bot"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="cylinder_top">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="1.0"/>
+            <ROTATION axis="y" angle="180.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder_cover"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="cylinder_bot">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder_cover"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="cylinder_cover">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="triangle1"/>
+                <DESCENDANT id="triangle2"/>
+                <DESCENDANT id="triangle3"/>
+                <DESCENDANT id="triangle4"/>
+                <DESCENDANT id="triangle5"/>
+                <DESCENDANT id="triangle6"/>
+                <DESCENDANT id="triangle7"/>
+                <DESCENDANT id="triangle8"/>
+                <DESCENDANT id="triangle9"/>
+                <DESCENDANT id="triangle10"/>
+                <DESCENDANT id="triangle11"/>
+                <DESCENDANT id="triangle12"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle1">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle2">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="30.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle3">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="60.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle4">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="90.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle5">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="120.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle6">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="150.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle7">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="180.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle8">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="210.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle9">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="240.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle10">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="270.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle11">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="300.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="triangle12">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="z" angle="330.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="iss_frame_panels">
+            <MATERIAL id="default"/>
+            <TEXTURE id="null"/>
+
+            <TRANSLATION x="0.0" y="1.0" z="4.0"/>
+            <ROTATION axis="y" angle="90.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="iss_panels"/>
+                <DESCENDANT id="iss_frame"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="iss_panels">
+            <MATERIAL id="default"/>
+            <TEXTURE id="null"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="0.0"/>
+            <ROTATION axis="z" angle="90.0"/>
+            <SCALE sx="1.0" sy="1.0" sz="0.5"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="panels_left"/>
+                <DESCENDANT id="panels_right"/>
+                <DESCENDANT id="panels_leftmost"/>
+                <DESCENDANT id="panels_rightmost"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panels_left">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="-12.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="4panels"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panels_right">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="12.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="4panels"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panels_leftmost">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="-18.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="4panels"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panels_rightmost">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="18.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="4panels"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="4panels">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="panel1"/>
+                <DESCENDANT id="panel2"/>
+                <DESCENDANT id="panel3"/>
+                <DESCENDANT id="panel4"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panel1">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <TRANSLATION x="3.5" y="0.0" z="-1.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="panel"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panel2">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <TRANSLATION x="3.5" y="0.0" z="1.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="panel"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panel3">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <TRANSLATION x="-3.5" y="0.0" z="-1.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="panel"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panel4">
+            <MATERIAL id="default"/>
+            <TEXTURE id="clear"/>
+
+            <TRANSLATION x="-3.5" y="0.0" z="1.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="panel"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="panel">
+            <MATERIAL id="panel"/>
+            <TEXTURE id="panel"/>
+
+            <SCALE sx="6.0" sy="0.05" sz="1.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="iss_frame">
+            <MATERIAL id="frame"/>
+            <TEXTURE id="frame"/>
+
+            <ROTATION axis="z" angle="45.0"/>
+            <SCALE sx="1.0" sy="1.0" sz="20.0"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube"/>
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="cube">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+            <DESCENDANTS>
+                <DESCENDANT id="rec_front"/>
+                <DESCENDANT id="rec_back"/>
+                <DESCENDANT id="rec_right"/>
+                <DESCENDANT id="rec_left"/>
+                <DESCENDANT id="rec_bot"/>
+                <DESCENDANT id="rec_top"/>
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="rec_front">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="0.5"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="rec"/>
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="rec_back">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="y" angle="180.0"/>
+
+            <TRANSLATION x="0.0" y="0.0" z="0.5"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="rec"/>
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="rec_right">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="y" angle="90.0"/>
+            <TRANSLATION x="0.0" y="0.0" z="0.5"/>
+
+
+            <DESCENDANTS>
+                <DESCENDANT id="rec"/>
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="rec_left">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="y" angle="270.0"/>
+            <TRANSLATION x="0.0" y="0.0" z="0.5"/>
+
+
+            <DESCENDANTS>
+                <DESCENDANT id="rec"/>
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="rec_bot">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="x" angle="90.0"/>
+            <TRANSLATION x="0.0" y="0.0" z="0.5"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="rec"/>
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="rec_top">
+            <MATERIAL id="null"/>
+            <TEXTURE id="null"/>
+
+            <ROTATION axis="x" angle="270.0"/>
+            <TRANSLATION x="0.0" y="0.0" z="0.5"/>
+
+            <DESCENDANTS>
+                <DESCENDANT id="rec"/>
+            </DESCENDANTS>
+        </NODE>
+    </NODES>
+
+</SCENE>
