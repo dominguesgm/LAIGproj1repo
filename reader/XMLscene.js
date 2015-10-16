@@ -166,20 +166,15 @@ XMLscene.prototype.setInitials = function () {
 	for(n=0; n<3; n++)
 		switch(this.graph.initials['rotations'][n][0]){
 			case 'x':
-				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateX(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
 				break;
 			case 'y':
-				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateY(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));
 				break;
 			case 'z':
-				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateZ(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
 				break;
-			default: 
-				console.log(this.graph.initials['rotations'][n]);
-				break;
+			default: break;
 		}
 	}
 
