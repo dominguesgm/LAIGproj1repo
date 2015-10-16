@@ -163,7 +163,7 @@ XMLscene.prototype.setInitials = function () {
 
 	// add rotations
 	var n;
-	for(n=0; n<3; n++)
+	for(n=0; n<3; n++){
 		switch(this.graph.initials['rotations'][n][0]){
 			case 'x':
 				mat4.rotateX(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
