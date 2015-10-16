@@ -166,15 +166,20 @@ XMLscene.prototype.setInitials = function () {
 	for(n=0; n<3; n++)
 		switch(this.graph.initials['rotations'][n][0]){
 			case 'x':
+				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateX(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
 				break;
 			case 'y':
+				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateY(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));
 				break;
 			case 'z':
+				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateZ(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
 				break;
-			default: break;
+			default: 
+				console.log(this.graph.initials['rotations'][n]);
+				break;
 		}
 	}
 
@@ -185,14 +190,6 @@ XMLscene.prototype.setInitials = function () {
 	this.camera.far = this.graph.initials.frustumFar;
 
 	this.axis=new CGFaxis(this, this.graph.initials.referenceLength);
-<<<<<<< HEAD
-
-	// TODO
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//var perspective = mat4.create();
-	//mat4.perspective(perspective, 45, 800* 600 , this.graph.initials.frustumNear, this.graph.initials.frustumFar);
-=======
->>>>>>> 2c37256c400a91a01f44dd535559c8f73b20c247
 };
 
 /*

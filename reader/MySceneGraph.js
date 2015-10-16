@@ -1,14 +1,7 @@
-/*
- * MySceneGraph
- * Opens and reads a file following a specific structure with information about a scene.
- * @constructor
- * @param filename
- * @param scene
- */
+
 function MySceneGraph(filename, scene){
 	this.loadedOk = null;
 	this.nElements = 0;
-	
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
 	scene.graph=this;
@@ -17,20 +10,18 @@ function MySceneGraph(filename, scene){
 	this.reader = new CGFXMLreader();
 
 	/*
-	 * Read the contents of the file, and refer to this class for loading and error handlers.
+	 * Read the contents of the xml file, and refer to this class for loading and error handlers.
 	 * After the file is read, the reader calls onXMLReady on this object.
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
-	 */	
+	 */
+	
 	this.reader.open('scenes/'+filename, this);
-	if(filename!=undefined)
-		this.path='scenes/' + filename.substring(0, filename.lastIndexOf("/")) + '/';
+	this.path='scenes/' + filename.substring(0, filename.lastIndexOf("/")) + '/';
 };
 
 /*
- * criticalErrors
- * Handles errors and warnings, displaying messages.
- * @param errors list of errors and warnings of type {[type, message],(...)}
- * @return true if a critical error occurred, false otherwise
+ * Handles errors and warnings.
+ * Returns true if a critical error occurred.
  */
 MySceneGraph.prototype.criticalErrors=function(errors){
 
@@ -51,48 +42,66 @@ MySceneGraph.prototype.criticalErrors=function(errors){
 
 
 /*
- * onXMLReady
  * Callback to be executed after successful reading.
  * Performs parsing of the information read.
  */
 MySceneGraph.prototype.onXMLReady=function(){
-	console.log("File loading finished.");
-
+	console.log("XML Loading finished.");
 	var rootElement = this.reader.xmlDoc.documentElement;
-	var errors = [];
 	
-	errors = this.parseInitials(rootElement);
+	var errors = this.parseInitials(rootElement);
 	if(this.criticalErrors(errors))
-		return null;
+		return;
 
-	errors = this.parseIllumination(rootElement);
-	if(this.criticalErrors(errors))
-		return null;
+	//debug
+	console.log("#INITIALS read");
 
-	errors = this.parseLights(rootElement);
+	var errors = this.parseIllumination(rootElement);
 	if(this.criticalErrors(errors))
-		return null;
+		return;
+
+	//debug
+	console.log("#ILLUMINATION read");
+
+	var errors = this.parseLights(rootElement);
+	if(this.criticalErrors(errors))
+		return;
+
+	//debug
+	console.log("#LIGHTS read");
 
 	errors = this.parseTextures(rootElement);
 	if(this.criticalErrors(errors))
-		return null;
+		return;
+
+	//debug
+	console.log("#TEXTURES read");
 
 	errors = this.parseMaterials(rootElement);
 	if(this.criticalErrors(errors))
-		return null;
+		return;
+
+	//debug
+	console.log("#MATERIALS read");
 
 	errors = this.parseLeaves(rootElement);
 	if(this.criticalErrors(errors))
-		return null;
+		return;
+
+	//debug
+	console.log("#LEAVES read");
 
 	errors = this.parseNodes(rootElement);
 	if(this.criticalErrors(errors))
-		return null;
+		return;
 
-	console.log("Graph loaded.");
+	//debug
+	console.log("#NODES read");
+
 	this.loadedOk=true;
 	
-	// signal the scene so that any additional initialization depending on the graph can take place
+	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
+	console.log("#GRAPH LOADED");
 	this.scene.onGraphLoaded();
 };
 
@@ -100,13 +109,6 @@ MySceneGraph.prototype.onXMLReady=function(){
  * Auxiliar functions.
  **********************************************************************************************/
 
-/*
- * getTranslation
- * Retrieves information about a translation.
- * @param element
- * @param required
- * @return set of coordenates of type [x, y, z], null if an error occurred
- */
 MySceneGraph.prototype.getTranslation= function(element, required) {
 	var coordenates = this.getXYZ(element, ['x', 'y','z'], required);
 	
@@ -115,13 +117,6 @@ MySceneGraph.prototype.getTranslation= function(element, required) {
 	else return coordenates;
 };
 
-/*
- * getScale
- * Retrieves information about a scale.
- * @param element
- * @param required
- * @return element of type [sx, sy, sz], null if an error occurred
- */
 MySceneGraph.prototype.getScale= function(element, required) {
 	var scale = this.getXYZ(element, ["sx", "sy", "sz"], required);
 	
@@ -130,13 +125,6 @@ MySceneGraph.prototype.getScale= function(element, required) {
 	else return scale;
 };
 
-/*
- * getRotation
- * Retrieves information about a translation.
- * @param element
- * @param required
- * @return element of type [axis, angle], null if an error occurred
- */
 MySceneGraph.prototype.getRotation= function(element, required) {
 	var rotation = [];
 	rotation[0] =  this.reader.getItem(element,'axis' , ['x', 'y', 'z'], required);
@@ -147,13 +135,6 @@ MySceneGraph.prototype.getRotation= function(element, required) {
 	else return rotation;
 };
 
-/*
- * getXYZ
- * Retrieves information about a transformation - translation or scale.
- * @param element
- * @param required
- * @return element of type [x, y, z]
- */
 MySceneGraph.prototype.getXYZ= function(element, tags, required) {
 	var coordenates = [];
 	coordenates[0] = this.reader.getFloat(element, tags[0], required);
@@ -163,13 +144,6 @@ MySceneGraph.prototype.getXYZ= function(element, tags, required) {
 	return coordenates;
 };
 
-/*
- * getRGBA
- * Retrieves RGBA information.
- * @param element
- * @param required
- * @return element of type [r, g, b, a], null if an error occurred
- */
 MySceneGraph.prototype.getRGBA= function(element, required) {
  var rgba = [];
  	rgba[0] = this.reader.getFloat(element, 'r', required);
@@ -183,10 +157,7 @@ MySceneGraph.prototype.getRGBA= function(element, required) {
 };
 
 /*
- * checkRGBA
- * Check the RGBA element for completion and errors on values' range
- * @param element
- * @return false if the RGBA element contains errors, true otherwise
+ * Check the RGBA element for completion and errors on values' range.
  */
 MySceneGraph.prototype.checkRGBA= function(element) {
 	var n;
@@ -196,15 +167,13 @@ MySceneGraph.prototype.checkRGBA= function(element) {
 			element[n]=.5; // default
 			error = true;
 		}
-
+		// debug
+		console.log(!error);
 	return !error;
 };
 
 /*
- * validElement
- * Check an element for completion
- * @param element
- * @return false if the element contains errors, true otherwise
+ * Checks if an element is valid.
  */
 MySceneGraph.prototype.validElement= function(element) {
 	if(element==null)
@@ -218,9 +187,7 @@ MySceneGraph.prototype.validElement= function(element) {
 };
 
 /*
- * setInitials
  * Sets the parameters in Initials to the specified values.
- * @param settings
  */ 
 MySceneGraph.prototype.setInitials= function(settings) {
 	for(property in settings)
@@ -228,19 +195,12 @@ MySceneGraph.prototype.setInitials= function(settings) {
 }
 
 /*
- * onXMLWarning
- * Callback to be executed on any read warning.
- * @param message
+ * Callback to be executed on any read error or warning.
  */
  MySceneGraph.prototype.onXMLWarning= function(message){
-	console.warn("LSX Loading Warning: " + message);
+	console.error("LSX Loading Warning: " + message);
 };
 
-/*
- * onXMLError
- * Callback to be executed on any read error.
- * @param message
- */
 MySceneGraph.prototype.onXMLError=function (message){ 
 	console.error("LSX Loading Error: "+message);
 	this.loadedOk=false;
@@ -251,10 +211,8 @@ MySceneGraph.prototype.onXMLError=function (message){
  **********************************************************************************************/
 
 /*
- * parseInitials
  * Method that parses elements of 'INITIALS' block and stores information in a specific data structure.
- * @param rootElement
- * @return list of errors and warnings.
+ * Returns a list of errors and warnings.
  */
 MySceneGraph.prototype.parseInitials= function(rootElement) {
 	var warningMessages = [];
@@ -287,6 +245,10 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 		this.initials['frustumFar'] = defaultSettings["frustumFar"];
 	}
 	
+	// debug	
+	console.log(this.initials['frustumFar']);
+	console.log(this.initials['frustumNear']);
+
 	// read information on translation	
 	this.initials['translation'] = this.getTranslation(initialsTemp[1], false);
 
@@ -294,6 +256,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<translation>. Default used."]);
 		this.initials['translation'] = defaultSettings["translation"];
 	}
+
+	// debug	
+	console.log(this.initials['translation']);
 
 	// read information on rotations	
 	this.initials['rotations'] = [];
@@ -306,6 +271,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 		}
 	}
 
+	// debug	
+	console.log(this.initials['rotations'][0]);
+
 	// read information on scale
 	this.initials['scale'] = this.getScale(initialsTemp[n+2], false);
 	if(this.initials['scale'] == null){
@@ -313,21 +281,22 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 		this.initials['scale'] = defaultSettings["scale"];	
 	}
 
+	// debug	
+	console.log(this.initials['scale']);
+
 	// reference length
 	this.initials['referenceLength'] = this.reader.getFloat(initialsTemp[n+3], 'length', false);
-	if(this.initials['referenceLength'] == null || this.initials['referenceLength']<0){
+	if(this.initials['referenceLength'] == null){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<reference>. Default used."]);
 		this.initials['referenceLength'] = defaultSettings["referenceLength"];	
 	}
 
+	console.log(this.initials['referenceLength']);
 	return warningMessages;
 };
 
 /*
- * parseIllumination
- * Method that parses elements of the 'ILLUMINATION' block and stores information in a specific data structure
- * @param rootElement
- * @return list of errors and warnings.
+ *	Method that parses elements of the 'ILLUMINATION' block and stores information in a specific data structure
  */
 MySceneGraph.prototype.parseIllumination = function(rootElement){
 	var illuminationXML=rootElement.getElementsByTagName('ILLUMINATION');
@@ -371,15 +340,19 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 		warnings.push(["Error", "No 'background' attribute found, or found in the wrong order."]);
 		return warnings;
 	}
+	// Finished reading illumination data
+	/* Confirm that illumination is being read
+	console.log("AmbientRGBA " + this.ambientR + " " + this.ambientG + " " + this.ambientB + " " + this.ambientA);
+	console.log("DoubleSide " + this.doubleside);
+	console.log("BackgroundRGBA " + this.backgroundR + " " + this.backgroundG + " " + this.backgroundB + " " + this.backgroundA);
+	*/
 };
 
+
 /*
- * parseLights
  * Method used for parsing the 'LIGHTS' block information
- * @param rootElement
- * @return list of errors and warnings.
  */
- MySceneGraph.prototype.parseLights = function(rootElement) {
+MySceneGraph.prototype.parseLights = function(rootElement) {
  	var warningMessages = [];
 
  	var lightsBlock = rootElement.getElementsByTagName("LIGHTS");
@@ -408,9 +381,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  };
 
 /*
- * parseSingleLight
- * Method used for parsing information about a element light of type { id, enable, position[], ambient[], diffuse[], specular[] }
- * @param element
+ * Methods used for parsing information about a light
  */
 MySceneGraph.prototype.parseSingleLight= function(element){
  	var light = [];
@@ -487,34 +458,27 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	}
 
  	this.lights.push(light);
+ 	return null;
  };
 
 /*
- * parseTextures
  * Method that parses elements of 'TEXTURES' block and stores information in a specific data structure
- * @param rootElement
- * @return list of errors and warning
  */
 MySceneGraph.prototype.parseTextures= function(rootElement) {
 	return this.parseAppearanceElement('TEXTURE', rootElement);
 }
 
 /*
- * parseMaterials
  * Method that parses elements of 'MATERIALS' block and stores information in a specific data structure.
- * @param rootElement
- * @return list of errors and warnings
+ * Returns a list of errors and warnings.
  */
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
 	return this.parseAppearanceElement('MATERIAL', rootElement);
 }
 
 /*
- * parseAppearanceElement
  * Method that parses elements of type TEXTURE or MATERIAL, as specified by elementType, and stores information in a specific data structure.
- * @param elementType
- * @param rootElement
- * @return list of errors and warning messages
+ * Returns a list of errors and warnings.
  */
 MySceneGraph.prototype.parseAppearanceElement= function(elementType, rootElement) {
 
@@ -558,10 +522,7 @@ MySceneGraph.prototype.parseAppearanceElement= function(elementType, rootElement
 };
 
 /*
- * readTexture
- * Reads information about a texture element.
- * @param element
- * @return element of type { file, ampli_factor[] } or null if an error occurs
+ * Returns a structure of type texture { file, ampli_factor[] } or null if an error occurs.
  */
 MySceneGraph.prototype.readTexture= function(element) {
 	var texture = [];
@@ -573,6 +534,9 @@ MySceneGraph.prototype.readTexture= function(element) {
 	}
 
 	texture['file'] = this.path + filePath[0].attributes.getNamedItem("path").value;
+
+	//debug
+	console.log('TEXTURE PATH    --------------' + texture['file']);
 
 	if(texture['file']==null){
 		this.onXMLWarning("Error on <TEXTURE id=" + element.id +"><file>. Element ignored.");
@@ -590,17 +554,18 @@ MySceneGraph.prototype.readTexture= function(element) {
 		texture['amplif_factor'] = [1,1];
 	}
 		
+	// debug
+	console.log( texture['file'] + ", s=" + texture['amplif_factor'][0]+" t=" + texture['amplif_factor'][1]);
+
 	return texture;
 }
 
 /*
- * readMaterial
- * Reads information about a material element.
- * @param element
- * @return a structure of type material { shininess, specular[], diffuse[], ambient[], emission[] } or null if an error occurs.
+ * Returns a structure of type material { shininess, specular[], diffuse[], ambient[], emission[] } or null if an error occurs.
  */
 MySceneGraph.prototype.readMaterial= function(element) {
 	var material = [];
+	//
 	var properties = ['shininess', 'specular', 'diffuse', 'ambient', 'emission'];
 	var n;
 
@@ -636,14 +601,19 @@ MySceneGraph.prototype.readMaterial= function(element) {
 		}
 	}
 
+	// debug
+	console.log( material['shininess']);
+	console.log( material['specular']);
+	console.log( material['diffuse']);
+	console.log( material['ambient']);
+	console.log( material['emission']);
+
 	return material;
 };
 
 /*
- * parseLeaves
  * Method that parses elements of 'LEAVES' block and stores information in a specific data structure.
- * @param rootElement
- * @return list of errors and warnings.
+ * Returns a list of errors and warnings.
  */
 MySceneGraph.prototype.parseLeaves= function(rootElement) {
 	
@@ -680,16 +650,14 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 				delete this.leaves[leaf.id];
 			}else this.leaves[leaf.id]['idSeq'] = this.nElements++;
 		}
+
 	}
 
 	return warningMessages;
 };
 
 /*
- * readLeaf
- * Reads information about a leaf element.
- * @param element
- * @return element of type leaf { type, args[] } or null if an error occurs.
+ * Returns a structure of type leaf { type, args[] } or null if an error occurs.
  */
 MySceneGraph.prototype.readLeaf= function(element) {
 	var leaf = [];
@@ -711,21 +679,23 @@ MySceneGraph.prototype.readLeaf= function(element) {
 	
 	leaf['args'] = values;
 
+	// debug
+	console.log(leaf['type']);
+	console.log(leaf['args']);
+
 	return leaf;
 }
 
 
 /*
- * parseNodes
  * Method that parses elements of 'NODES' block and stores information in a specific data structure.
- * @param rootElement
- * @return list of errors and warnings.
+ * Returns a list of errors and warnings.
  */
 MySceneGraph.prototype.parseNodes= function(rootElement) {
 	
 	var warningMessages = [];
 
-	// check occurrences of 'NODES'
+	// check occurrences of 'MATERIALS'
 	var elemsNodes =  rootElement.getElementsByTagName('NODES');
 
 	if (elemsNodes == null || elemsNodes.length == 0) {
@@ -761,8 +731,14 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 			}
 			else this.nodes[node.id]['idSeq'] = this.nElements++;
 		}
+
 	}
 
+	// debug
+	console.log("ROOT "+ this.root);
+
+
+	// TODO assign default (?)
 	// check root
 	if(this.root==null || this.nodes[this.root]==null)
 		warningMessages.push(["Error", "No <NODES>/<ROOT> element found." ]);
@@ -773,9 +749,6 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 };
 
 /*
- * readNode
- * Reads information about a node element.
- * @param element
  * Returns a structure of type node { material, texture, transformations[], descendants[] }.
  */
 MySceneGraph.prototype.readNode= function(element) {
@@ -785,11 +758,17 @@ MySceneGraph.prototype.readNode= function(element) {
 	if(material.length!=0)
 		node['material'] = material[0].id;
 	else node['material'] = null;
+	
+	//debug
+	console.log(node['material']);
 
 	var texture =  element.getElementsByTagName('TEXTURE');
 	if(texture.length!=0)
 		node['texture'] = texture[0].id;
 	else node['texture'] = null;
+
+	//debug
+	console.log(node['texture']);
 
 	// read transformations
 	node['transformations'] = [];
@@ -816,6 +795,10 @@ MySceneGraph.prototype.readNode= function(element) {
 		if(transformation['args']!=null)
 			node['transformations'].push(transformation);
 		else this.onXMLWarning("Error on <NODE id=" + element.id +"><"+ element.children[n].nodeName + "> (L. "+n+"). Element ignored.");
+
+		//debug 
+		console.log(transformation['type']);
+		console.log(transformation['args']);
 	}
 
 	// read descendants
@@ -828,29 +811,38 @@ MySceneGraph.prototype.readNode= function(element) {
 	for(n=0; n<descendants.length; n++){
 
 		var descendantsTemp = descendants[n].getElementsByTagName('DESCENDANT');
-		for(m=0; m<descendantsTemp.length; m++)
+		for(m=0; m<descendantsTemp.length; m++){
 			node['descendants'].push(descendantsTemp[m].id);
+			console.log(element.id +" -> DESCENDANT FOUND " + descendantsTemp[m].id);
+		}
 	}
 
 	return node;
 }
 
+// TODO testing
 /*
- * processGraph
  * Processes node elementId and its descendants, calculating each one's matrix and checking for errors.
- * @param elementId
- * @return true upon success, false otherwise
  */
 MySceneGraph.prototype.processGraph = function(elementId) {
 
 	var element = null;
 
+	// debug
+	console.log("STARTING "+ elementId);
+	
 	// find node or leaf
 	if(this.nodes[elementId] != null)
 		element = this.nodes[elementId];
-	else if(this.leaves[elementId] != null)
+	else if(this.leaves[elementId] != null){
+		//debug
+		console.log("FINISHED LEAF "+ elementId);
 		return true;
-	else return false;	
+	}
+	else{
+		console.log("UNKNOWN ERROR");
+		return false;	
+	} 
 
 	// check if the element's material is valid
 	if(this.materials[element['material']] == null && element['material']!="null"){
@@ -870,6 +862,7 @@ MySceneGraph.prototype.processGraph = function(elementId) {
     mat4.identity(resultingTransformation);
 
 	var n;
+	//for(n = element['transformations'].length -1; n >= 0; n--){
 	for(n = 0; n< element['transformations'].length; n++){
 		var transformation = element['transformations'][n];
     	
@@ -900,20 +893,31 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 		}
 	}
 
+	console.log("ATENTTIONNNNNNNNNNNNNNNNNNNNN");
+
 	element['matrix'] = resultingTransformation;
 
 	// check descendants
 	var n;
-	for(n=0; n< element['descendants'].length; n++)
+	for(n=0; n< element['descendants'].length; n++){
+
+		// debug
+		console.log("DESCENDANT"+element['descendants'][n]);
 		if(!this.processGraph( element['descendants'][n])){
 			this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No <DESCENDANT> with id=" + element['descendants'][n] + ".");
 			element['descendants'].splice(n, 1);
 			n--;
 		}
+	}
+
+	//debug
+	console.log("FINISHED PROCESSING NODE "+ elementId);
 
 	// return false if no descendants are found
 	if(element['descendants'].length==0){
+		console.log(elementId + " has no descendants");
 		delete this.nodes[elementId];
 		return false;
 	}else return true;
+
 };
