@@ -46,6 +46,22 @@
             <diffuse r="0.9" g="0.9" b="0.9" a="1" />
             <specular r="0.9" g="0.9" b="0.9" a="1" />
         </LIGHT>
+
+        <LIGHT id="leftFocus">                           
+            <enable value="1" />                       
+            <position x="-5" y="0" z="0" w="1" />       
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0.9" g="0.9" b="0.9" a="1" />
+            <specular r="0.9" g="0.9" b="0.9" a="1" />
+        </LIGHT>
+
+        <LIGHT id="rightFocus">                           
+            <enable value="1" />                       
+            <position x="5" y="0" z="0" w="1" />       
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0.9" g="0.9" b="0.9" a="1" />
+            <specular r="0.9" g="0.9" b="0.9" a="1" />
+        </LIGHT>
 	</LIGHTS>
 
 	<TEXTURES>

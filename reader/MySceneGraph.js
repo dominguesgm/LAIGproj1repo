@@ -56,14 +56,14 @@ MySceneGraph.prototype.onXMLReady=function(){
 	//debug
 	console.log("#INITIALS read");
 
-	var errors = this.parseIllumination(rootElement);
+	errors = this.parseIllumination(rootElement);
 	if(this.criticalErrors(errors))
 		return;
 
 	//debug
 	console.log("#ILLUMINATION read");
 
-	var errors = this.parseLights(rootElement);
+	errors = this.parseLights(rootElement);
 	if(this.criticalErrors(errors))
 		return;
 
