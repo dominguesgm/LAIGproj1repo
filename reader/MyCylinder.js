@@ -1,6 +1,8 @@
-/**
+/*
  * MyCylinder
  * @constructor
+ * @param scene
+ * @param attributes [height, bottomRadius, topRadius, slices, stacks]
  */
  function MyCylinder(scene, attributes) {
  	CGFobject.call(this,scene);
@@ -8,8 +10,8 @@
 	this.height = attributes[0];
 	this.bottomRadius = attributes[1];
 	this.topRadius = attributes[2];
-	this.stacks=attributes[3];
-	this.slices=attributes[4];
+	this.stacks = attributes[3];
+	this.slices = attributes[4];
 
 	this.angle=2*Math.PI/this.slices;
 
@@ -17,6 +19,7 @@
  };
 
  MyCylinder.prototype = Object.create(CGFobject.prototype);
+
  MyCylinder.prototype.constructor = MyCylinder;
 
  MyCylinder.prototype.initBuffers = function() {
@@ -54,12 +57,9 @@
  	    n++;
  	};
 
-
  	this.indices = [];
 
-
-	for(i = 0; i < ((this.slices*this.stacks)+(this.stacks-1)); i+=1)
- 	{
+	for(i = 0; i < ((this.slices*this.stacks)+(this.stacks-1)); i+=1){
  		if((i%(this.slices+1)) != (this.slices)){
  			this.indices.push(i+1, i + this.slices + 2, i + this.slices + 1);
  			this.indices.push(i,i+1, i + this.slices + 1);
@@ -71,7 +71,7 @@
 
 	this.normals = [];
 
- 	for (var z = 0; z <= this.stacks; z++) {
+ 	for (var z = 0; z <= this.stacks; z++){
  	    var tempAngle = 0;
  	    for (var i = 0; i <= this.slices; i++) {
  	        this.normals.push(Math.cos(tempAngle), Math.sin(tempAngle), 0);
@@ -83,5 +83,11 @@
  	this.initGLBuffers();
  };
 
-MyCylinder.prototype.updateTexelCoordinates = function (amplifS, amplifT) {
-};
+/*
+ * updateTextelCoordinates
+ * No need to update the textel's coordinates according to amplifS and amplifT.
+ *
+ * @param amplifS amplification factor s
+ * @param amplifT amplification factor t
+ */
+MyCylinder.prototype.updateTexelCoordinates = function (amplifS, amplifT) {};

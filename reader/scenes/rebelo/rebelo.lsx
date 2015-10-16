@@ -1,0 +1,1224 @@
+<SCENE>
+	<INITIALS>
+		<frustum near="0.1" far="500" />
+		<translation x="-19" y="-12" z="-12" />
+		<rotation axis="x" angle="-30" />
+		<rotation axis="y" angle="70" />
+		<rotation axis="z" angle="20" />
+		<scale sx="1" sy="1" sz="1" />
+		<reference length="0" />
+	</INITIALS>
+	<ILLUMINATION>
+		<ambient r="0.1" g="0.1" b="0.1" a="0.1" />
+		<background r="0" g="0" b="0" a="1" />
+	</ILLUMINATION>
+	<LIGHTS>
+		<LIGHT id="Sun">
+			<enable value="0" />
+			<position x="7" y="7" z="7" w="1" />
+			<ambient r="1" g="1" b="1" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="1" g="1" b="1" a="1" />
+		</LIGHT>
+		<LIGHT id="Street Lamp 1 - L">
+			<enable value="1" />
+			<position x="-6.75" y="4.5" z="9.5" w="1" />
+			<ambient r="0.2" g="0.2" b="0.2" a="0.2" />
+			<diffuse r="0.8" g="0.8" b="0.8" a="1" />
+			<specular r="0.8" g="0.8" b="0.8" a="1" />
+		</LIGHT>
+		<LIGHT id="Street Lamp 1 - R">
+			<enable value="1" />
+			<position x="-5.25" y="4.5" z="9.5" w="1" />
+			<ambient r="0.2" g="0.2" b="0.2" a="0.2" />
+			<diffuse r="0.8" g="0.8" b="0.8" a="1" />
+			<specular r="0.8" g="0.8" b="0.8" a="1" />
+		</LIGHT>
+		<LIGHT id="Street Lamp 2 - L">
+			<enable value="1" />
+			<position x="7.75" y="4.5" z="9.5" w="1" />
+			<ambient r="0.2" g="0.2" b="0.2" a="0.2" />
+			<diffuse r="0.8" g="0.8" b="0.8" a="1" />
+			<specular r="0.8" g="0.8" b="0.8" a="1" />
+		</LIGHT>
+		<LIGHT id="Street Lamp 2 - R">
+			<enable value="1" />
+			<position x="9.25" y="4.5" z="9.5" w="1" />
+			<ambient r="0.2" g="0.2" b="0.2" a="0.2" />
+			<diffuse r="0.8" g="0.8" b="0.8" a="1" />
+			<specular r="0.8" g="0.8" b="0.8" a="1" />
+		</LIGHT>
+	</LIGHTS>
+	<TEXTURES>
+		<!-- ~~~~~ -->
+		<!-- House -->
+		<!-- ~~~~~ -->
+		<TEXTURE id="tex_window">
+			<file path="textures/window.png" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_door">
+			<file path="textures/door.jpg" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_house_wall1">
+			<file path="textures/house_wall.jpg" />
+			<amplif_factor s="0.5" t="0.75" />
+		</TEXTURE>
+		<TEXTURE id="tex_house_wall2">
+			<file path="textures/house_wall.jpg" />
+			<amplif_factor s="0.5" t="0.35" />
+		</TEXTURE>
+		<TEXTURE id="tex_roof">
+			<file path="textures/roof.png" />
+			<amplif_factor s="0.25" t="0.5" />
+		</TEXTURE>
+		<TEXTURE id="tex_garage">
+			<file path="textures/garage.jpg" />
+			<amplif_factor s="0.79" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_wood">
+			<file path="textures/wood.png" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<!-- ~~~~~~~~~~~ -->
+		<!-- Street Lamp -->
+		<!-- ~~~~~~~~~~~ -->
+		<TEXTURE id="tex_glass">
+			<file path="textures/glass.png" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<!-- ~~~~ -->
+		<!-- Road -->
+		<!-- ~~~~ -->
+		<TEXTURE id="tex_old_stone">
+			<file path="textures/old_stone.jpg" />
+			<amplif_factor s="1" t="0.2" />
+		</TEXTURE>
+		<TEXTURE id="tex_grass">
+			<file path="textures/grass.png" />
+			<amplif_factor s="0.2" t="0.2" />
+		</TEXTURE>
+		<TEXTURE id="tex_sidewalk1">
+			<file path="textures/sidewalk.jpg" />
+			<amplif_factor s="0.08695652173" t="0.5" />
+		</TEXTURE>
+		<TEXTURE id="tex_sidewalk2">
+			<file path="textures/sidewalk.jpg" />
+			<amplif_factor s="0.22222222222" t="0.5" />
+		</TEXTURE>
+		<TEXTURE id="tex_road">
+			<file path="textures/road.jpg" />
+			<amplif_factor s="0.2" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_asphalt">
+			<file path="textures/asphalt.jpg" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_asphalt_0.5">
+			<file path="textures/asphalt.jpg" />
+			<amplif_factor s="0.5" t="0.5" />
+		</TEXTURE>
+		<!-- ~~~ -->
+		<!-- Car -->
+		<!-- ~~~ -->
+		<TEXTURE id="tex_car_win">
+			<file path="textures/car/side_window.png" />
+			<amplif_factor s="2" t="0.8" />
+		</TEXTURE>
+		<TEXTURE id="tex_car_side">
+			<file path="textures/car/side.png" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_car_hood">
+			<file path="textures/car/hood.png" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_car_win_b">
+			<file path="textures/car/window_back.png" />
+			<amplif_factor s="0.5" t="0.8" />
+		</TEXTURE>
+		<TEXTURE id="tex_car_color">
+			<file path="textures/car/color.png" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_car_front">
+			<file path="textures/car/front.png" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_car_windshield">
+			<file path="textures/car/windshield.png" />
+			<amplif_factor s="1" t="1.79020979021" />
+		</TEXTURE>
+		<TEXTURE id="tex_car_win_f">
+			<file path="textures/car/window_front.png" />
+			<amplif_factor s="0.5" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_wheel_tire">
+			<file path="textures/wheel_tire.png" />
+			<amplif_factor s="0.5" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_wheel_side_outer">
+			<file path="textures/plastic_black.jpg" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+		<TEXTURE id="tex_wheel_side_inner">
+			<file path="textures/plastic_silver.jpg" />
+			<amplif_factor s="1" t="1" />
+		</TEXTURE>
+	</TEXTURES>
+	<MATERIALS>
+		<MATERIAL id="mat_metal">
+			<shininess value="10" />
+			<specular r="1" g="1" b="1" a="1" />
+			<diffuse r="0.7" g="0.7" b="0.7" a="1" />
+			<ambient r="0.5" g="0.5" b="0.5" a="1" />
+			<emission r="0" g="0" b="0" a="0" />
+		</MATERIAL>
+		<MATERIAL id="mat_normal">
+			<shininess value="1" />
+			<specular r="0.1" g="0.1" b="0.1" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<ambient r="0.5" g="0.5" b="0.5" a="0.5" />
+			<emission r="0" g="0" b="0" a="0" />
+		</MATERIAL>
+		<MATERIAL id="mat_border">
+			<shininess value="10" />
+			<specular r="0.4" g="0.2" b="0" a="1" />
+			<diffuse r="0" g="0" b="0" a="1" />
+			<ambient r="0.4" g="0.2" b="0" a="1" />
+			<emission r="0" g="0" b="0" a="0" />
+		</MATERIAL>
+		<MATERIAL id="mat_streetlamp">
+			<shininess value="10" />
+			<specular r="0.2" g="0.2" b="0.2" a="1" />
+			<diffuse r="0.2" g="0.2" b="0.2" a="1" />
+			<ambient r="0.2" g="0.2" b="0.2" a="1" />
+			<emission r="0" g="0" b="0" a="0" />
+		</MATERIAL>
+	</MATERIALS>
+	<LEAVES>
+		<!-- General -->
+		<LEAF id="quad_1x1" type="rectangle" args="-0.5 0.5 0.5 -0.5" />
+		<LEAF id="cyl" type="cylinder" args="1 1 1 3 20" />
+		<LEAF id="sph" type="sphere" args="1 20 20" />
+		<LEAF id="pyramid_side" type="triangle" args="0.5 0 0.5  0.5 0 -0.5  0 1 0" />
+		<LEAF id="tri" type="triangle" args="0 0 0.5  1 0 0  0 1.5 0" />
+		<!-- Street Lamp -->
+		<LEAF id="lamp_glass_rect" type="rectangle" args="-0.5 2 0.5 0" />
+		<LEAF id="lamp_glass_tri1" type="triangle" args="-0.5 0 0  -0.5 2 0  -0.8 2 0" />
+		<LEAF id="lamp_glass_tri2" type="triangle" args="0.5 2 0  0.5 0 0  0.8 2 0" />
+		<LEAF id="cyl_streetlamp_bot" type="cylinder" args="0.5 1 0.25 3 20" />
+		<!-- House -->
+		<LEAF id="house_front_top" type="triangle" args="0 0 0.5  0 0 -0.5  0 0.5 0" />
+		<!-- Car -->
+		<LEAF id="car_side_tri1" type="triangle" args="-1.38 0.40 0  -1 0.40 0  -1 1.2 0" />
+		<LEAF id="car_side_tri2" type="triangle" args="1 0.40 0  1.38 0.40 0  1.01 1.2 0" />
+		<LEAF id="car_side_rect" type="rectangle" args="-1.01 1.2  1.01 0.4" />
+	</LEAVES>
+	<NODES>
+		<ROOT id="root" />
+		<NODE id="root">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0" z="0" />
+			<ROTATION axis="x" angle="0" />
+			<SCALE sx="1" sy="1" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="sidewalk" />
+				<DESCENDANT id="complete_house" />
+				<DESCENDANT id="car" />
+				<DESCENDANT id="street_lamp_1" />
+				<DESCENDANT id="street_lamp_2" />
+			</DESCENDANTS>
+		</NODE>
+		<!---->
+		<!--							 CCCCC    AAA   RRRRRR 								-->
+		<!--							CC    C  AAAAA  RR   RR								-->
+		<!--							CC      AA   AA RRRRRR 								-->
+		<!--							CC    C AAAAAAA RR  RR 								-->
+		<!--							 CCCCC  AA   AA RR   RR								-->
+		<!---->
+		<NODE id="car">
+			<MATERIAL id="mat_metal" />
+			<TEXTURE id="tex_car_color" />
+			<TRANSLATION x="-2.5" y="1" z="5.5" />
+			<ROTATION axis="x" angle="0" />
+			<SCALE sx="0.9" sy="0.9" sz="0.9" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_side_x-" />
+				<DESCENDANT id="car_side_x+" />
+				<DESCENDANT id="car_windshield" />
+				<DESCENDANT id="car_windshield_back" />
+				<DESCENDANT id="car_top" />
+				<DESCENDANT id="car_hood_front" />
+				<DESCENDANT id="car_hood_back" />
+				<DESCENDANT id="car_front" />
+				<DESCENDANT id="car_back" />
+				<DESCENDANT id="car_wheel_F_L" />
+				<DESCENDANT id="car_wheel_F_R" />
+				<DESCENDANT id="car_wheel_B_L" />
+				<DESCENDANT id="car_wheel_B_R" />
+			</DESCENDANTS>
+		</NODE>
+		<!-- ~~~~~~ -->
+		<!-- Wheels -->
+		<!-- ~~~~~~ -->
+		<NODE id="car_wheel_F_L">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0.75" y="-0.5" z="1.5" />
+			<ROTATION axis="y" angle="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_wheel" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_wheel_F_R">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="-0.75" y="-0.5" z="1.5" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_wheel" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_wheel_B_L">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0.75" y="-0.5" z="-1.5" />
+			<ROTATION axis="y" angle="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_wheel" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_wheel_B_R">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="-0.75" y="-0.5" z="-1.5" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_wheel" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_wheel">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="null" />
+			<SCALE sx="0.5" sy="0.5" sz="0.5" />
+			<ROTATION axis="y" angle="90" />
+			<SCALE sx="1" sy="1" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_tire" />
+				<DESCENDANT id="car_wheel_outer" />
+				<DESCENDANT id="car_wheel_inner" />
+				<DESCENDANT id="car_wheel_inside" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_tire">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="tex_wheel_tire" />
+			<DESCENDANTS>
+				<DESCENDANT id="cyl" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_wheel_inside">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0" z="1" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_wheel_outer" />
+				<DESCENDANT id="car_wheel_inner" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_wheel_outer">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="tex_wheel_side_outer" />
+			<TRANSLATION x="0" y="0" z="1" />
+			<ROTATION axis="x" angle="0" />
+			<SCALE sx="1" sy="1" sz="0.0001" />
+			<ROTATION axis="y" angle="90" />
+			<DESCENDANTS>
+				<DESCENDANT id="sph" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_wheel_inner">
+			<MATERIAL id="mat_normal" />
+			<TEXTURE id="tex_wheel_side_inner" />
+			<TRANSLATION x="0" y="0" z="1.02" />
+			<ROTATION axis="x" angle="0" />
+			<SCALE sx="0.4" sy="0.4" sz="0.0001" />
+			<ROTATION axis="y" angle="90" />
+			<DESCENDANTS>
+				<DESCENDANT id="sph" />
+			</DESCENDANTS>
+		</NODE>
+		<!-- ~~~~~ -->
+		<!-- Sides -->
+		<!-- ~~~~~ -->
+		<NODE id="car_side_x-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="-1" y="0" z="0" />
+			<ROTATION axis="y" angle="270" />
+			<SCALE sx="1" sy="1" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_side_bot_x-" />
+				<DESCENDANT id="car_side_tri11" />
+				<DESCENDANT id="car_side_tri22" />
+				<DESCENDANT id="car_side_rectT" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_side_bot_x-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<ROTATION axis="x" angle="180" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_side_bot" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_side_x+">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="1" y="0" z="0" />
+			<ROTATION axis="y" angle="90" />
+			<SCALE sx="1" sy="1" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_side_bot" />
+				<DESCENDANT id="car_side_tri11" />
+				<DESCENDANT id="car_side_tri22" />
+				<DESCENDANT id="car_side_rectT" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_side_tri11">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_car_win_f" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_side_tri1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_side_tri22">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_car_win_b" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_side_tri2" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_side_rectT">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_car_win" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_side_rect" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_side_bot">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_car_side" />
+			<TRANSLATION x="0" y="0" z="0" />
+			<SCALE sx="5" sy="0.8" sz="1" />
+			<ROTATION axis="y" angle="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<!-- ~~~~~~~~~~~ -->
+		<!-- Rest of car -->
+		<!-- ~~~~~~~~~~~ -->
+		<NODE id="car_top">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="1.2" z="0" />
+			<SCALE sx="2" sy="1" sz="2" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_windshield_back">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_windshield" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_windshield">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_car_windshield" />
+			<TRANSLATION x="0" y="0.75" z="1.21" />
+			<ROTATION axis="x" angle="-25.5" />
+			<SCALE sx="2" sy="1.0" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_hood_back">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_car_color" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_hood" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_hood_front">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_car_hood" />
+			<DESCENDANTS>
+				<DESCENDANT id="car_hood" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_hood">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0.4" z="1.9" />
+			<SCALE sx="2" sy="1" sz="1.2" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_front">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_car_front" />
+			<TRANSLATION x="0" y="0" z="2.5" />
+			<SCALE sx="2" sy="0.8" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="car_back">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<ROTATION axis="y" angle="180" />
+			<TRANSLATION x="0" y="0" z="2.5" />
+			<SCALE sx="2" sy="0.8" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<!---->
+		<!-- 							RRRRRR   OOOOO    AAA   DDDDD   					-->
+		<!-- 							RR   RR OO   OO  AAAAA  DD  DD  					-->
+		<!-- 							RRRRRR  OO   OO AA   AA DD   DD 					-->
+		<!-- 							RR  RR  OO   OO AAAAAAA DD   DD 					-->
+		<!-- 							RR   RR  OOOO0  AA   AA DDDDDD  					-->
+		<!---->
+		<NODE id="sidewalk">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_grass" />
+			<DESCENDANTS>
+				<DESCENDANT id="grass" />
+				<DESCENDANT id="garage_entrance" />
+				<DESCENDANT id="door_entrance" />
+				<DESCENDANT id="road" />
+				<DESCENDANT id="garage_sidewalk_inclination" />
+				<DESCENDANT id="sidewalk1" />
+				<DESCENDANT id="sidewalk2" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="grass">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_grass" />
+			<TRANSLATION x="1" y="0" z="2" />
+			<SCALE sx="20" sy="1" sz="12" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="garage_entrance">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_asphalt_0.5" />
+			<TRANSLATION x="-2.5" y="0.01" z="5" />
+			<SCALE sx="4" sy="1" sz="6" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="garage_sidewalk_inclination">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_asphalt" />
+			<TRANSLATION x="-2.51" y="-0.115" z="9" />
+			<SCALE sx="4" sy="1" sz="2.1" />
+			<ROTATION axis="x" angle="-90" />
+			<ROTATION axis="x" angle="14.25" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="door_entrance">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_old_stone" />
+			<TRANSLATION x="3.8" y="0.01" z="5" />
+			<SCALE sx="1" sy="1" sz="6" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="sidewalk1">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_sidewalk1" />
+			<TRANSLATION x="5.25" y="-0.125" z="9" />
+			<SCALE sx="11.5" sy="0.25" sz="2" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="sidewalk2">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_sidewalk2" />
+			<TRANSLATION x="-6.75" y="-0.125" z="9" />
+			<SCALE sx="4.5" sy="0.25" sz="2" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="road">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_road" />
+			<TRANSLATION x="1" y="-0.25" z="13.5" />
+			<SCALE sx="20" sy="1" sz="7" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<!---->
+		<!--						HH   HH  OOOOO  UU   UU  SSSSS  EEEEEEE 					-->
+		<!--						HH   HH OO   OO UU   UU SS      EE      					-->
+		<!--						HHHHHHH OO   OO UU   UU  SSSSS  EEEEE   					-->
+		<!--						HH   HH OO   OO UU   UU      SS EE      					-->
+		<!--						HH   HH  OOOO0   UUUUU   SSSSS  EEEEEEE 					-->
+		<!---->
+		<!-- COMPLETE HOUSE -->
+		<NODE id="complete_house">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="house_bottom" />
+				<DESCENDANT id="house_top" />
+			</DESCENDANTS>
+		</NODE>
+		<!-- BOTTOM PART OF THE HOUSE -->
+		<NODE id="house_bottom">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_house_wall1" />
+			<SCALE sx="1" sy="0.6" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="roof_big" />
+				<DESCENDANT id="walls" />
+				<DESCENDANT id="garage_door" />
+				<DESCENDANT id="main_entrance" />
+				<DESCENDANT id="front_window" />
+			</DESCENDANTS>
+		</NODE>
+		<!-- TOP PART OF THE HOUSE -->
+		<NODE id="house_top">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="1.8" y="3.5" z="1.34" />
+			<SCALE sx="0.65" sy="0.3" sz="0.2" />
+			<ROTATION axis="y" angle="90" />
+			<DESCENDANTS>
+				<DESCENDANT id="roof_little" />
+				<DESCENDANT id="walls" />
+				<DESCENDANT id="top_window" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_little">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_house_wall1" />
+			<TRANSLATION x="0" y="2.5" z="0" />
+			<SCALE sx="1" sy="0.5" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="roof" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_big">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_house_wall2" />
+			<SCALE sx="1" sy="1" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="roof" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="walls">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="house_ground" />
+				<DESCENDANT id="house_front" />
+				<DESCENDANT id="house_back" />
+				<DESCENDANT id="house_right" />
+				<DESCENDANT id="house_left" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="roof_base" />
+				<DESCENDANT id="roof_front" />
+				<DESCENDANT id="roof_front_double" />
+				<DESCENDANT id="roof_back" />
+				<DESCENDANT id="roof_back_double" />
+				<DESCENDANT id="roof_right" />
+				<DESCENDANT id="roof_left" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="house_ground">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<SCALE sx="10" sy="1" sz="5" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="house_front">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_house_wall1" />
+			<TRANSLATION x="0" y="2.5" z="2.5" />
+			<SCALE sx="10" sy="5" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="house_back">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_house_wall1" />
+			<TRANSLATION x="0" y="2.5" z="-2.5" />
+			<SCALE sx="10" sy="5" sz="1" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="house_left">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_house_wall1" />
+			<TRANSLATION x="-5" y="2.5" z="0" />
+			<SCALE sx="1" sy="5" sz="5" />
+			<ROTATION axis="y" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="house_right">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_house_wall1" />
+			<TRANSLATION x="5" y="2.5" z="0" />
+			<SCALE sx="1" sy="5" sz="5" />
+			<ROTATION axis="y" angle="90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_base">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_wood" />
+			<TRANSLATION x="0" y="5" z="0" />
+			<SCALE sx="10" sy="1" sz="6.062" />
+			<ROTATION axis="x" angle="90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_front">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_roof" />
+			<TRANSLATION x="0" y="7.6249" z="1.515" />
+			<ROTATION axis="x" angle="-30" />
+			<SCALE sx="10.6" sy="6.062" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_back">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_roof" />
+			<TRANSLATION x="0" y="7.6249" z="-1.515" />
+			<ROTATION axis="x" angle="-150" />
+			<SCALE sx="10.6" sy="6.062" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_back_double">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_roof" />
+			<TRANSLATION x="0" y="7.6249" z="-1.515" />
+			<ROTATION axis="x" angle="30" />
+			<SCALE sx="10.6" sy="6.062" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_front_double">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_roof" />
+			<TRANSLATION x="0" y="7.6249" z="1.515" />
+			<ROTATION axis="x" angle="150" />
+			<SCALE sx="10.6" sy="6.062" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_left">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="-5" y="5" z="0" />
+			<ROTATION axis="y" angle="180" />
+			<SCALE sx="1" sy="10.4996" sz="6.062" />
+			<DESCENDANTS>
+				<DESCENDANT id="house_front_top" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="roof_right">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="5" y="5" z="0" />
+			<SCALE sx="1" sy="10.4996" sz="6.062" />
+			<DESCENDANTS>
+				<DESCENDANT id="house_front_top" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="garage_door">
+			<MATERIAL id="mat_metal" />
+			<TEXTURE id="tex_garage" />
+			<TRANSLATION x="-2.5" y="2" z="2.51" />
+			<SCALE sx="4" sy="4" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="main_entrance">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_door" />
+			<TRANSLATION x="3.8" y="0" z="2.51" />
+			<SCALE sx="1" sy="3.5" sz="1" />
+			<TRANSLATION x="0" y="0.5" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="front_window">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_window" />
+			<TRANSLATION x="1.65" y="2" z="2.501" />
+			<SCALE sx="2.5" sy="2" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="bordered_square" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="top_window">
+			<MATERIAL id="null" />
+			<TEXTURE id="tex_window" />
+			<TRANSLATION x="-5.05" y="3.3" z="0" />
+			<ROTATION axis="y" angle="-90" />
+			<SCALE sx="2.5" sy="2.5" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="bordered_square" />
+			</DESCENDANTS>
+		</NODE>
+		<!-- ############### -->
+		<!-- BORDERED SQUARE -->
+		<!-- ############### -->
+		<NODE id="bordered_square">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<SCALE sx="0.25" sy="0.25" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="bordered_square_border_vx+" />
+				<DESCENDANT id="bordered_square_border_vx-" />
+				<DESCENDANT id="bordered_square_border_hy+" />
+				<DESCENDANT id="bordered_square_border_hy-" />
+				<DESCENDANT id="bordered_square_glass" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="bordered_square_glass">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0" z="0.06" />
+			<SCALE sx="3" sy="4" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="bordered_square_border_vx+">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="1.5" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="bordered_square_border_vertical" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="bordered_square_border_vx-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="-1.5" y="0" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="bordered_square_border_vertical" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="bordered_square_border_hy+">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="2" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="bordered_square_border_horizontal" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="bordered_square_border_hy-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="-2" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="bordered_square_border_horizontal" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="bordered_square_border_horizontal">
+			<MATERIAL id="mat_border" />
+			<TEXTURE id="clear" />
+			<SCALE sx="3" sy="0.25" sz="0.1" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="bordered_square_border_vertical">
+			<MATERIAL id="mat_border" />
+			<TEXTURE id="clear" />
+			<SCALE sx="0.25" sy="4.25" sz="0.1" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<!---->
+		<!-- 		 SSSSS  TTTTTTT RRRRRR  EEEEEEE EEEEEEE TTTTTTT  LL        AAA   MM    MM PPPPPP 	 -->
+		<!-- 		SS        TTT   RR   RR EE      EE        TTT    LL       AAAAA  MMM  MMM PP   PP	 -->
+		<!-- 		 SSSSS    TTT   RRRRRR  EEEEE   EEEEE     TTT    LL      AA   AA MM MM MM PPPPPP 	 -->
+		<!-- 		     SS   TTT   RR  RR  EE      EE        TTT    LL      AAAAAAA MM    MM PP     	 -->
+		<!-- 		 SSSSS    TTT   RR   RR EEEEEEE EEEEEEE   TTT    LLLLLLL AA   AA MM    MM PP     	 -->
+		<!---->
+		<NODE id="street_lamp_1">
+			<MATERIAL id="mat_streetlamp" />
+			<TEXTURE id="clear" />
+			<TRANSLATION x="-6" y="0" z="9.5" />
+			<SCALE sx="0.5" sy="0.5" sz="0.5" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_2">
+			<MATERIAL id="mat_streetlamp" />
+			<TEXTURE id="clear" />
+			<TRANSLATION x="8.5" y="0" z="9.5" />
+			<SCALE sx="0.5" sy="0.5" sz="0.5" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_post" />
+				<DESCENDANT id="street_lamp_x+" />
+				<DESCENDANT id="street_lamp_x-" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_x+">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="1.5" y="7.50" z="0" />
+			<SCALE sx="0.5" sy="0.5" sz="0.5" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_main" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_x-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="-1.5" y="7.50" z="0" />
+			<SCALE sx="0.5" sy="0.5" sz="0.5" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_main" />
+			</DESCENDANTS>
+		</NODE>
+		<!-- ############### -->
+		<!-- The lamp itself -->
+		<!-- ############### -->
+		<NODE id="street_lamp_main">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_structure_glass" />
+				<DESCENDANT id="street_lamp_structure_metal" />
+				<DESCENDANT id="street_lamp_structure_middle" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure_middle">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="2" z="0" />
+			<SCALE sx="2" sy="0.1" sz="2" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure_glass">
+			<MATERIAL id="mat_metal" />
+			<TEXTURE id="tex_glass" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_structure" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure_metal">
+			<MATERIAL id="mat_streetlamp" />
+			<TEXTURE id="clear" />
+			<TRANSLATION x="0" y="2.50" z="0" />
+			<ROTATION axis="x" angle="180" />
+			<SCALE sx="1" sy="0.25" sz="1" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_structure" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_structure_bottom" />
+				<DESCENDANT id="street_lamp_structure_face1" />
+				<DESCENDANT id="street_lamp_structure_face2" />
+				<DESCENDANT id="street_lamp_structure_face3" />
+				<DESCENDANT id="street_lamp_structure_face4" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure_face1">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_face_interglass" />
+				<DESCENDANT id="street_lamp_face_glass" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure_face2">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<ROTATION axis="y" angle="90" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_face_interglass" />
+				<DESCENDANT id="street_lamp_face_glass" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure_face3">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_face_interglass" />
+				<DESCENDANT id="street_lamp_face_glass" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure_face4">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<ROTATION axis="y" angle="270" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_face_interglass" />
+				<DESCENDANT id="street_lamp_face_glass" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_face_interglass">
+			<MATERIAL id="mat_streetlamp" />
+			<TEXTURE id="clear" />
+			<TRANSLATION x="0.55" y="0" z="0.55" />
+			<ROTATION axis="x" angle="9" />
+			<ROTATION axis="z" angle="-9" />
+			<TRANSLATION x="0" y="1.05" z="0" />
+			<SCALE sx="0.1" sy="2" sz="0.1" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_face_glass">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0.55" y="0" z="0" />
+			<ROTATION axis="y" angle="90" />
+			<ROTATION axis="x" angle="9" />
+			<DESCENDANTS>
+				<DESCENDANT id="lamp_glass_rect" />
+				<DESCENDANT id="lamp_glass_tri1" />
+				<DESCENDANT id="lamp_glass_tri2" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_structure_bottom">
+			<MATERIAL id="mat_streetlamp" />
+			<TEXTURE id="clear" />
+			<SCALE sx="1.2" sy="0.1" sz="1.2" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<!-- ######################## -->
+		<!-- The lamp post and holder -->
+		<!-- ######################## -->
+		<NODE id="street_lamp_post">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_post_long_cyl" />
+				<DESCENDANT id="street_lamp_post_bot" />
+				<DESCENDANT id="street_lamp_post_holder" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_post_long_cyl">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0" z="0" />
+			<SCALE sx="0.15" sy="7.13" sz="0.15" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="cyl" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_post_holder">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="7.13" z="0" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_post_holder_long" />
+				<DESCENDANT id="street_lamp_post_holder_short_x+" />
+				<DESCENDANT id="street_lamp_post_holder_short_x-" />
+				<DESCENDANT id="street_lamp_post_top" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_post_top">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<SCALE sx="0.25" sy="0.25" sz="0.25" />
+			<DESCENDANTS>
+				<DESCENDANT id="sph" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_post_holder_long">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<SCALE sx="3" sy="0.15" sz="0.15" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_post_holder_short_x+">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_post_holder_short" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_post_holder_short_x-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="street_lamp_post_holder_short" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_post_holder_short">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="1.5" y="0.125" z="0" />
+			<SCALE sx="0.15" sy="0.4" sz="0.15" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="street_lamp_post_bot">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0" z="0" />
+			<SCALE sx="0.5" sy="0.3" sz="0.5" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="cyl_streetlamp_bot" />
+			</DESCENDANTS>
+		</NODE>
+		<!---->
+		<!--						  CCCCC  UU   UU BBBBB   EEEEEEE 						 -->
+		<!--						 CC    C UU   UU BB   B  EE      						 -->
+		<!--						 CC      UU   UU BBBBBB  EEEEE   						 -->
+		<!--						 CC    C UU   UU BB   BB EE      						 -->
+		<!--						  CCCCC   UUUUU  BBBBBB  EEEEEEE 						 -->
+		<!---->
+		<NODE id="cube">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<DESCENDANTS>
+				<DESCENDANT id="cube_face_x-" />
+				<DESCENDANT id="cube_face_x+" />
+				<DESCENDANT id="cube_face_y-" />
+				<DESCENDANT id="cube_face_y+" />
+				<DESCENDANT id="cube_face_z-" />
+				<DESCENDANT id="cube_face_z+" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="cube_face_x-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="-0.5" y="0" z="0" />
+			<ROTATION axis="y" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="cube_face_x+">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0.5" y="0" z="0" />
+			<ROTATION axis="y" angle="90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="cube_face_y-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="-0.5" z="0" />
+			<ROTATION axis="x" angle="90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="cube_face_y+">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0.5" z="0" />
+			<ROTATION axis="x" angle="-90" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="cube_face_z-">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0" z="-0.5" />
+			<ROTATION axis="y" angle="180" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="cube_face_z+">
+			<MATERIAL id="null" />
+			<TEXTURE id="null" />
+			<TRANSLATION x="0" y="0" z="0.5" />
+			<DESCENDANTS>
+				<DESCENDANT id="quad_1x1" />
+			</DESCENDANTS>
+		</NODE>
+	</NODES>
+</SCENE>

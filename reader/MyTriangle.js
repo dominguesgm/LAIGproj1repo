@@ -1,19 +1,9 @@
 /**
- * MyObject
- * @param gl {WebGLRenderingContext}
+ * MyTriangle
  * @constructor
+ * @param scene
+ * @param coordinates
  */
-//function MyTriangle(scene) {
-//	CGFobject.call(this,scene);
-//
-//	this.minS = 0;
-//	this.minT = 0;
-//	this.maxS = 1;
-//	this.maxT = 1;
-//
-//	this.initBuffers();
-//};
-
 function MyTriangle(scene, coordinates) {
 	CGFobject.call(this,scene);
 
@@ -51,11 +41,11 @@ function MyTriangle(scene, coordinates) {
 	this.gamma = Math.acos(this.cosGamma);
 	this.sum = this.beta + this.alpha + this.gamma;
 
-
 	this.initBuffers();
 };
 
 MyTriangle.prototype = Object.create(CGFobject.prototype);
+
 MyTriangle.prototype.constructor=MyTriangle;
 
 MyTriangle.prototype.initBuffers = function () {
@@ -87,6 +77,13 @@ MyTriangle.prototype.initBuffers = function () {
 };
 
 
+/*
+ * updateTextelCoordinates
+ * Update the textel's coordinates according to amplifS and amplifT.
+ *
+ * @param amplifS amplification factor s
+ * @param amplifT amplification factor t
+ */
 MyTriangle.prototype.updateTexelCoordinates = function (amplifS, amplifT) {
 
 	this.texCoords = [	

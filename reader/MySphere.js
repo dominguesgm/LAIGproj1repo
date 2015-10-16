@@ -1,6 +1,8 @@
-/**
+/*
  * MySphere
  * @constructor
+ * @param scene
+ * @param arguments [radius, stacks, slices]
  */
  function MySphere(scene, arguments) {
  	CGFobject.call(this,scene);
@@ -15,6 +17,7 @@
  };
 
  MySphere.prototype = Object.create(CGFobject.prototype);
+
  MySphere.prototype.constructor = MySphere;
 
  MySphere.prototype.initBuffers = function() {
@@ -29,6 +32,7 @@
 	this.texelY = 0;
 
  	this.vertices = [];
+ 	
  	var alpha = -Math.PI/2;
  	for (var n = 0; n <= this.stacks;n++, alpha+=(Math.PI/(this.stacks))) {
  	    var tempAngle = 0;
@@ -45,9 +49,7 @@
 
  	this.indices = [];
 
-
-	for(i = 0; i < ((this.slices*this.stacks)+(this.stacks-1)); i+=1)
- 	{
+	for(i = 0; i < ((this.slices*this.stacks)+(this.stacks-1)); i+=1){
  		if((i%(this.slices+1)) != (this.slices)){
  			this.indices.push(i + this.slices + 2, i+1, i + this.slices + 1);
  			this.indices.push(i+1, i, i + this.slices + 1);
@@ -61,5 +63,11 @@
  	this.initGLBuffers();
  };
 
-MySphere.prototype.updateTexelCoordinates = function (amplifS, amplifT) {
-};
+/*
+ * updateTextelCoordinates
+ * No need to update the textel's coordinates according to amplifS and amplifT.
+ *
+ * @param amplifS amplification factor s
+ * @param amplifT amplification factor t
+ */
+MySphere.prototype.updateTexelCoordinates = function (amplifS, amplifT){};

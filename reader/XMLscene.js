@@ -1,20 +1,29 @@
 
+/*
+ * XMLscene
+ * @constructor
+ */
 function XMLscene() {
     CGFscene.call(this);
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
+
 XMLscene.prototype.constructor = XMLscene;
 
 /*
+ * setMyInterface
  * Sets the scene's interface.
+ * @param newInterface
  */
 XMLscene.prototype.setMyInterface = function(newInterface) {
 	this.myInterface = newInterface;
 }
 
 /*
+ * init
  * Initiate scene with default settings.
+ * @param application
  */
 XMLscene.prototype.init = function (application) {
     CGFscene.prototype.init.call(this, application);
@@ -38,10 +47,10 @@ XMLscene.prototype.init = function (application) {
 };
 
 /*
+ * initLights
  * Initiate the scene's lights by default.
  */
 XMLscene.prototype.initLights = function () {
-
     this.shader.bind();
 	this.lights[0].setPosition(2, 3, 3, 1);
     this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
@@ -51,6 +60,7 @@ XMLscene.prototype.initLights = function () {
 };
 
 /*
+ * initCameras
  * Initiate the scene's default camera.
  */
 XMLscene.prototype.initCameras = function () {
@@ -58,6 +68,7 @@ XMLscene.prototype.initCameras = function () {
 };
 
 /*
+ * setDefaultAppearance
  * Initiate the scene's default appearance.
  */
 XMLscene.prototype.setDefaultAppearance = function () {
@@ -68,31 +79,49 @@ XMLscene.prototype.setDefaultAppearance = function () {
 };
 
 /*
- * Set the scene to the specified settings.
+ * onGraphLoaded
+ * Set the scene to the settings specified on file.
  */
  XMLscene.prototype.onGraphLoaded = function () {
 
-	console.log('XMLscene');
-
-  	// TODO INITIALS
   	this.setInitials();
   	this.setIllumination();
     this.createLights();
     this.loadTextures();
     this.loadMaterials();
     this.initGeometry();
+    this.loadReview();
+};
 
-   	// display nodes read:
-   	console.log("LOAD REVIEW=======================================");
-  	console.log("CURRRENT ROOT" + this.graph.root);
+/*
+ * loadReview
+ * Performs a count on the elements read
+ */
+XMLscene.prototype.loadReview = function () {
 
+	var nTextures = 0;
+  	for(id in this.graph.textures)
+  		nTextures++;
+
+  	console.log(nTextures + " elements of type <TEXTURE> found.");
+
+  	var nMaterials = 0;
+  	for(id in this.graph.materials)
+  		nMaterials++;
+
+  	console.log(nMaterials + " elements of type <MATERIAL> found.");
+
+	var nLeaves = 0;
+  	for(id in this.graph.leaves)
+  		nLeaves++;
+
+  	console.log(nLeaves + " elements of type <LEAF> found.");
+
+   	var nNodes = 0;
   	for(id in this.graph.nodes)
-  		console.log(id+ " descendants" + this.graph.nodes[id]['descendants'].length);
-	
-	for(id in this.graph.nodes)
-  		console.log(id+ " descendants" + this.graph.nodes[id]['descendants'].length);
+  		nNodes++;
 
-    console.log("STARTING Drawing NOW");
+  	console.log(nNodes + " elements of type <NODE> found.");	
 };
 
 function degToRad(degrees) {
@@ -100,76 +129,74 @@ function degToRad(degrees) {
 }
 
 /*
+ * initGeometry
  * Initiate the scene's geometry according to the information read.
  */
 XMLscene.prototype.initGeometry = function () {
 	this.leaves = [];
-	for(id in this.graph.leaves){
-		console.log("Leaf number" + id);
-		if(this.graph.leaves[id]['type']=='rectangle')
+	for(id in this.graph.leaves)
+		switch(this.graph.leaves[id]['type']){
+		case 'rectangle':
 			this.leaves[id] = new MyRectangle(this, this.graph.leaves[id]['args']);
-		if(this.graph.leaves[id]['type']=='cylinder')
+			break;
+		case 'cylinder':
 			this.leaves[id] = new MyCylinder(this, this.graph.leaves[id]['args']);
-		if(this.graph.leaves[id]['type']=='sphere')
+			break;
+		case 'sphere':
 			this.leaves[id] = new MySphere(this, this.graph.leaves[id]['args']);
-		if(this.graph.leaves[id]['type']=='triangle')
+			break;
+		case 'triangle':
 			this.leaves[id] = new MyTriangle(this, this.graph.leaves[id]['args']);
-	}
+			break;
+		default: break;
+		}
 };
 
 /*
+ * setInitials
  * Set the scene's definitions to the specified values.
  */
 XMLscene.prototype.setInitials = function () {
 
-	console.log("ATENTION__________________ " + this.matrix);
-			
 	// add  translation
     mat4.translate(this.matrix, this.matrix, this.graph.initials['translation']);
-	console.log("ATENTION__________________ " + this.matrix);
 
 	// add rotations
 	var n;
 	for(n=0; n<3; n++)
 		switch(this.graph.initials['rotations'][n][0]){
 			case 'x':
-				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateX(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
 				break;
 			case 'y':
-				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateY(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));
 				break;
 			case 'z':
-				console.log(this.graph.initials['rotations'][n]);
 				mat4.rotateZ(this.matrix, this.matrix, degToRad(this.graph.initials['rotations'][n][1]));	
 				break;
-			default: 
-				console.log(this.graph.initials['rotations'][n]);
-				break;
+			default: break;
 		}
-
-    console.log("ATENTION__________________ " + this.matrix);
+	}
 
     // add scale
 	mat4.scale(this.matrix, this.matrix, this.graph.initials['scale']);
-	console.log("ATENTION__________________ " + this.matrix);
-
-	// debug final matrix
-	console.log("ATENTION__________________ " + this.matrix);
 
 	this.camera.near = this.graph.initials.frustumNear;
 	this.camera.far = this.graph.initials.frustumFar;
 
 	this.axis=new CGFaxis(this, this.graph.initials.referenceLength);
+<<<<<<< HEAD
 
 	// TODO
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//var perspective = mat4.create();
 	//mat4.perspective(perspective, 45, 800* 600 , this.graph.initials.frustumNear, this.graph.initials.frustumFar);
+=======
+>>>>>>> 2c37256c400a91a01f44dd535559c8f73b20c247
 };
 
 /*
+ * setIllumunation
  * Create the scene's illumination accoording to the specified settings.
  */
 XMLscene.prototype.setIllumination = function () {
@@ -185,6 +212,7 @@ XMLscene.prototype.setIllumination = function () {
 
 
 /*
+ * createLights
  * Create the scene's lights accoording to the specified settings.
  */
 XMLscene.prototype.createLights = function(){
@@ -227,6 +255,7 @@ XMLscene.prototype.createLights = function(){
 };
 
 /*
+ * updateLights
  * Update the lights according to their current state (enabled/disabled).
  */
 XMLscene.prototype.updateLights = function() {
@@ -240,6 +269,7 @@ XMLscene.prototype.updateLights = function() {
 }
 
 /*
+ * loadTextures
  * Load the scene's textures.
  */
 XMLscene.prototype.loadTextures = function () {
@@ -250,11 +280,11 @@ XMLscene.prototype.loadTextures = function () {
 	for(id in this.graph.textures){
 		this.textures[id] = new CGFtexture(this, this.graph.textures[id]['file']);
 		this.amplificationFactor[id] = this.graph.textures[id]['amplif_factor'];
-		console.log("texture read ID=" + id);
 	}
 };
 
 /*
+ * loadMaterials
  * Create the scene's materials.
  */
 XMLscene.prototype.loadMaterials = function () {
@@ -295,13 +325,11 @@ XMLscene.prototype.loadMaterials = function () {
 
 		this.materials[id].setShininess(this.graph.materials[id]['shininess']);		
 		this.materials[id].setTextureWrap("REPEAT","REPEAT");
-
-		// debug
-		console.log("material read id=" + id);
 	}
 };
 
 /*
+ * display
  * Display the scene.
  */
 XMLscene.prototype.display = function () {
@@ -331,6 +359,7 @@ XMLscene.prototype.display = function () {
 
 
 /*
+ * processGraph
  * Processes the scene's elements.
  */
 XMLscene.prototype.processGraph = function() {
@@ -338,22 +367,17 @@ XMLscene.prototype.processGraph = function() {
  	this.materialsUsed = ['default'];
  	this.texturesUsed = ['clear'];
 
-	console.log("CURRRENT ROOT" + this.graph.root);
-
  	this.processElement(this.graph.root);
  };
 
 /*
+ * drawElement
  * Draws the element with elementId with current appearance and tranformation.
  */
 XMLscene.prototype.drawElement = function(elementId) {
-	console.log("draw element " + elementId);
-
 	var material = this.materialsUsed.pop();
 	var texture = this.texturesUsed.pop();
-	var previousTexture;
 	
-	console.log("APPLYING TEXTURE - " + texture);
 	if(texture!='clear'){
 		this.leaves[elementId].updateTexelCoordinates(this.amplificationFactor[texture][0], this.amplificationFactor[texture][1]);
 		this.materials[material].setTexture(this.textures[texture]);
@@ -370,21 +394,18 @@ XMLscene.prototype.drawElement = function(elementId) {
 
 
 /*
+ * processElement
  * Processes element elementId and its descendants.
+ * @param elementId
  */
 XMLscene.prototype.processElement = function(elementId) {
 
 	var element = null;
 
-	// debug
-	console.log("STARTING "+ elementId);
-	
 	// find node or leaf
 	if(this.graph.nodes[elementId] != null)
 		element = this.graph.nodes[elementId];
 	else if(this.graph.leaves[elementId] != null){
-		//debug
-		console.log("FINISHED LEAF "+ elementId);
 		this.drawElement(elementId);
 		return null;
 	}else return null;
@@ -412,9 +433,6 @@ XMLscene.prototype.processElement = function(elementId) {
 	var n;
 	for(n=0; n< element['descendants'].length; n++)
 		this.processElement(element['descendants'][n]);
-
-	//debug
-	console.log("FINISHED PROCESSING NODE "+ elementId);
 
 	this.popMatrix();
 	this.materialsUsed.pop();

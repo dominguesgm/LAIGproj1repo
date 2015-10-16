@@ -21,20 +21,18 @@ main=function()
     var myInterface = new MyInterface();
 
     app.init();
-
     app.setScene(myScene);
     app.setInterface(myInterface);
-
+    
     myInterface.setActiveCamera(myScene.camera);
     myScene.setMyInterface(myInterface);
 
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
-	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
-	
+	// assumes files in subfolder "scenes" or subfolders of "scenes", check MySceneGraph constructor) 
 	var filename=getUrlVars()['file'];
 
 	// create and load graph, and associate it to scene. 
-	// Check console for loading errors
+	// loading errors are printed on console
 	var myGraph = new MySceneGraph(filename, myScene);
 	
 	// start
