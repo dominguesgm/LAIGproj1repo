@@ -1,0 +1,85 @@
+<SCENE>
+	<INITIALS>
+        <frustum near=".1" far="500"/>                
+        <translation x="0" y="0" z="0" />         
+        <rotation axis="x" angle="0" />                
+        <rotation axis="y" angle="0" />                
+        <rotation axis="z" angle="0" />
+        <scale sx="1.0" sy="1.0" sz="1.0" />             
+        <reference length="1" />
+    </INITIALS>
+
+	<ILLUMINATION>
+	    <ambient r="0.1" g="0.1" b="0.1" a="1" />
+	    <background r="0.1" g="0.1" b="0.1" a="1" />
+	</ILLUMINATION>
+
+	<LIGHTS>
+	    <LIGHT id="frontFocus">                           
+	        <enable value="1" />                       
+	        <position x="0" y="0" z="5" w="1" />       
+	        <ambient r="0" g="0" b="0" a="1" />
+	        <diffuse r="0.9" g="0.9" b="0.9" a="1" />
+	        <specular r="0.9" g="0.9" b="0.9" a="1" />
+	    </LIGHT>
+
+        <LIGHT id="backFocus">                           
+            <enable value="1" />                       
+            <position x="0" y="0" z="-5" w="1" />       
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0.9" g="0.9" b="0.9" a="1" />
+            <specular r="0.9" g="0.9" b="0.9" a="1" />
+        </LIGHT>
+
+        <LIGHT id="topFocus">                           
+            <enable value="1" />                       
+            <position x="0" y="5" z="0" w="1" />       
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0.9" g="0.9" b="0.9" a="1" />
+            <specular r="0.9" g="0.9" b="0.9" a="1" />
+        </LIGHT>
+
+        <LIGHT id="bottomFocus">                           
+            <enable value="1" />                       
+            <position x="0" y="-5" z="0" w="1" />       
+            <ambient r="0" g="0" b="0" a="1" />
+            <diffuse r="0.9" g="0.9" b="0.9" a="1" />
+            <specular r="0.9" g="0.9" b="0.9" a="1" />
+        </LIGHT>
+	</LIGHTS>
+
+	<TEXTURES>
+
+	</TEXTURES>
+
+
+	<MATERIALS>
+
+        <MATERIAL id="defaultMaterial">                                  
+            <shininess value="100" />
+            <specular r="0.5" g="0.5" b="0.5" a="1" />        
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
+            <ambient r="0.1" g="0.1" b="0.1" a="1" />         
+            <emission r="0.0" g="0.0" b="0.0" a="1" />        
+        </MATERIAL>
+
+	</MATERIALS>
+
+<LEAVES>
+    <LEAF id="leafSphere" type="sphere" args="1 50 50" />
+</LEAVES>
+
+<NODES>
+
+    <ROOT id="rootNode" />
+
+    <NODE id="rootNode">
+        <MATERIAL id="defaultMaterial" />
+        <TEXTURE id="clear" />
+        <SCALE sx="0.5" sy="0.5" sz="0.5" />
+        <DESCENDANTS>
+            <DESCENDANT id="leafSphere" />
+        </DESCENDANTS>
+    </NODE>
+</NODES>
+</SCENE>

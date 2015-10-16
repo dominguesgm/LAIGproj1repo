@@ -21,25 +21,27 @@
 
  	this.texCoords = [];
 
+ 	this.normals = [];
+
  	this.texelXInterval = 1/(this.slices);
  	this.texelYInterval = 1/(this.stacks);
 
 	this.texelY = 0;
 
  	this.vertices = [];
- 	var alpha = 0;
+ 	var alpha = -Math.PI/2;
  	for (var n = 0; n <= this.stacks;n++, alpha+=(Math.PI/(this.stacks))) {
  	    var tempAngle = 0;
  	    this.texelX = 0;
   	 	for (var i = 0; i <= this.slices; i++) {
-  			this.vertices.push(this.radius*Math.sin(alpha)*Math.cos(tempAngle), this.radius*Math.sin(alpha)*Math.sin(tempAngle), this.radius*Math.cos(alpha));
+  			this.vertices.push(this.radius*Math.cos(alpha)*Math.cos(tempAngle), this.radius*Math.sin(alpha), this.radius*Math.cos(alpha)*Math.sin(tempAngle));
+  			this.normals.push(Math.cos(alpha)*Math.cos(tempAngle),  Math.sin(alpha), Math.cos(alpha)*Math.sin(tempAngle));
  	       	this.texCoords.push(this.texelX, this.texelY);
   	 		this.texelX += this.texelXInterval;
   	 		tempAngle += this.angle;
  	    };
    	    this.texelY += this.texelYInterval;
  	};
-
 
  	this.indices = [];
 
@@ -53,16 +55,6 @@
  			this.indices.push(i+this.slices + 2, i, i+this.slices+1);
  			this.indices.push(i+this.slices + 2, i+1, i);
  		}
- 	};
-
-	this.normals = [];
-	alpha=0;
- 	for (var z = 0; z <= this.stacks; z++, alpha+=(Math.PI/(this.stacks*2))) {
- 	    var tempAngle = 0;
- 	    for (var i = 0; i <= this.slices; i++) {
- 	  		this.normals.push(Math.sin(alpha)*Math.cos(tempAngle), Math.sin(alpha)*Math.sin(tempAngle), Math.abs(Math.cos(alpha)));
- 	        tempAngle += this.angle;
-  	    };
  	};
 
  	this.primitiveType = this.scene.gl.TRIANGLES;
