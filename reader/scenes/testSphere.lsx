@@ -65,6 +65,10 @@
 	</LIGHTS>
 
 	<TEXTURES>
+    <TEXTURE id="wheelPlates">
+            <file path="textures/wheelPlates.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
 
 	</TEXTURES>
 
@@ -82,7 +86,7 @@
 	</MATERIALS>
 
 <LEAVES>
-    <LEAF id="leafSphere" type="sphere" args="1 50 50" />
+    <LEAF id="leafSphere" type="sphere" args="1 100 100" />
 </LEAVES>
 
 <NODES>
@@ -91,7 +95,7 @@
 
     <NODE id="rootNode">
         <MATERIAL id="defaultMaterial" />
-        <TEXTURE id="clear" />
+        <TEXTURE id="wheelPlates" />
         <SCALE sx="0.5" sy="0.5" sz="0.5" />
         <DESCENDANTS>
             <DESCENDANT id="leafSphere" />

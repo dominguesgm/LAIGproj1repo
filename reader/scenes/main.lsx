@@ -57,7 +57,7 @@
         </TEXTURE>
 
         <TEXTURE id="wheelPlates">
-            <file path="textures/wheelPlates.png" />
+            <file path="textures/wheelPlates.jpg" />
             <amplif_factor s="1" t="1" />
         </TEXTURE>
 
