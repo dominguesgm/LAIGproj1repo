@@ -260,7 +260,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	var warningMessages = [];
 	this.initials = [];
 
-	var defaultSettings = { frustumNear: 0, frustumFar: 0, translation: [0,0,0], rotations: [['x',0], ['y',0], ['z',0]], scale: [1,1,1], referenceLength: 1};
+	var defaultSettings = { frustumNear: 0.1, frustumFar: 400, translation: [0,0,0], rotations: [['x',0], ['y',0], ['z',0]], scale: [1,1,1], referenceLength: 1};
 
 	// check occurrences of 'INITIALS'
 	var elemsInitial =  rootElement.getElementsByTagName('INITIALS');
@@ -284,23 +284,22 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	}
 
 	// read information on frustum	
-	this.initials['frustumNear'] = this.reader.getFloat(initialsTemp[0], 'near', false);
-	this.initials['frustumFar'] = this.reader.getFloat(initialsTemp[0], 'far', false);
 	if(initialsTemp[0].nodeName != 'frustum'){
 		warningMessages.push(["Warning", "First element of <INITIALS> must be <frustum>"]);
 	}
-	if(this.initials['frustumNear'] == null || this.initials['frustumFar'] == null){
+	this.initials['frustumNear'] = this.reader.getFloat(initialsTemp[0], 'near', false);
+	this.initials['frustumFar'] = this.reader.getFloat(initialsTemp[0], 'far', false);
+	if(this.initials['frustumNear'] == null || this.initials['frustumFar'] == null || this.initials['frustumNear']<=0){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<frustum>. Default used."]);
 		this.initials['frustumNear'] = defaultSettings["frustumNear"];
 		this.initials['frustumFar'] = defaultSettings["frustumFar"];
 	}
 	
 	// read information on translation	
-	this.initials['translation'] = this.getTranslation(initialsTemp[1], false);
 	if(initialsTemp[1].nodeName != 'translation'){
 		warningMessages.push(["Warning", "Second element of <INITIALS> must be <translation>"]);
 	}
-
+	this.initials['translation'] = this.getTranslation(initialsTemp[1], false);
 	if(this.initials['translation']==null){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<translation>. Default used."]);
 		this.initials['translation'] = defaultSettings["translation"];
@@ -310,6 +309,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	this.initials['rotations'] = [];
 	var n;
 	for(n=0; n<3; n++){
+		if(initialsTemp[n+2].nodeName != 'rotation'){
+			warningMessages.push(["Warning", "Third, fourth and fifth element of <INITIALS> must be <rotation>"]);
+		}
 		this.initials['rotations'][n]=this.getRotation(initialsTemp[n+2], false);
 		if(this.initials['rotations'][n]==null){
 			this.initials['rotations'][n] = defaultSettings["rotations"][n];
@@ -318,6 +320,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	}
 
 	// read information on scale
+	if(initialsTemp[5].nodeName != 'scale'){
+		warningMessages.push(["Warning", "Sixth element of <INITIALS> must be <scale>"]);
+	}
 	this.initials['scale'] = this.getScale(initialsTemp[n+2], false);
 	if(this.initials['scale'] == null){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<scale>. Default used."]);
@@ -325,6 +330,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	}
 
 	// reference length
+	if(initialsTemp[6].nodeName != 'reference'){
+		warningMessages.push(["Warning", "Seventh element of <INITIALS> must be <reference>"]);
+	}
 	this.initials['referenceLength'] = this.reader.getFloat(initialsTemp[n+3], 'length', false);
 	if(this.initials['referenceLength'] == null || this.initials['referenceLength']<0){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<reference>. Default used."]);
@@ -345,8 +353,8 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 
 	var warnings =[];
 
-	if (illuminationXML == null  || illuminationXML.length==0) {
-		warnings.push(["Error", "No 'Illumination' element found."]);
+	if (illuminationXML == null  || illuminationXML.length==0 || illuminationXML.length. > 1) {
+		warnings.push(["Error", "No 'Illumination' element found, or found more than one instance."]);
 		return warnings;
 	}
 
@@ -406,16 +414,17 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  	for(; lightIterator < lightsBlock[0].children.length; lightIterator++){
  		var tempLight = lightsBlock[0].children[lightIterator];
  		if(tempLight.nodeName == 'LIGHT'){
- 			var parseWarning = this.parseSingleLight(tempLight);
+ 			var parseWarning = this.parseSingleLight(tempLight, lightIterator);
+ 			warningMessage = warningMessage.concat(parseWarning);
  			if(parseWarning != null)
  				warningMessages.push('Warning', 'Issue parsing light number ' + lightIterator + '.');
  		} else 
  			warningMessage.push('Warning', 'Current element number ' + lightIterator + ' is not a light, ignoring it.');
  	}
- 	if(this.lights.length == 0){
- 		warningMessages.push('Error', 'There should at least be one light.');
- 		return warningMessages;
- 	}
+ 	if(this.lights.length == 0)
+ 		warningMessages.push('Error', 'There should at least be one light element.');
+ 		
+ 	return warningMessages;
  };
 
 /*
@@ -423,14 +432,14 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  * Method used for parsing information about a element light of type { id, enable, position[], ambient[], diffuse[], specular[] }
  * @param element
  */
-MySceneGraph.prototype.parseSingleLight= function(element){
+MySceneGraph.prototype.parseSingleLight= function(element, lightIndex){
  	var light = [];
  	var warningMessages = [];
 
  	var id = this.reader.getString(element, 'id', false);
  	if(id == null){
- 		warningMessages.push('Warning', 'Issue parsing light: no id.');
- 		return warningMessages;
+ 		warningMessages.push('Warning', 'Issue parsing light: no id. Using default id.');
+ 		id = "light" + lightIndex;
  	}
  	light['id'] = id;
  	var attributes = element.children;
@@ -439,8 +448,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	if(attributes[0].nodeName == 'enable'){
  		light['enable'] = this.reader.getBoolean(attributes[0], 'value', false);
  		if(light['enable'] == null){
- 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "enable".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "enable". Assuming value "true"');
+ 			light['enable'] = true;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "enable attribute not found or in wrong order.');
@@ -453,8 +462,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  		position.push(this.reader.getFloat(attributes[1], 'w', false));
  		light['position'] = position;
  		if(light['position'][0] == null || light['position'][1] == null || light['position'][2] == null || light['position'][3] == null){
- 			warningMessages.push('Warning', 'Issue parsing light : incorrect value in attribute "position".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light : incorrect value in attribute "position". Assuming default value 0 in all fields');
+ 			light['position'][0] = light['position'][1] = light['position'][2] = light['position'][3] = 0;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "position attribute not found or in wrong order.');
@@ -465,8 +474,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	if(attributes[2].nodeName == 'ambient'){
  		light['ambient'] = this.getRGBA(attributes[2], false);
  		if(light['ambient'][0] == null || light['ambient'][1] == null || light['ambient'][2] == null || light['ambient'][3] == null){
- 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "ambient".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "ambient". Assuming default value 0.5 in all fields');
+ 			light['ambient'][0] = light['ambient'][1] = light['ambient'][2] = light['ambient'][3] = 0.5;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light : "ambient attribute not found or in wrong order.');
@@ -477,8 +486,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	if(attributes[3].nodeName == 'diffuse'){
  		light['diffuse'] = this.getRGBA(attributes[3], false);
  		if(light['diffuse'][0] == null || light['diffuse'][1] == null || light['diffuse'][2] == null || light['diffuse'][3] == null){
- 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "diffuse".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "diffuse". Assuming default value 0.5 in all fields');
+ 			light['diffuse'][0] = light['diffuse'][1] = light['diffuse'][2] = light['diffuse'][3] = 0.5;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "diffuse attribute not found or in wrong order.');
@@ -489,8 +498,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	if(attributes[4].nodeName == 'specular'){
  		light['specular'] = this.getRGBA(attributes[4], false);
  		if(light['specular'][0] == null || light['specular'][1] == null || light['specular'][2] == null || light['specular'][3] == null){
- 			warningMessages.push('Warning', 'Issue parsing light number: incorrect value in attribute "specular".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light number: incorrect value in attribute "specular". Assuming default value 0.25 in all fields');
+ 			light['specular'][0] = light['specular'][1] = light['specular'][2] = light['specular'][3] = 0.25;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "specular attribute not found or in wrong order.');
@@ -552,16 +561,16 @@ MySceneGraph.prototype.parseAppearanceElement= function(elementType, rootElement
 
 			var elm = elmsTemp[m];		
 			
-			if(this[elementType.toLowerCase() +'s'][elm.id]!= null)
+			if(this[elementType.toLowerCase() +'s']['#' + elm.id]!= null)
 				warningMessages.push(["Warning", "Two or more <" + elementType + "S>/<" + elementType + "> elements with id=" + elm.id + " found."]);
 			else if(elementType=='MATERIAL') 
-				this[elementType.toLowerCase() +'s'][elm.id]=this.readMaterial(elm);
+				this[elementType.toLowerCase() +'s']['#' + elm.id]=this.readMaterial(elm);
 			else if(elementType=='TEXTURE')
-				this[elementType.toLowerCase() +'s'][elm.id]=this.readTexture(elm);
+				this[elementType.toLowerCase() +'s']['#' + elm.id]=this.readTexture(elm);
 			else continue;
 
-			if(this[elementType.toLowerCase() +'s'][elm.id]==null)	// delete material if an error occurred
-				delete this[elementType.toLowerCase() +'s'][elm.id];
+			if(this[elementType.toLowerCase() +'s']['#' + elm.id]==null)	// delete material if an error occurred
+				delete this[elementType.toLowerCase() +'s']['#' + elm.id];
 		}
 	}
 
@@ -682,14 +691,14 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 
 			var leaf = leavesTemp[m];		
 			
-			if(this.leaves[leaf.id]!= null)
+			if(this.leaves['#' + leaf.id]!= null)
 				warningMessages.push(["Warning", "Two or more <LEAVES>/<LEAVE> elements with id=" + leaf.id + " found."]);
-			else this.leaves[leaf.id]=this.readLeaf(leaf);
+			else this.leaves['#' + leaf.id]=this.readLeaf(leaf);
 
-			if(this.leaves[leaf.id]==null){
+			if(this.leaves['#' + leaf.id]==null){
 				warningMessages.push(["Warning", "One or more errors on <LEAVES>/<LEAVE> element with id=" + leaf.id + ". Ignored."]);
-				delete this.leaves[leaf.id];
-			}else this.leaves[leaf.id]['idSeq'] = this.nElements++;
+				delete this.leaves['#' + leaf.id];
+			}else this.leaves['#' + leaf.id]['idSeq'] = this.nElements++;
 		}
 	}
 
@@ -754,7 +763,7 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 
 		var rootTemp = elemsNodes[n].getElementsByTagName('ROOT');
 		if(rootTemp.length==1)
-			this.root = rootTemp[0].id;
+			this.root = '#' + rootTemp[0].id;
 
 		var nodesTemp = elemsNodes[n].getElementsByTagName('NODE');
 
@@ -762,15 +771,15 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 
 			var node = nodesTemp[m];		
 			
-			if(this.nodes[node.id]!= null || this.leaves[node.id]!=null)
+			if(this.nodes['#' + node.id]!= null || this.leaves['#' + node.id]!=null)
 				warningMessages.push(["Warning", "Two or more <NODES>/<NODE> or <LEAVES>/<LEAVE> elements with id=" + node.id + " found."]);
-			else this.nodes[node.id]=this.readNode(node);
+			else this.nodes['#' + node.id]=this.readNode(node);
 
-			if(this.nodes[node.id]==null){
+			if(this.nodes['#' + node.id]==null){
 				warningMessages.push(["Warning", "Error on <NODES>/<NODE> element with id=" + node.id + " - no <DESCENDANTS> found. Ignored."]);
-				delete this.nodes[node.id];
+				delete this.nodes['#' + node.id];
 			}
-			else this.nodes[node.id]['idSeq'] = this.nElements++;
+			else this.nodes['#' + node.id]['idSeq'] = this.nElements++;
 		}
 	}
 
@@ -794,13 +803,17 @@ MySceneGraph.prototype.readNode= function(element) {
 	
 	var material =  element.getElementsByTagName('MATERIAL');
 	if(material.length!=0)
-		node['material'] = material[0].id;
-	else node['material'] = null;
+		if(material[0].id!="null")
+			node['material'] = '#' + material[0].id;
+		else node['material'] = material[0].id;
+	else node['material'] = "null";
 
 	var texture =  element.getElementsByTagName('TEXTURE');
 	if(texture.length!=0)
-		node['texture'] = texture[0].id;
-	else node['texture'] = null;
+		if(texture[0].id!="null" && texture[0].id!="clear")
+			node['texture'] = '#' + texture[0].id;
+		else node['texture'] = texture[0].id;
+	else node['texture'] = "null";
 
 	// read transformations
 	node['transformations'] = [];
@@ -840,7 +853,7 @@ MySceneGraph.prototype.readNode= function(element) {
 
 		var descendantsTemp = descendants[n].getElementsByTagName('DESCENDANT');
 		for(m=0; m<descendantsTemp.length; m++)
-			node['descendants'].push(descendantsTemp[m].id);
+			node['descendants'].push('#' + descendantsTemp[m].id);
 	}
 
 	return node;
@@ -871,7 +884,7 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 
 	// check if the element's texture is valid
 	if(this.textures[element['texture']] == null && element['texture']!="null" && element['texture'] != "clear"){
-		this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No material with id=" + element['material'] + ".");
+		this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No texture with id=" + element['material'] + ".");
 		element['texture'] = "null"; // use parent's texture
 	}
 
