@@ -218,6 +218,25 @@ MySceneGraph.prototype.validElement= function(element) {
 };
 
 /*
+ * checkStructure
+ * Check an element of elementType for the correct syntax order
+ * @param elementType
+ * @param element
+ * @param syntax
+ */
+MySceneGraph.prototype.checkStructure= function(elementType, element, syntax) {
+	var nC, nS;
+	for(nC=0, nS=0; nC < element.children.length && nS < syntax.length; nC++)
+		if(element.children[nC].nodeName =='TRANSLATION' || element.children[nC].nodeName == 'ROTATION' || element.children[nC].nodeName == 'SCALE')
+			continue;
+		else
+		 if(element.children[nC].nodeName!=syntax[nS++]){
+			this.onXMLWarning("Error on <" + elementType + " id=" + element.id +"> - One or more elements out of order. Check syntax.");
+			break;
+		}
+}
+
+/*
  * setInitials
  * Sets the parameters in Initials to the specified values.
  * @param settings
@@ -233,6 +252,7 @@ MySceneGraph.prototype.setInitials= function(settings) {
  * @param message
  */
  MySceneGraph.prototype.onXMLWarning= function(message){
+ 	message = message.replace(/#/g, '');
 	console.warn("LSX Loading Warning: " + message);
 };
 
@@ -566,16 +586,18 @@ MySceneGraph.prototype.parseAppearanceElement= function(elementType, rootElement
 MySceneGraph.prototype.readTexture= function(element) {
 	var texture = [];
 
+	this.checkStructure('TEXTURE', element, ['file', 'amplif_factor']);
+
 	var filePath =  element.getElementsByTagName('file');
-	if(filePath.length!=1){
-		this.onXMLWarning("Error on <TEXTURE id=" + element.id +"><file>. Element ignored.");
+	if(filePath == null || filePath.length!=1){
+		this.onXMLWarning("Error on <TEXTURE id=" + element.id +">/<file>. Element ignored.");
 		return null;
 	}
 
 	texture['file'] = this.path + filePath[0].attributes.getNamedItem("path").value;
 
 	if(texture['file']==null){
-		this.onXMLWarning("Error on <TEXTURE id=" + element.id +"><file>. Element ignored.");
+		this.onXMLWarning("Error on <TEXTURE id=" + element.id +">/<file>. Element ignored.");
 		return null;
 	}		
 	
@@ -586,7 +608,7 @@ MySceneGraph.prototype.readTexture= function(element) {
 				  parseFloat(ampliFactor[0].attributes.getNamedItem("t").value)];
 
 	if(!this.validElement(texture['amplif_factor'])){
-		this.onXMLWarning("Error on <TEXTURE id=" + element.id +"><file>. Default used.");
+		this.onXMLWarning("Error on <TEXTURE id=" + element.id +">/<file>. Default used.");
 		texture['amplif_factor'] = [1,1];
 	}
 		
@@ -604,10 +626,12 @@ MySceneGraph.prototype.readMaterial= function(element) {
 	var properties = ['shininess', 'specular', 'diffuse', 'ambient', 'emission'];
 	var n;
 
+	this.checkStructure('MATERIAL', element, properties);
+
 	for(n=0; n<properties.length; n++){
 		var property = element.getElementsByTagName(properties[n]);
 		if(property.length!=1){
-			this.onXMLWarning("Error on <MATERIAL id=" + element.id +"><" + properties[n] + ">. Element ignored.");
+			this.onXMLWarning("Error on <MATERIAL id=" + element.id +">/<" + properties[n] + ">. Element ignored.");
 			return null;
 		}
 
@@ -616,7 +640,7 @@ MySceneGraph.prototype.readMaterial= function(element) {
 				material['shininess'] = parseFloat(property[0].attributes.getNamedItem("value").value);
 				if(material['shininess']== null || material['shininess']<0){
 					material['shininess'] = 1;	// default
-					this.onXMLWarning("Error on <MATERIAL id=" + element.id +"><" + properties[n] + ">. Default used.");
+					this.onXMLWarning("Error on <MATERIAL id=" + element.id +">/<" + properties[n] + ">. Default used.");
 				}
 				break;
 			case 'specular':
@@ -625,10 +649,10 @@ MySceneGraph.prototype.readMaterial= function(element) {
 			case 'emission':
 				material[properties[n]] = this.getRGBA(property[0], false);
 				if(material[properties[n]] == null){
-					this.onXMLWarning("Error on <MATERIAL id=" + element.id +"><" + properties[n] + ">. Element ignored.");
+					this.onXMLWarning("Error on <MATERIAL id=" + element.id +">/<" + properties[n] + ">. Element ignored.");
 					return null;
 				}else if(!this.checkRGBA(material[properties[n]]))
-					this.onXMLWarning("Error on <MATERIAL id=" + element.id +"><" + properties[n] + ">. Default used.");
+					this.onXMLWarning("Error on <MATERIAL id=" + element.id +">/<" + properties[n] + ">. Default used.");
 				break;
 			default:
 				this.onXMLWarning("Error on <MATERIAL id=" + element.id +">. Element ignored.");
@@ -692,16 +716,23 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
  * @return element of type leaf { type, args[] } or null if an error occurs.
  */
 MySceneGraph.prototype.readLeaf= function(element) {
+
 	var leaf = [];
 
+	this.checkStructure('LEAF', element, ['type', 'args']);
+
 	leaf['type'] = this.reader.getString(element, 'type', false);
-	if(leaf['type']==null)
+	if(leaf['type']==null){
+		this.onXMLWarning("Error on <LEAF id=" + element.id +">/<type>. Element ignored.");
 		return null;
+	}
 
 	leaf['args'] = [];
 	var args = this.reader.getString(element, 'args', false);
-	if(args==null)
+	if(args==null){
+		this.onXMLWarning("Error on <LEAF id=" + element.id +">/<args>. Element ignored.");
 		return null;
+	}
 	
 	args = args.replace(/  /g, " ");
 	var values = args.split(" ");
@@ -780,20 +811,28 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
  */
 MySceneGraph.prototype.readNode= function(element) {
 	var node = [];
+
+	this.checkStructure('NODE', element, ['MATERIAL', 'TEXTURE', 'DESCENDANTS']);
 	
 	var material =  element.getElementsByTagName('MATERIAL');
 	if(material.length!=0)
 		if(material[0].id!="null")
 			node['material'] = '#' + material[0].id;
 		else node['material'] = material[0].id;
-	else node['material'] = "null";
+	else{
+		this.onXMLWarning("Error on <NODE id=" + element.id +">/<MATERIAL>. 'null' used.");
+	 	node['material'] = "null";
+	}
 
 	var texture =  element.getElementsByTagName('TEXTURE');
 	if(texture.length!=0)
 		if(texture[0].id!="null" && texture[0].id!="clear")
 			node['texture'] = '#' + texture[0].id;
 		else node['texture'] = texture[0].id;
-	else node['texture'] = "null";
+	else{
+		this.onXMLWarning("Error on <NODE id=" + element.id +">/<TEXTURE>. 'null' used.");
+		node['texture'] = "null";
+	} 
 
 	// read transformations
 	node['transformations'] = [];
@@ -858,13 +897,13 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 
 	// check if the element's material is valid
 	if(this.materials[element['material']] == null && element['material']!="null"){
-		this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No material with id=" + element['material'] + ".");
+		this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No material with id=" + element['material'] + ". 'null' used.");
 		element['material'] = "null"; // use parent's material
 	}
 
 	// check if the element's texture is valid
 	if(this.textures[element['texture']] == null && element['texture']!="null" && element['texture'] != "clear"){
-		this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No texture with id=" + element['material'] + ".");
+		this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No texture with id=" + element['texture'] + ". 'null' used");
 		element['texture'] = "null"; // use parent's texture
 	}
 
