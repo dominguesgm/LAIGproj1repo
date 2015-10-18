@@ -298,7 +298,15 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 
 	var warningMessages = [];
 
+	if(initialsTemp.length < 7 || initialsTemp.length > 7){
+		warningMessages.push(["Error", "Initials must have 7 elements"]);
+		return warningMessages;
+	}
+
 	// read information on frustum	
+	if(initialsTemp[0].nodeName != 'frustum'){
+		warningMessages.push(["Warning", "First element of <INITIALS> must be <frustum>"]);
+	}
 	this.initials['frustumNear'] = this.reader.getFloat(initialsTemp[0], 'near', false);
 	this.initials['frustumFar'] = this.reader.getFloat(initialsTemp[0], 'far', false);
 	if(this.initials['frustumNear'] == null || this.initials['frustumFar'] == null || this.initials['frustumNear']<=0){
@@ -308,8 +316,10 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	}
 	
 	// read information on translation	
+	if(initialsTemp[1].nodeName != 'translation'){
+		warningMessages.push(["Warning", "Second element of <INITIALS> must be <translation>"]);
+	}
 	this.initials['translation'] = this.getTranslation(initialsTemp[1], false);
-
 	if(this.initials['translation']==null){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<translation>. Default used."]);
 		this.initials['translation'] = defaultSettings["translation"];
@@ -319,6 +329,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	this.initials['rotations'] = [];
 	var n;
 	for(n=0; n<3; n++){
+		if(initialsTemp[n+2].nodeName != 'rotation'){
+			warningMessages.push(["Warning", "Third, fourth and fifth element of <INITIALS> must be <rotation>"]);
+		}
 		this.initials['rotations'][n]=this.getRotation(initialsTemp[n+2], false);
 		if(this.initials['rotations'][n]==null){
 			this.initials['rotations'][n] = defaultSettings["rotations"][n];
@@ -327,6 +340,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	}
 
 	// read information on scale
+	if(initialsTemp[5].nodeName != 'scale'){
+		warningMessages.push(["Warning", "Sixth element of <INITIALS> must be <scale>"]);
+	}
 	this.initials['scale'] = this.getScale(initialsTemp[n+2], false);
 	if(this.initials['scale'] == null){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<scale>. Default used."]);
@@ -334,6 +350,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	}
 
 	// reference length
+	if(initialsTemp[6].nodeName != 'reference'){
+		warningMessages.push(["Warning", "Seventh element of <INITIALS> must be <reference>"]);
+	}
 	this.initials['referenceLength'] = this.reader.getFloat(initialsTemp[n+3], 'length', false);
 	if(this.initials['referenceLength'] == null || this.initials['referenceLength']<0){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<reference>. Default used."]);
@@ -354,8 +373,8 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 
 	var warnings =[];
 
-	if (illuminationXML == null  || illuminationXML.length==0) {
-		warnings.push(["Error", "No 'Illumination' element found."]);
+	if (illuminationXML == null  || illuminationXML.length==0 || illuminationXML.length. > 1) {
+		warnings.push(["Error", "No 'Illumination' element found, or found more than one instance."]);
 		return warnings;
 	}
 
@@ -415,16 +434,17 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  	for(; lightIterator < lightsBlock[0].children.length; lightIterator++){
  		var tempLight = lightsBlock[0].children[lightIterator];
  		if(tempLight.nodeName == 'LIGHT'){
- 			var parseWarning = this.parseSingleLight(tempLight);
+ 			var parseWarning = this.parseSingleLight(tempLight, lightIterator);
+ 			warningMessage = warningMessage.concat(parseWarning);
  			if(parseWarning != null)
  				warningMessages.push('Warning', 'Issue parsing light number ' + lightIterator + '.');
  		} else 
  			warningMessage.push('Warning', 'Current element number ' + lightIterator + ' is not a light, ignoring it.');
  	}
- 	if(this.lights.length == 0){
- 		warningMessages.push('Error', 'There should at least be one light.');
- 		return warningMessages;
- 	}
+ 	if(this.lights.length == 0)
+ 		warningMessages.push('Error', 'There should at least be one light element.');
+ 		
+ 	return warningMessages;
  };
 
 /*
@@ -432,14 +452,14 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  * Method used for parsing information about a element light of type { id, enable, position[], ambient[], diffuse[], specular[] }
  * @param element
  */
-MySceneGraph.prototype.parseSingleLight= function(element){
+MySceneGraph.prototype.parseSingleLight= function(element, lightIndex){
  	var light = [];
  	var warningMessages = [];
 
  	var id = this.reader.getString(element, 'id', false);
  	if(id == null){
- 		warningMessages.push('Warning', 'Issue parsing light: no id.');
- 		return warningMessages;
+ 		warningMessages.push('Warning', 'Issue parsing light: no id. Using default id.');
+ 		id = "light" + lightIndex;
  	}
  	light['id'] = id;
  	var attributes = element.children;
@@ -448,8 +468,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	if(attributes[0].nodeName == 'enable'){
  		light['enable'] = this.reader.getBoolean(attributes[0], 'value', false);
  		if(light['enable'] == null){
- 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "enable".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "enable". Assuming value "true"');
+ 			light['enable'] = true;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "enable attribute not found or in wrong order.');
@@ -462,8 +482,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  		position.push(this.reader.getFloat(attributes[1], 'w', false));
  		light['position'] = position;
  		if(light['position'][0] == null || light['position'][1] == null || light['position'][2] == null || light['position'][3] == null){
- 			warningMessages.push('Warning', 'Issue parsing light : incorrect value in attribute "position".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light : incorrect value in attribute "position". Assuming default value 0 in all fields');
+ 			light['position'][0] = light['position'][1] = light['position'][2] = light['position'][3] = 0;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "position attribute not found or in wrong order.');
@@ -474,8 +494,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	if(attributes[2].nodeName == 'ambient'){
  		light['ambient'] = this.getRGBA(attributes[2], false);
  		if(light['ambient'][0] == null || light['ambient'][1] == null || light['ambient'][2] == null || light['ambient'][3] == null){
- 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "ambient".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "ambient". Assuming default value 0.5 in all fields');
+ 			light['ambient'][0] = light['ambient'][1] = light['ambient'][2] = light['ambient'][3] = 0.5;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light : "ambient attribute not found or in wrong order.');
@@ -486,8 +506,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	if(attributes[3].nodeName == 'diffuse'){
  		light['diffuse'] = this.getRGBA(attributes[3], false);
  		if(light['diffuse'][0] == null || light['diffuse'][1] == null || light['diffuse'][2] == null || light['diffuse'][3] == null){
- 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "diffuse".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light: incorrect value in attribute "diffuse". Assuming default value 0.5 in all fields');
+ 			light['diffuse'][0] = light['diffuse'][1] = light['diffuse'][2] = light['diffuse'][3] = 0.5;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "diffuse attribute not found or in wrong order.');
@@ -498,8 +518,8 @@ MySceneGraph.prototype.parseSingleLight= function(element){
  	if(attributes[4].nodeName == 'specular'){
  		light['specular'] = this.getRGBA(attributes[4], false);
  		if(light['specular'][0] == null || light['specular'][1] == null || light['specular'][2] == null || light['specular'][3] == null){
- 			warningMessages.push('Warning', 'Issue parsing light number: incorrect value in attribute "specular".');
- 			return warningMessages;
+ 			warningMessages.push('Warning', 'Issue parsing light number: incorrect value in attribute "specular". Assuming default value 0.25 in all fields');
+ 			light['specular'][0] = light['specular'][1] = light['specular'][2] = light['specular'][3] = 0.25;
  		}
  	} else {
  		warningMessages.push('Warning', 'Issue parsing light: "specular attribute not found or in wrong order.');
