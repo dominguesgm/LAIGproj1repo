@@ -236,9 +236,17 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 
 	var warningMessages = [];
 
+	if(initialsTemp.length < 7 || initialsTemp.length > 7){
+		warningMessages.push(["Error", "Initials must have 7 elements"]);
+		return warningMessages;
+	}
+
 	// read information on frustum	
 	this.initials['frustumNear'] = this.reader.getFloat(initialsTemp[0], 'near', false);
 	this.initials['frustumFar'] = this.reader.getFloat(initialsTemp[0], 'far', false);
+	if(initialsTemp[0].nodeName != 'frustum'){
+		warningMessages.push(["Warning", "First element of <INITIALS> must be <frustum>"]);
+	}
 	if(this.initials['frustumNear'] == null || this.initials['frustumFar'] == null){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<frustum>. Default used."]);
 		this.initials['frustumNear'] = defaultSettings["frustumNear"];
@@ -251,6 +259,9 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 
 	// read information on translation	
 	this.initials['translation'] = this.getTranslation(initialsTemp[1], false);
+	if(initialsTemp[1].nodeName != 'translation'){
+		warningMessages.push(["Warning", "Second element of <INITIALS> must be <translation>"]);
+	}
 
 	if(this.initials['translation']==null){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<translation>. Default used."]);
