@@ -373,7 +373,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 
 	var warnings =[];
 
-	if (illuminationXML == null  || illuminationXML.length==0 || illuminationXML.length. > 1) {
+	if (illuminationXML == null  || illuminationXML.length != 1) {
 		warnings.push(["Error", "No 'Illumination' element found, or found more than one instance."]);
 		return warnings;
 	}
@@ -435,11 +435,12 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
  		var tempLight = lightsBlock[0].children[lightIterator];
  		if(tempLight.nodeName == 'LIGHT'){
  			var parseWarning = this.parseSingleLight(tempLight, lightIterator);
- 			warningMessage = warningMessage.concat(parseWarning);
- 			if(parseWarning != null)
+ 			if(parseWarning != null){
+ 				warningMessages = warningMessages.concat(parseWarning);
  				warningMessages.push('Warning', 'Issue parsing light number ' + lightIterator + '.');
+ 			}
  		} else 
- 			warningMessage.push('Warning', 'Current element number ' + lightIterator + ' is not a light, ignoring it.');
+ 			warningMessages.push('Warning', 'Current element number ' + lightIterator + ' is not a light, ignoring it.');
  	}
  	if(this.lights.length == 0)
  		warningMessages.push('Error', 'There should at least be one light element.');
