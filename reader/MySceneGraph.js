@@ -260,7 +260,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	var warningMessages = [];
 	this.initials = [];
 
-	var defaultSettings = { frustumNear: 0, frustumFar: 0, translation: [0,0,0], rotations: [['x',0], ['y',0], ['z',0]], scale: [1,1,1], referenceLength: 1};
+	var defaultSettings = { frustumNear: 0.1, frustumFar: 400, translation: [0,0,0], rotations: [['x',0], ['y',0], ['z',0]], scale: [1,1,1], referenceLength: 1};
 
 	// check occurrences of 'INITIALS'
 	var elemsInitial =  rootElement.getElementsByTagName('INITIALS');
@@ -281,7 +281,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	// read information on frustum	
 	this.initials['frustumNear'] = this.reader.getFloat(initialsTemp[0], 'near', false);
 	this.initials['frustumFar'] = this.reader.getFloat(initialsTemp[0], 'far', false);
-	if(this.initials['frustumNear'] == null || this.initials['frustumFar'] == null){
+	if(this.initials['frustumNear'] == null || this.initials['frustumFar'] == null || this.initials['frustumNear']<=0){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<frustum>. Default used."]);
 		this.initials['frustumNear'] = defaultSettings["frustumNear"];
 		this.initials['frustumFar'] = defaultSettings["frustumFar"];
@@ -541,16 +541,16 @@ MySceneGraph.prototype.parseAppearanceElement= function(elementType, rootElement
 
 			var elm = elmsTemp[m];		
 			
-			if(this[elementType.toLowerCase() +'s'][elm.id]!= null)
+			if(this[elementType.toLowerCase() +'s']['#' + elm.id]!= null)
 				warningMessages.push(["Warning", "Two or more <" + elementType + "S>/<" + elementType + "> elements with id=" + elm.id + " found."]);
 			else if(elementType=='MATERIAL') 
-				this[elementType.toLowerCase() +'s'][elm.id]=this.readMaterial(elm);
+				this[elementType.toLowerCase() +'s']['#' + elm.id]=this.readMaterial(elm);
 			else if(elementType=='TEXTURE')
-				this[elementType.toLowerCase() +'s'][elm.id]=this.readTexture(elm);
+				this[elementType.toLowerCase() +'s']['#' + elm.id]=this.readTexture(elm);
 			else continue;
 
-			if(this[elementType.toLowerCase() +'s'][elm.id]==null)	// delete material if an error occurred
-				delete this[elementType.toLowerCase() +'s'][elm.id];
+			if(this[elementType.toLowerCase() +'s']['#' + elm.id]==null)	// delete material if an error occurred
+				delete this[elementType.toLowerCase() +'s']['#' + elm.id];
 		}
 	}
 
@@ -671,14 +671,14 @@ MySceneGraph.prototype.parseLeaves= function(rootElement) {
 
 			var leaf = leavesTemp[m];		
 			
-			if(this.leaves[leaf.id]!= null)
+			if(this.leaves['#' + leaf.id]!= null)
 				warningMessages.push(["Warning", "Two or more <LEAVES>/<LEAVE> elements with id=" + leaf.id + " found."]);
-			else this.leaves[leaf.id]=this.readLeaf(leaf);
+			else this.leaves['#' + leaf.id]=this.readLeaf(leaf);
 
-			if(this.leaves[leaf.id]==null){
+			if(this.leaves['#' + leaf.id]==null){
 				warningMessages.push(["Warning", "One or more errors on <LEAVES>/<LEAVE> element with id=" + leaf.id + ". Ignored."]);
-				delete this.leaves[leaf.id];
-			}else this.leaves[leaf.id]['idSeq'] = this.nElements++;
+				delete this.leaves['#' + leaf.id];
+			}else this.leaves['#' + leaf.id]['idSeq'] = this.nElements++;
 		}
 	}
 
@@ -743,7 +743,7 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 
 		var rootTemp = elemsNodes[n].getElementsByTagName('ROOT');
 		if(rootTemp.length==1)
-			this.root = rootTemp[0].id;
+			this.root = '#' + rootTemp[0].id;
 
 		var nodesTemp = elemsNodes[n].getElementsByTagName('NODE');
 
@@ -751,15 +751,15 @@ MySceneGraph.prototype.parseNodes= function(rootElement) {
 
 			var node = nodesTemp[m];		
 			
-			if(this.nodes[node.id]!= null || this.leaves[node.id]!=null)
+			if(this.nodes['#' + node.id]!= null || this.leaves['#' + node.id]!=null)
 				warningMessages.push(["Warning", "Two or more <NODES>/<NODE> or <LEAVES>/<LEAVE> elements with id=" + node.id + " found."]);
-			else this.nodes[node.id]=this.readNode(node);
+			else this.nodes['#' + node.id]=this.readNode(node);
 
-			if(this.nodes[node.id]==null){
+			if(this.nodes['#' + node.id]==null){
 				warningMessages.push(["Warning", "Error on <NODES>/<NODE> element with id=" + node.id + " - no <DESCENDANTS> found. Ignored."]);
-				delete this.nodes[node.id];
+				delete this.nodes['#' + node.id];
 			}
-			else this.nodes[node.id]['idSeq'] = this.nElements++;
+			else this.nodes['#' + node.id]['idSeq'] = this.nElements++;
 		}
 	}
 
@@ -783,13 +783,17 @@ MySceneGraph.prototype.readNode= function(element) {
 	
 	var material =  element.getElementsByTagName('MATERIAL');
 	if(material.length!=0)
-		node['material'] = material[0].id;
-	else node['material'] = null;
+		if(material[0].id!="null")
+			node['material'] = '#' + material[0].id;
+		else node['material'] = material[0].id;
+	else node['material'] = "null";
 
 	var texture =  element.getElementsByTagName('TEXTURE');
 	if(texture.length!=0)
-		node['texture'] = texture[0].id;
-	else node['texture'] = null;
+		if(texture[0].id!="null" && texture[0].id!="clear")
+			node['texture'] = '#' + texture[0].id;
+		else node['texture'] = texture[0].id;
+	else node['texture'] = "null";
 
 	// read transformations
 	node['transformations'] = [];
@@ -829,7 +833,7 @@ MySceneGraph.prototype.readNode= function(element) {
 
 		var descendantsTemp = descendants[n].getElementsByTagName('DESCENDANT');
 		for(m=0; m<descendantsTemp.length; m++)
-			node['descendants'].push(descendantsTemp[m].id);
+			node['descendants'].push('#' + descendantsTemp[m].id);
 	}
 
 	return node;
@@ -860,7 +864,7 @@ MySceneGraph.prototype.processGraph = function(elementId) {
 
 	// check if the element's texture is valid
 	if(this.textures[element['texture']] == null && element['texture']!="null" && element['texture'] != "clear"){
-		this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No material with id=" + element['material'] + ".");
+		this.onXMLWarning("Error on <NODE> with id = " + elementId + " - No texture with id=" + element['material'] + ".");
 		element['texture'] = "null"; // use parent's texture
 	}
 

@@ -159,8 +159,8 @@ XMLscene.prototype.initGeometry = function () {
 XMLscene.prototype.setInitials = function () {
 
 	// add  translation
-    mat4.translate(this.matrix, this.matrix, this.graph.initials['translation']);
-
+	mat4.translate(this.matrix, this.matrix, this.graph.initials['translation']);    
+	
 	// add rotations
 	var n;
 	for(n=0; n<3; n++){
@@ -430,5 +430,3 @@ XMLscene.prototype.processElement = function(elementId) {
 	this.materialsUsed.pop();
 	this.texturesUsed.pop();
 };
-
-
