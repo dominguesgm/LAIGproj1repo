@@ -1,11 +1,11 @@
 <SCENE>
 	<INITIALS>
-        <frustum near=".1" far="y"/>                
-        <translate x="-5.0" y="10.0" z="-40.0" />         
-        <rotation axis="x" angle="-20" />                
-        <rotation axis="y" angle="5" />                
+        <frustum near=".1" far="500"/>                
+        <translation x="-35" y="-22.5" z="-20" />         
+        <rotation axis="x" angle="0" />                
+        <rotation axis="y" angle="35" />                
         <rotation axis="z" angle="0" />
-        <scale sx="1.0" sy="1.0" sz="1.0" />             
+        <scale sx="1.0" sy="1.0" sz="1.0" />  
         <reference length="1" />
     </INITIALS>
 

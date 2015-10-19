@@ -338,7 +338,6 @@
 
         <MATERIAL id="null" />
         <TEXTURE id="null" />
-        <TRANSFORMATION x="0" y="0.5" z="0" />
         <DESCENDANTS>
             <DESCENDANT id="chassisTop" />
             <DESCENDANT id="chassisCore" />

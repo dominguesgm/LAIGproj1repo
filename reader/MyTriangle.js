@@ -58,11 +58,24 @@ MyTriangle.prototype.initBuffers = function () {
 	this.indices = [
             0, 1, 2
         ];
+
+        /* Calculo do vetor normal ao triangulo */
+
+	var vector1X = this.x2 - this.x1;
+	var vector1Y = this.y2 - this.y1;
+	var vector1Z = this.z2 - this.z1;
+	var vector2X = this.x3 - this.x1;
+	var vector2Y = this.y3 - this.y1;
+	var vector2Z = this.z3 - this.z1;
+
+	this.normal1 = Math.abs(vector1Y * vector2Z - vector1Z * vector2Y);
+	this.normal2 = Math.abs(vector1Z * vector2X - vector1X * vector2Z);
+	this.normal3 = Math.abs(vector1X * vector2X - vector1Y * vector2X);
 		
 	this.normals = [
-    0,0,1,
-    0,0,1,
-    0,0,1
+    this.normal1, this.normal2, this.normal3,
+    this.normal1, this.normal2, this.normal3,
+    this.normal1, this.normal2, this.normal3
     ];
 	
 	
@@ -87,7 +100,7 @@ MyTriangle.prototype.initBuffers = function () {
 MyTriangle.prototype.updateTexelCoordinates = function (amplifS, amplifT) {
 
 	this.texCoords = [	
-		(this.c - this.a * Math.cos(this.beta)) / amplifS, this.amplifT - ((this.a * Math.sin(this.beta)) /amplifT),
+		(this.c - this.a * Math.cos(this.beta)) / amplifS, 1 - ((this.a * Math.sin(this.beta)) /amplifT),
 	  0.0, 1.0,
 	  this.c / amplifS, 1.0
     ];
