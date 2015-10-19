@@ -878,7 +878,7 @@ MySceneGraph.prototype.readNode= function(element) {
 			break;
 		default:
 			transformation['args'] = null;
-			continue;
+			break;
 		}
 
 		if(transformation['args']!=null)
