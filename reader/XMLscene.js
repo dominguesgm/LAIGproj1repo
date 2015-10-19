@@ -334,10 +334,11 @@ XMLscene.prototype.display = function () {
 	// Initialize Model-View
 	this.updateProjectionMatrix();
     this.loadIdentity();
-    this.multMatrix(this.matrix);
 
 	// Apply transformations corresponding to the camera position relative to the origin
 	this.applyViewMatrix();
+	
+    this.multMatrix(this.matrix);
 	this.setDefaultAppearance();
 	this.axis.display();
 

@@ -159,6 +159,10 @@ MySceneGraph.prototype.getXYZ= function(element, tags, required) {
 	coordenates[0] = this.reader.getFloat(element, tags[0], required);
 	coordenates[1] = this.reader.getFloat(element, tags[1], required);
 	coordenates[2] = this.reader.getFloat(element, tags[2], required);
+	for(var i = 0; i < 3; i++){
+		if(isNaN(coordenates[i]))
+			return null;
+	}
 
 	return coordenates;
 };
@@ -192,7 +196,7 @@ MySceneGraph.prototype.checkRGBA= function(element) {
 	var n;
 	var error = false;
 	for(n=0; n<element.length; n++)
-		if(element[n]==null || element[n]>1 || element[n]<0){
+		if(element[n]==null || element[n]>1 || element[n]<0 || isNaN(element[n])){
 			element[n]=.5; // default
 			error = true;
 		}
@@ -309,7 +313,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 	}
 	this.initials['frustumNear'] = this.reader.getFloat(initialsTemp[0], 'near', false);
 	this.initials['frustumFar'] = this.reader.getFloat(initialsTemp[0], 'far', false);
-	if(this.initials['frustumNear'] == null || this.initials['frustumFar'] == null || this.initials['frustumNear']<=0){
+	if(this.initials['frustumNear'] == null || this.initials['frustumFar'] == null || isNaN(this.initials['frustumFar']) || isNaN(this.initials['frustumNear']) || this.initials['frustumNear']<=0 || this.initials['frustumNear'] > this.initials['frustumFar']){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<frustum>. Default used."]);
 		this.initials['frustumNear'] = defaultSettings["frustumNear"];
 		this.initials['frustumFar'] = defaultSettings["frustumFar"];
@@ -354,7 +358,7 @@ MySceneGraph.prototype.parseInitials= function(rootElement) {
 		warningMessages.push(["Warning", "Seventh element of <INITIALS> must be <reference>"]);
 	}
 	this.initials['referenceLength'] = this.reader.getFloat(initialsTemp[n+3], 'length', false);
-	if(this.initials['referenceLength'] == null || this.initials['referenceLength']<0){
+	if(this.initials['referenceLength'] == null || this.initials['referenceLength']<0 || isNaN(this.initials['referenceLength'])){
 		warningMessages.push(["Warning", "One or more errors on <INITIALS>/<reference>. Default used."]);
 		this.initials['referenceLength'] = defaultSettings["referenceLength"];	
 	}
@@ -482,7 +486,7 @@ MySceneGraph.prototype.parseSingleLight= function(element, lightIndex){
  		var position = this.getTranslation(attributes[1], false);
  		position.push(this.reader.getFloat(attributes[1], 'w', false));
  		light['position'] = position;
- 		if(light['position'][0] == null || light['position'][1] == null || light['position'][2] == null || light['position'][3] == null){
+ 		if(light['position'][0] == null || light['position'][1] == null || light['position'][2] == null || light['position'][3] == null || isNaN(light['position'][3])){
  			warningMessages.push('Warning', 'Issue parsing light : incorrect value in attribute "position". Assuming default value 0 in all fields');
  			light['position'][0] = light['position'][1] = light['position'][2] = light['position'][3] = 0;
  		}
